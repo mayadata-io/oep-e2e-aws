@@ -1,0 +1,18 @@
+## TODO: Modularize the gitlab yaml to reuse templates
+
+## Define the stages & order of execution
+
+stages:
+    - CLUSTER-SETUP
+  
+  ## Setup the kubernetes cluster
+  cluster-create:
+    image: harshshekhar15/gitlab-job:v3
+    stage: CLUSTER-SETUP
+    script:
+      - chmod 755 ./stages/1-cluster-setup/aws-eks
+      - ./stages/1-cluster-setup/aws-eks
+    artifacts:
+      when: always
+      paths:
+        - .kube/

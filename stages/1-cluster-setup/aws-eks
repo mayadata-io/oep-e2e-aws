@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+path=$(pwd)
+aws ec2 describe-instances --region eu-central-1 --query "Reservations[].Instances[].InstanceId"
