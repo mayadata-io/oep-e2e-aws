@@ -4,6 +4,7 @@
 
 stages:
     - CLUSTER-SETUP
+    - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
 cluster-create:
@@ -16,3 +17,15 @@ cluster-create:
     when: always
     paths:
       - .kube/
+
+## Kubernetes cluster cleanup
+# cluster-create:
+#   image: harshshekhar15/gitlab-job:v4
+#   stage: CLUSTER-SETUP
+#   script:
+#     - chmod 755 ./stages/13-cluster-setup/aws-eks
+#     - ./stages/13-cluster-setup/aws-eks
+#   artifacts:
+#     when: always
+#     paths:
+#       - .kube/
