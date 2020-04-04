@@ -7,7 +7,7 @@ stages:
   
 ## Setup the kubernetes cluster
 cluster-create:
-  image: harshshekhar15/gitlab-job:v3
+  image: harshshekhar15/gitlab-job:v4
   stage: CLUSTER-SETUP
   script:
     - chmod 755 ./stages/1-cluster-setup/aws-eks
