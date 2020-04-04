@@ -3,4 +3,7 @@
 set -e
 
 path=$(pwd)
-aws ec2 describe-instances --region eu-central-1 --query "Reservations[].Instances[].InstanceId"
+echo path
+echo '#### AWS CONFIG ####'
+sudo bash -c "aws config list"
+sudo bash -c "AWS_CONFIG_FILE=/root/.aws/config aws ec2 describe-instances --region eu-central-1 --query 'Reservations[].Instances[].InstanceId'"
