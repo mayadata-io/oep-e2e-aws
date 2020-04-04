@@ -15,7 +15,7 @@ pipeline_id=$(echo CI_PIPELINE_ID)
 commit_sha=$(echo CI_COMMIT_SHA)
 # Create VPC
 echo "CREATING VPC, Subnet, Internet-Gateway and route-table"
-ansible-playbook pre-requisite.yml -vv --extra-vars "project=openebs-ci"
+ansible-playbook pre-requisite.yml -vv --extra-vars "project=openebs-ci region=eu-central-1 zone=eu-central-1a"
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
