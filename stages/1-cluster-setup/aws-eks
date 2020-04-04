@@ -19,7 +19,7 @@ ansible-playbook pre-requisite.yml -vv --extra-vars "project=openebs-ci region=e
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 k8s_version=1.11.1"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 k8s_version=1.11.1 region=eu-central-1 zone=eu-central-1a"
 pwd
 ls
 mkdir $path/.kube
