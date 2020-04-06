@@ -15,11 +15,11 @@ pipeline_id=$(echo CI_PIPELINE_ID)
 commit_sha=$(echo CI_COMMIT_SHA)
 # Create VPC
 echo "CREATING VPC, Subnet, Internet-Gateway and route-table"
-ansible-playbook pre-requisite.yml -vv --extra-vars "project=openebs-ci region=eu-central-1 zone=eu-central-1a"
+ansible-playbook pre-requisite.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 k8s_version=1.11.1 region=eu-central-1 zone=eu-central-1a image=ami-0b418580298265d5c"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.11.1 region=eu-central-1 zone=eu-central-1a image=ami-03d8059563982d7b0 cloud=aws networking=kubenet"
 pwd
 ls
 mkdir $path/.kube
@@ -31,3 +31,9 @@ cat ~/logs/vpc > $path/.kube/vpc
 # Export VPC network name
 VPC=`cat $path/.kube/vpc`
 echo $VPC
+
+kubectl get nodes
+wget https://raw.githubusercontent.com/openebs/litmus/master/hack/rbac.yaml
+kubectl apply -f rbac.yaml
+kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
