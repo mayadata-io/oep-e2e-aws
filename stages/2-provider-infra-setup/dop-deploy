@@ -1,0 +1,93 @@
+#!/bin/bash
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+
+mkdir ~/.kube
+cp  .kube/config ~/.kube/config
+
+kubectl get po
+
+URL=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+
+echo "This is DOP $URL" 
+director_url=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1)
+
+# creating configmap 
+kubectl create configmap config --from-literal=url=$director_url -n litmus
+touch .kube/url
+echo $director_url > .kube/url
+
+wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
+
+tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
+
+mv linux-amd64/helm /usr/local/bin/helm
+
+echo $HELM_RBAC > HELM_RBAC.yaml
+
+helm init
+
+sleep 45
+
+helm version
+
+
+######################
+##    Deploy DOP    ##
+######################
+
+echo "deploying DOP" 
+
+# Clone director-charts-internal repository
+git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
+
+cd director-charts-internal
+
+# Checkout to dop-e2e branch
+git checkout dop-e2e
+
+# Get latest directory of helm chart
+REPO=$(cat baseline | awk -F',' 'NR==1{print $3}' | awk -F'=' '{print $2}')
+TAG=$(cat baseline | awk -F',' 'NR==1{print $NF}' | awk -F'=' '{print $2}')
+
+cd $REPO-$TAG
+
+# Apply docker secret
+kubectl apply -f docker-secret.yaml
+
+# Create secret having maya-init repo access
+kubectl create secret docker-registry dop-secret --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD
+
+# Create clusterrolebinding
+kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
+
+# Replace mayadataurl with DOP URL
+sed 's|url: mayadataurl|url: '${URL}'|' -i ./values.yaml
+cat values.yaml
+
+# Apply helm chart
+helm install --name dop .
+
+kubectl get po
+
+# Cloning oep repository which contains all the test scripts
+git clone https://$username:$password@github.com/mayadata-io/oep.git
+# Setup litmus on the cluster
+kubectl apply -f oep/litmus/prerequisite/rbac.yaml
+kubectl apply -f oep/litmus/prerequisite/crds.yaml 
+# creating docker secret 
+kubectl apply -f oep/litmus/prerequisite/docker-secret.yml -n litmus
+## Add label to node
+node_name=$(kubectl get node | awk {'print $1'} | head -n 4 | tail -n 1)
+kubectl label nodes $node_name kubernetes.io/arch="amd64"
+kubectl label nodes $node_name kubernetes.io/os=linux
+## Installing heapster components on the cluster for node monitoring
+git clone https://github.com/kubernetes-sigs/metrics-server.git
+sed -i -e '/args:/ a\          - --kubelet-insecure-tls' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+kubectl apply -f  metrics-server/deploy/kubernetes/
+sleep 300
+kubectl top nodes
+

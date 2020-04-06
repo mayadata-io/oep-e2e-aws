@@ -37,8 +37,8 @@ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --se
 kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
 
 # Create firewall-rule
-aws ec2 authorize-security-group-ingress \
-    --group-id $SID \
-    --protocol tcp \
-    --port 30380 \
-    --cidr 0.0.0.0/0
+# aws ec2 authorize-security-group-ingress \
+#     --group-id $SID \
+#     --protocol tcp \
+#     --port 30380 \
+#     --cidr 0.0.0.0/0

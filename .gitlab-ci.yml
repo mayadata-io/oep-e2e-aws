@@ -4,6 +4,7 @@
 
 stages:
     - CLUSTER-SETUP
+    - PROVIDER-INFRA-SETUP
     - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
@@ -15,6 +16,19 @@ cluster-create:
     - ./stages/1-cluster-setup/aws-eks
   artifacts:
     when: always
+    paths:
+      - .kube/
+
+## Deploy director-onprem
+director-deploy:
+  image: harshshekhar15/gitlab-job:v4
+  stage: PROVIDER-INFRA-SETUP
+  dependencies:
+    - cluster-create
+  script:
+    - chmod 755 ./stages/2-provider-infra-setup/dop-deploy
+    - ./stages/2-provider-infra-setup/dop-deploy
+  artifacts:
     paths:
       - .kube/
 
