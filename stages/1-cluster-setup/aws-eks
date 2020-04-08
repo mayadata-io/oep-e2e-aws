@@ -6,8 +6,8 @@ path=$(pwd)
 echo $path
 echo '#### AWS CONFIG ####'
 rm -f ~/.aws/credentials
-echo $AWS_CREDS
-echo $AWS_CREDS > ~/.aws/credentials
+cat $AWS_CREDS
+cp $AWS_CREDS ~/.aws/credentials
 ls ~/.aws/
 cat ~/.aws/credentials
 
