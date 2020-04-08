@@ -5,6 +5,8 @@ set -e
 path=$(pwd)
 echo $path
 echo '#### AWS CONFIG ####'
+rm -f ~/.aws/credentials
+echo $AWS_CREDS > ~/.aws/credentials
 sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
