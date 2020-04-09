@@ -291,7 +291,7 @@ ingress-nginx-check:
 cluster-create:
   image: harshshekhar15/gitlab-job:v5
   dependencies:
-    - ccluster-create
+    - cluster-create
   stage: CLUSTER-CLEANUP
   script:
     - chmod 755 ./stages/13-cluster-setup/delete-cluster
