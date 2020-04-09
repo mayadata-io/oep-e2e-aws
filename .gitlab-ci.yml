@@ -6,6 +6,8 @@ stages:
     - CLUSTER-SETUP
     - PROVIDER-INFRA-SETUP
     - DIRECTOR-HEALTH-CHECK
+    - USER-CLUSTER-SETUP
+    - USER-CLUSTER-CONNECT
     - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
@@ -287,8 +289,63 @@ ingress-nginx-check:
     paths:
       - .kube/
 
+cluster-setup-check:
+  image: harshshekhar15/gitlab-job:v5
+  stage: USER-CLUSTER-SETUP
+  dependencies:
+    - director-deploy
+  script:
+    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
+    - ./stages/4-user-cluster-setup/cluster-create-check
+  artifacts:
+    when: always
+    paths:
+      - .kube/
+
+create-apikey-check:
+  image: harshshekhar15/gitlab-job:v3
+  stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
+    - ./stages/5-cluster-connect-check/create-apikey-check
+
+trrc01-cluster-connect-check:
+  image: harshshekhar15/gitlab-job:v3
+  stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
+    - ./stages/5-cluster-connect-check/cluster-connect-check
+  artifacts:
+    when: always
+    paths:
+      - .kube/
+      - .gcp/
+
+client-components-check:
+  image: harshshekhar15/gitlab-job:v3
+  stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/5-cluster-connect-check/client-components-check
+    - ./stages/5-cluster-connect-check/client-components-check
+
+director-self-cluster-connect-check:
+  image: harshshekhar15/gitlab-job:v3
+  stage: SELF-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
+    - ./stages/6-self-cluster-connect/self-connect-cluster-check
+
 # Kubernetes cluster cleanup
 cluster-cleanup:
+  when: always
   image: harshshekhar15/gitlab-job:v5
   dependencies:
     - cluster-create
@@ -302,6 +359,7 @@ cluster-cleanup:
       - .kube/
 
 prerequisites-cleanup:
+  when: always
   image: harshshekhar15/gitlab-job:v5
   dependencies:
     - cluster-create
