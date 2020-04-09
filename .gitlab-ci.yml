@@ -288,7 +288,7 @@ ingress-nginx-check:
       - .kube/
 
 # Kubernetes cluster cleanup
-cluster-create:
+cluster-cleanup:
   image: harshshekhar15/gitlab-job:v5
   dependencies:
     - cluster-create
@@ -301,10 +301,10 @@ cluster-create:
     paths:
       - .kube/
 
-cluster-create:
+prerequisites-cleanup:
   image: harshshekhar15/gitlab-job:v5
   dependencies:
-    - cluster-create
+    - cluster-cleanup
   stage: CLUSTER-CLEANUP
   script:
     - chmod 755 ./stages/13-cluster-setup/delete-pre-requisite
