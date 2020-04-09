@@ -66,6 +66,7 @@ kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --servi
 
 # Replace mayadataurl with DOP URL
 sed 's|url: mayadataurl|url: '${URL}'|' -i ./values.yaml
+sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
 # Apply helm chart
@@ -86,9 +87,8 @@ kubectl label nodes $node_name kubernetes.io/os=linux
 git clone https://github.com/kubernetes-sigs/metrics-server.git
 
 sed -i -e '/args:/ a\          - --kubelet-insecure-tls' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
 sed -i -e '/mountPath:/ a\      hostNetwork: true' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
 kubectl apply -f  metrics-server/deploy/kubernetes/
 sleep 300
-kubectl get po
-kubectl get svc
-kubectl top nodes
+kubectl get po -n kube-system

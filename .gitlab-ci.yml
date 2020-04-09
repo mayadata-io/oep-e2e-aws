@@ -10,7 +10,7 @@ stages:
   
 ## Setup the kubernetes cluster
 cluster-create:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: CLUSTER-SETUP
   script:
     - chmod 755 ./stages/1-cluster-setup/aws-eks
@@ -22,7 +22,7 @@ cluster-create:
 
 ## Deploy director-onprem
 director-deploy:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: PROVIDER-INFRA-SETUP
   dependencies:
     - cluster-create
@@ -35,7 +35,7 @@ director-deploy:
 
 # director health check jobs
 maya-io-server-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -47,7 +47,7 @@ maya-io-server-check:
       - .kube/
 
 maya-ui-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -59,7 +59,7 @@ maya-ui-check:
       - .kube/
 
 od-elasticsearch-logging-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -71,7 +71,7 @@ od-elasticsearch-logging-check:
       - .kube/
 
 od-kibana-logging-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -83,7 +83,7 @@ od-kibana-logging-check:
       - .kube/
 
 table-manager-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -95,7 +95,7 @@ table-manager-check:
       - .kube/
 
 chat-server-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -107,7 +107,7 @@ chat-server-check:
       - .kube/
 
 cloud-agent-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -119,7 +119,7 @@ cloud-agent-check:
       - .kube/
 
 mysql-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -131,7 +131,7 @@ mysql-check:
       - .kube/
 
 maya-grafana-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -143,7 +143,7 @@ maya-grafana-check:
       - .kube/
 
 memcached-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -156,7 +156,7 @@ memcached-check:
 
 ## cortex infrastructure components jobs
 alertstore-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -168,7 +168,7 @@ alertstore-check:
       - .kube/
 
 alertstore-tablemanager-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -180,7 +180,7 @@ alertstore-tablemanager-check:
       - .kube/
 
 alertmanager-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -192,7 +192,7 @@ alertmanager-check:
       - .kube/
 
 cassandra-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -204,7 +204,7 @@ cassandra-check:
       - .kube/
 
 distributor-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -216,7 +216,7 @@ distributor-check:
       - .kube/
 
 ingestor-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -228,7 +228,7 @@ ingestor-check:
       - .kube/
 
 querier-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -240,7 +240,7 @@ querier-check:
       - .kube/
 
 ruler-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -252,7 +252,7 @@ ruler-check:
       - .kube/
 
 configs-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -264,7 +264,7 @@ configs-check:
       - .kube/
 
 configs-db-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -276,7 +276,7 @@ configs-db-check:
       - .kube/
 
 ingress-nginx-check:
-  image: harshshekhar15/gitlab-job:v4
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-HEALTH-CHECK
   dependencies:
     - director-deploy
@@ -287,14 +287,29 @@ ingress-nginx-check:
     paths:
       - .kube/
 
-## Kubernetes cluster cleanup
-# cluster-create:
-#   image: harshshekhar15/gitlab-job:v4
-#   stage: CLUSTER-SETUP
-#   script:
-#     - chmod 755 ./stages/13-cluster-setup/aws-eks
-#     - ./stages/13-cluster-setup/aws-eks
-#   artifacts:
-#     when: always
-#     paths:
-#       - .kube/
+# Kubernetes cluster cleanup
+cluster-create:
+  image: harshshekhar15/gitlab-job:v5
+  dependencies:
+    - ccluster-create
+  stage: CLUSTER-CLEANUP
+  script:
+    - chmod 755 ./stages/13-cluster-setup/delete-cluster
+    - ./stages/13-cluster-setup/delete-cluster
+  artifacts:
+    when: always
+    paths:
+      - .kube/
+
+cluster-create:
+  image: harshshekhar15/gitlab-job:v5
+  dependencies:
+    - cluster-create
+  stage: CLUSTER-CLEANUP
+  script:
+    - chmod 755 ./stages/13-cluster-setup/delete-pre-requisite
+    - ./stages/13-cluster-setup/delete-pre-requisite
+  artifacts:
+    when: always
+    paths:
+      - .kube/

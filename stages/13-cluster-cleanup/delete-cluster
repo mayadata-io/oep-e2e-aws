@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+path=$(pwd)
+echo $path
+echo '#### AWS CONFIG ####'
+sudo bash -c "aws configure list"
+git clone https://github.com/mayadata-io/litmus.git
+cd litmus/k8s/aws/k8s-installer
+
+# Deleting Pre-requiste
+ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
