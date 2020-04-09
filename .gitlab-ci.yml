@@ -303,7 +303,7 @@ cluster-setup-check:
       - .kube/
 
 create-apikey-check:
-  image: harshshekhar15/gitlab-job:v3
+  image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   dependencies:
     - cluster-setup-check
@@ -312,7 +312,7 @@ create-apikey-check:
     - ./stages/5-cluster-connect-check/create-apikey-check
 
 trrc01-cluster-connect-check:
-  image: harshshekhar15/gitlab-job:v3
+  image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   dependencies:
     - cluster-setup-check
@@ -326,22 +326,13 @@ trrc01-cluster-connect-check:
       - .gcp/
 
 client-components-check:
-  image: harshshekhar15/gitlab-job:v3
+  image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   dependencies:
     - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
     - ./stages/5-cluster-connect-check/client-components-check
-
-director-self-cluster-connect-check:
-  image: harshshekhar15/gitlab-job:v3
-  stage: SELF-CLUSTER-CONNECT
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
-    - ./stages/6-self-cluster-connect/self-connect-cluster-check
 
 # Kubernetes cluster cleanup
 cluster-cleanup:
