@@ -8,7 +8,7 @@ set -ex
 
 path=$(pwd)
 # Copy kubeconfig
-mkdir ~/.kube
+mkdir -p ~/.kube
 cp .kube/config ~/.kube/config
 kubectl get po -n openebs
 

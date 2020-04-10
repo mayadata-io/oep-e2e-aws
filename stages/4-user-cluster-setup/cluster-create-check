@@ -22,7 +22,7 @@ echo "CREATING CLUSTER"
 ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0"
 pwd
 ls
-mkdir $path/.kube
+mkdir -p $path/.kube
 cat ~/.kube/config > $path/.kube/config
 cat ~/.kube/config > $path/.kube/admin.conf
 kubectl get nodes
