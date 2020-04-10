@@ -36,7 +36,7 @@ kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 # creating crb
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
 # creating configmap
-kubectl create configmap kubeconfig --from-file=$path/.gcp/admin.conf -n litmus
+kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
 kubectl create configmap config --from-literal=url=$url -n litmus
 
 # fetch openebs operator yaml
