@@ -14,6 +14,7 @@ stages:
     - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
     - OPENEBS-UPGRADE-CHECK
+    - CSTORPOOL-RECOMMENDATION-CHECK
     - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
