@@ -3,8 +3,6 @@
 set -e
 
 path=$(pwd)
-rm -f /tmp/aws/cluster_name.csv
-echo $path
 echo '#### AWS CONFIG ####'
 cp $AWS_CREDS ~/.aws/credentials
 ls ~/.aws/
