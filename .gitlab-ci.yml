@@ -342,8 +342,8 @@ cluster-cleanup:
     - cluster-create
   stage: CLUSTER-CLEANUP
   script:
-    - chmod 755 ./stages/13-cluster-setup/delete-cluster
-    - ./stages/13-cluster-setup/delete-cluster
+    - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
+    - ./stages/13-cluster-cleanup/delete-cluster
   artifacts:
     when: always
     paths:
@@ -356,8 +356,8 @@ prerequisites-cleanup:
     - cluster-create
   stage: CLUSTER-CLEANUP
   script:
-    - chmod 755 ./stages/13-cluster-setup/delete-pre-requisite
-    - ./stages/13-cluster-setup/delete-pre-requisite
+    - chmod 755 ./stages/13-cluster-cleanup/delete-pre-requisite
+    - ./stages/13-cluster-cleanup/delete-pre-requisite
   artifacts:
     when: always
     paths:
