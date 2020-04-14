@@ -80,11 +80,8 @@ git clone https://github.com/kubernetes-sigs/metrics-server.git
 
 sed -i -e '/args:/ a\          - --kubelet-insecure-tls' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
 sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
-sed -i -e '/args:/ a\          - --authorization-mode=Webhook' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
-sed -i -e '/args:/ a\          - --authentication-token-webhook' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
-
 sed -i -e '/mountPath:/ a\      hostNetwork: true' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
 kubectl apply -f  metrics-server/deploy/kubernetes/
 sleep 300
+kubectl get po
 kubectl get po -n kube-system
-kubectl top nodes
