@@ -7,6 +7,7 @@ mkdir -p ~/.kube
 cp .awscluster/config ~/.kube/config
 
 echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 ls ~/.aws/
 sudo bash -c "aws configure list"
