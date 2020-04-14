@@ -28,7 +28,7 @@ cluster-create:
     when: always
     paths:
       - .kube/
-      - .aws/
+      - .awscluster/
 
 ## Deploy director-onprem
 director-deploy:
@@ -309,6 +309,7 @@ cluster-setup-check:
     when: always
     paths:
       - .kube/
+      - .awscluster/
 
 create-apikey-check:
   image: harshshekhar15/gitlab-job:v5
@@ -331,6 +332,7 @@ trrc01-cluster-connect-check:
     when: always
     paths:
       - .kube/
+      - .awscluster/
 
 client-components-check:
   image: harshshekhar15/gitlab-job:v5

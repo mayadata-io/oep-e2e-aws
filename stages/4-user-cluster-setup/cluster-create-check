@@ -13,21 +13,25 @@ cd litmus/k8s/aws/k8s-installer
 
 sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
+
+# Fetch director url
+url=$(cat .kube/url)
+
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
 # Create VPC
 echo "CREATING VPC, Subnet, Internet-Gateway and route-table"
 ansible-playbook pre-requisite.yml -vv
-
 # Create k8s cluster
 echo "CREATING CLUSTER"
 ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0"
-pwd
-ls
-mkdir -p $path/.kube
-cat ~/.kube/config > $path/.kube/config
-cat ~/.kube/config > $path/.kube/admin.conf
+
+mkdir -p $path/.awscluster
+cat ~/.kube/config > $path/.awscluster/config
+cat ~/.kube/config > $path/.awscluster/admin.conf
 kubectl get nodes
-# Cloning oep-e2e repository which contains all the test scripts
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
 kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml 
@@ -36,7 +40,7 @@ kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 # creating crb
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
 # creating configmap
-kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
+kubectl create configmap kubeconfig --from-file=$path/.awscluster/admin.conf -n litmus
 kubectl create configmap config --from-literal=url=$url -n litmus
 
 # fetch openebs operator yaml

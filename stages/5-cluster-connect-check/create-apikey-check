@@ -3,6 +3,8 @@
 set -e
 
 path=$(pwd)
+mkdir ~/.kube
+cp .awscluster/config ~/.kube/config
 
 ######################################## Applying e2e-CRD
 echo "***Applying e2e-crd***********"

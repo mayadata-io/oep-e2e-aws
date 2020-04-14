@@ -15,7 +15,7 @@ branch_name=$CI_COMMIT_REF_NAME
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp .kube/config ~/.kube/config
+cp  $path/.awscluster/config ~/.kube/config
 
 kubectl get po -n openebs
 

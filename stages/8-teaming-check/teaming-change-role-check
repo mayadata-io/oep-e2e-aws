@@ -5,7 +5,7 @@ set -e
 
 path=$(pwd)
 mkdir -p ~/.kube
-cp .kube/config ~/.kube/config
+cp .awscluster/config ~/.kube/config
 
 echo '#### AWS CONFIG ####'
 cp $AWS_CREDS ~/.aws/credentials
