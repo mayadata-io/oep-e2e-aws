@@ -10,7 +10,8 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-URL=http://$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+IP=http://$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+URL=http://$IP
 echo "URL to access DOP: $URL"
 
 # Create a configmap from URL
@@ -58,7 +59,7 @@ kubectl create secret docker-registry dop-secret --docker-username=$DOCKER_USERN
 kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
 
 # Replace mayadataurl with DOP URL
-sed 's|url: mayadataurl|url: '${URL}'|' -i ./values.yaml
+sed 's|url: mayadataurl|url: '${IP}'|' -i ./values.yaml
 sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
@@ -69,7 +70,7 @@ helm install --name dop .
 git clone https://$username:$password@github.com/mayadata-io/oep.git
 # Setup litmus on the cluster
 kubectl apply -f oep/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep/litmus/prerequisite/crds.yaml 
+kubectl apply -f oep/litmus/prerequisite/crds.yaml
 # creating docker secret 
 kubectl apply -f oep/litmus/prerequisite/docker-secret.yml -n litmus
 ## Add label to node
@@ -79,6 +80,11 @@ git clone https://github.com/kubernetes-sigs/metrics-server.git
 
 sed -i -e '/args:/ a\          - --kubelet-insecure-tls' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
 sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+sed -i -e '/args:/ a\          - --authorization-mode=Webhook' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+sed -i -e '/args:/ a\          - --authentication-token-webhook' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+
+sed -i -e '/mountPath:/ a\      hostNetwork: true' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
 kubectl apply -f  metrics-server/deploy/kubernetes/
 sleep 300
 kubectl get po -n kube-system
+kubectl top nodes
