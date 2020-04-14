@@ -10,7 +10,7 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-IP=http://$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+IP=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
@@ -67,12 +67,12 @@ cat values.yaml
 helm install --name dop .
 
 # Cloning oep repository which contains all the test scripts
-git clone https://$username:$password@github.com/mayadata-io/oep.git
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
-kubectl apply -f oep/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep/litmus/prerequisite/crds.yaml
+kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
+kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml
 # creating docker secret 
-kubectl apply -f oep/litmus/prerequisite/docker-secret.yml -n litmus
+kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 ## Add label to node
 node_name=$(kubectl get node | awk {'print $1'} | head -n 4 | tail -n 1)
 ## Installing heapster components on the cluster for node monitoring
