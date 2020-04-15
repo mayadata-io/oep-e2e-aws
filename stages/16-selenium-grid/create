@@ -3,11 +3,14 @@
 set -e
 
 path=$(pwd)
-rm -f /tmp/aws/cluster_name.csv
-echo $path
+
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 ls ~/.aws/
 
-aws cloudformation create-stack --stack-name selenium-grid --template-body file:///templates/hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=20
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
+cd stages/16-selenium-grid/templates
+ls
+
+aws cloudformation create-stack --stack-name selenium-grid --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=20
