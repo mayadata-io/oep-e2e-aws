@@ -63,6 +63,9 @@ sed 's|url: mayadataurl|url: '${IP}'|' -i ./values.yaml
 sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
+sed '/initContainers:/,/Bidirectional/d' templates/dep-maya-ui.yaml
+cat templates/dep-maya-ui.yaml
+
 # Apply helm chart
 helm install --name dop .
 
