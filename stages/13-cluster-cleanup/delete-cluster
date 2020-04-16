@@ -21,3 +21,13 @@ cd litmus/k8s/aws/k8s-installer
 
 # Deleting Pre-requiste
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
+sleep 100
+
+rm -rf /tmp/aws
+sleep 10
+mkdir -p /tmp/aws
+sleep 10
+cp $path/.awscluster/resources/id.csv /tmp/aws/id.csv
+# Deleting Pre-requiste
+ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
+sleep 100

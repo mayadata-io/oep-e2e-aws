@@ -5,7 +5,6 @@ set -e
 mkdir ~/.kube
 mkdir -p /tmp/aws
 cp .kube/config ~/.kube/config
-cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
 cp .kube/resources/id.csv /tmp/aws/id.csv
 
 ls /tmp/aws
@@ -19,5 +18,16 @@ sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
-# Deleting Pre-requiste
-ansible-playbook delete-pre-requisite.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
+vpcid=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
+
+# Delete subnets
+for i in `aws ec2 describe-subnets --filters Name=vpc-id,Values="${vpcid}" | grep subnet- | sed -E 's/^.*(subnet-[a-z0-9]+).*$/\1/'`; do aws ec2 delete-subnet --subnet-id=$i; done
+
+# Detach internet gateways
+for i in `aws ec2 describe-internet-gateways --filters Name=attachment.vpc-id,Values="${vpcid}" | grep igw- | sed -E 's/^.*(igw-[a-z0-9]+).*$/\1/'`; do aws ec2 detach-internet-gateway --internet-gateway-id=$i --vpc-id=vpc-3279eb57; done
+
+# Delete internet gateways
+for i in `aws ec2 describe-internet-gateways --filters Name=attachment.vpc-id,Values="${vpcid}" | grep igw- | sed -E 's/^.*(igw-[a-z0-9]+).*$/\1/'`; do aws ec2 delete-internet-gateway --internet-gateway-id=$i; done
+
+# Delete the VPC
+aws ec2 delete-vpc --vpc-id ${vpcid}

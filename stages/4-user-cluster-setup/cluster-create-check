@@ -3,7 +3,9 @@
 set -e
 
 mkdir -p ~/.kube
+mkdir -p /tmp/aws
 cp .kube/url ~/.kube/url
+cp .kube/resources/id.csv /tmp/aws/id.csv
 
 path=$(pwd)
 echo '#### AWS CONFIG ####'
@@ -25,16 +27,18 @@ url=$(cat ~/.kube/url)
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
-# Create VPC
-echo "CREATING VPC, Subnet, Internet-Gateway and route-table"
-ansible-playbook pre-requisite.yml -vv
+vpcid=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
+sid=`cat /tmp/aws/id.csv | cut -d ',' -f3 | sed -r 's|subnet_id:||'`
+
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "vpc=$vpcid subnets=$sid k8s_version=1.15.10 image=ami-03d8059563982d7b0"
 
 mkdir -p $path/.awscluster
+mkdir $path/.awscluster/resources
 cat ~/.kube/config > $path/.awscluster/config
 cat ~/.kube/config > $path/.awscluster/admin.conf
+cp -r /tmp/aws/* $path/.awscluster/resources
 kubectl get nodes
 
 # Setup litmus on the cluster
