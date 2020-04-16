@@ -5,7 +5,7 @@ set -e
 mkdir ~/.kube
 mkdir -p /tmp/aws
 cp .kube/config ~/.kube/config
-cp -r $path/.kube/resources /tmp/aws
+cp -r $.kube/resources /tmp/aws
 
 path=$(pwd)
 echo '#### AWS CONFIG ####'
