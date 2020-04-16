@@ -26,10 +26,11 @@ ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 im
 mkdir $path/.kube
 cat ~/.kube/config > $path/.kube/config
 cat ~/.kube/config > $path/.kube/admin.conf
+cp /tmp/aws $path/.kube/resources
+ls $path/.kube
 
 # Export VPC network name
 VID=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
-echo $VID
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 
 kubectl get nodes
