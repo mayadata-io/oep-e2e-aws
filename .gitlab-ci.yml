@@ -704,8 +704,6 @@ cluster-setup-check:
 cluster-cleanup:
   when: always
   image: harshshekhar15/gitlab-job:v5
-  dependencies:
-    - cluster-create
   stage: CLUSTER-CLEANUP
   script:
     - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
@@ -719,8 +717,6 @@ cluster-cleanup:
 prerequisites-cleanup:
   when: always
   image: harshshekhar15/gitlab-job:v5
-  dependencies:
-    - cluster-create
   stage: CLUSTER-CLEANUP
   script:
     - chmod 755 ./stages/13-cluster-cleanup/delete-pre-requisite
