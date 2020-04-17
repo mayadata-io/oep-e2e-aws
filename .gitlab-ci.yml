@@ -31,7 +31,6 @@ cluster-create:
     when: always
     paths:
       - .kube/
-      - .awscluster/
 
 # Deploy director-onprem
 director-deploy:

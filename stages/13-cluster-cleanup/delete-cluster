@@ -5,10 +5,7 @@ set -e
 mkdir ~/.kube
 mkdir -p /tmp/aws
 cp .kube/config ~/.kube/config
-cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
 cp .kube/resources/id.csv /tmp/aws/id.csv
-
-ls /tmp/aws
 
 path=$(pwd)
 echo '#### AWS CONFIG ####'
@@ -19,15 +16,16 @@ sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
-echo '#### Cluster 1 ####'
+echo '#### Delete Cluster 1 ####'
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
 sleep 30
 
-echo '#### Cluster 2 ####'
+echo '#### Delete Cluster 2 ####'
 rm -rf /tmp/aws
 sleep 1
 mkdir -p /tmp/aws
 sleep 1
+ls .awscluster
 cp .awscluster/resources/id.csv /tmp/aws/id.csv
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
 sleep 30
