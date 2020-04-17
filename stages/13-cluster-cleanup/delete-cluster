@@ -2,10 +2,11 @@
 
 set -e
 path=$(pwd)
-mkdir ~/.kube
+mkdir -p ~/.kube/resources
 mkdir -p /tmp/aws
 mkdir -p /tmp2/aws
 cp .kube/config ~/.kube/config
+cp .kube/resources/id.csv ~/.kube/resources/id.csv
 cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
 cp .kube/resources/id.csv /tmp/aws/id.csv
 cp .kube/resources2/cluster_name.csv /tmp2/aws/cluster_name.csv
@@ -20,7 +21,7 @@ cd litmus/k8s/aws/k8s-installer
 
 echo '#### Delete Cluster 1 ####'
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
-sleep 30
+sleep 10
 
 echo '#### Delete Cluster 2 ####'
 rm -rf /tmp/aws

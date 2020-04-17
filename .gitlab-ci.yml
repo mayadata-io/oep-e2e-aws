@@ -712,12 +712,13 @@ cluster-cleanup:
     when: always
     paths:
       - .kube/
-      - .awscluster/
 
 prerequisites-cleanup:
   when: always
   image: harshshekhar15/gitlab-job:v5
   stage: CLUSTER-CLEANUP
+  dependencies:
+      - cluster-cleanup
   script:
     - chmod 755 ./stages/13-cluster-cleanup/delete-pre-requisite
     - ./stages/13-cluster-cleanup/delete-pre-requisite
