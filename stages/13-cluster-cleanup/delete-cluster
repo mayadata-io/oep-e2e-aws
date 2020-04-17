@@ -4,8 +4,10 @@ set -e
 
 mkdir ~/.kube
 mkdir -p /tmp/aws
+mkdir -p /tmp/awscluster
 cp .kube/config ~/.kube/config
 cp .kube/resources/id.csv /tmp/aws/id.csv
+cp $path/.awscluster/resources/id.csv /tmp/awscluster/id.csv
 
 path=$(pwd)
 echo '#### AWS CONFIG ####'
@@ -25,7 +27,7 @@ rm -rf /tmp/aws
 sleep 1
 mkdir -p /tmp/aws
 sleep 1
-ls .awscluster
-cp .awscluster/resources/id.csv /tmp/aws/id.csv
+cp /tmp/awscluster/id.csv /tmp/aws/id.csv
+
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
 sleep 30
