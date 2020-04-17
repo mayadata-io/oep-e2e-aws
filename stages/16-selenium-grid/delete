@@ -9,4 +9,4 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 ls ~/.aws/
 
-aws cloudformation delete-stack --stack-name selenium-grid
+aws cloudformation delete-stack --stack-name selenium-grid-aws

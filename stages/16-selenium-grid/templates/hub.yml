@@ -42,22 +42,22 @@ Parameters:
     
   PublicLoadBalancer:
     Type: String
-    Default: 'selenium-grid-1311742195.eu-central-1.elb.amazonaws.com'
+    Default: 'selenium-grid-aws-211974039.eu-north-1.elb.amazonaws.com'
     Description: Name of load balancer
     
   PublicLoadBalancerArn:
     Type: String
-    Default: 'arn:aws:elasticloadbalancing:eu-central-1:385569096892:loadbalancer/app/selenium-grid/d96a2a81b689eb19'
+    Default: 'arn:aws:elasticloadbalancing:eu-north-1:385569096892:loadbalancer/app/selenium-grid-aws/102c34b25ab24253'
     Description: ARN of Public Load Balancer
     
   TargetGroupArn:
     Type: String
-    Default: 'arn:aws:elasticloadbalancing:eu-central-1:385569096892:targetgroup/grid-target-group/278aecc0fbeadc69'
+    Default: 'arn:aws:elasticloadbalancing:eu-north-1:385569096892:targetgroup/selenium-grid-tg/7a614ad34deb049f'
     Description: ARN of Target Group
   
   SecurityGroup:
     Type: String
-    Default: 'sg-0da61d7be0939b1d3'
+    Default: 'sg-05eedac67b4970c42'
     
 Conditions:
   HasCustomRole: !Not [ !Equals [!Ref 'Role', ''] ]
@@ -81,7 +81,7 @@ Resources:
   LogGroup:
     Type: 'AWS::Logs::LogGroup'
     Properties:
-      LogGroupName: selenium-grid-ecs
+      LogGroupName: selenium-grid-aws
       RetentionInDays: 30
   TaskDefinitionHub:
     Type: AWS::ECS::TaskDefinition
@@ -185,9 +185,9 @@ Resources:
           SecurityGroups:
             - !Ref 'SecurityGroup'
           Subnets:
-            - 'subnet-0e524374599e43049'
-            - 'subnet-097eb27a0f969c8ca'
-            - 'subnet-02eb7e6a242f1957c'
+            - 'subnet-037ba5b0c641aac22'
+            - 'subnet-087a739c140ef5ce8'
+            - 'subnet-0d98480510e12df4c'
       TaskDefinition: !Ref 'TaskDefinitionHub'
       Role:
         Fn::If:
@@ -215,9 +215,9 @@ Resources:
           SecurityGroups:
             - !Ref 'SecurityGroup'
           Subnets:
-            - 'subnet-0e524374599e43049'
-            - 'subnet-097eb27a0f969c8ca'
-            - 'subnet-02eb7e6a242f1957c'
+            - 'subnet-037ba5b0c641aac22'
+            - 'subnet-087a739c140ef5ce8'
+            - 'subnet-0d98480510e12df4c'
       TaskDefinition: !Ref 'TaskDefinitionNodeChrome'
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -228,11 +228,11 @@ Resources:
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       TargetType: ip
-      Name: 'selenium-grid2'
+      Name: 'selenium-grid-aws'
       Port: 4444
       Protocol: HTTP
       UnhealthyThresholdCount: 2
-      VpcId: 'vpc-0e79a3e4cdf0f1ab9'
+      VpcId: 'vpc-0ab39cdcbc9f04edd'
   LoadBalancerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:
