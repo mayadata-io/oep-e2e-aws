@@ -39,7 +39,7 @@ mkdir $path/.awscluster/resources
 cat ~/.kube/config > $path/.awscluster/config
 cat ~/.kube/config > $path/.awscluster/admin.conf
 cp -r /tmp/aws/* $path/.awscluster/resources
-ls $path/.awscluster
+ls $path/.awscluster/resources
 
 kubectl get nodes
 

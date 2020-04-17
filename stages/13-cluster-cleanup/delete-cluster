@@ -1,15 +1,18 @@
 #!/bin/bash
 
 set -e
-
+path=$(pwd)
 mkdir ~/.kube
 mkdir -p /tmp/aws
-mkdir -p /tmp/awscluster
+mkdir -p /tmp/aws2
 cp .kube/config ~/.kube/config
+cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
 cp .kube/resources/id.csv /tmp/aws/id.csv
-cp $path/.awscluster/resources/id.csv /tmp/awscluster/id.csv
+cp $path/.awscluster/cluster_name.csv /tmp/aws2/cluster_name.csv
 
-path=$(pwd)
+ls /tmp/aws
+ls /tmp/aws2
+
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
@@ -27,7 +30,6 @@ rm -rf /tmp/aws
 sleep 1
 mkdir -p /tmp/aws
 sleep 1
-cp /tmp/awscluster/id.csv /tmp/aws/id.csv
-
+cp /tmp/aws2/cluster_name.csv /tmp/aws/cluster_name.csv
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
 sleep 30
