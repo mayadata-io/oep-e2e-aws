@@ -27,9 +27,6 @@ rm -rf /tmp/aws
 sleep 1
 mkdir -p /tmp/aws
 sleep 1
-cp /tmp/aws/cluster_name.csv /tmp/aws/cluster_name.csv
+cp /tmp2/aws/cluster_name.csv /tmp/aws/cluster_name.csv
 ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
-sleep 30
-
-mkdir -p ~/.awscluster
-cp -r .awscluster/* ~/.awscluster
+sleep 5
