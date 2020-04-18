@@ -12,9 +12,10 @@ ls ~/.aws/
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
 tests_count=`find . -type f -name '*_test.py' -exec grep -e 'def test_' '{}' \; | wc -l`
+echo "Number of GUI test scripts: $tests_count"
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
-cd stages/16-selenium-grid/templates
+cd oep-e2e-aws/stages/16-selenium-grid/templates
 ls
 
 aws cloudformation create-stack --stack-name selenium-grid-aws --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count

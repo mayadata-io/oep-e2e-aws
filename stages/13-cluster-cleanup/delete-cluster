@@ -2,12 +2,10 @@
 
 set -e
 path=$(pwd)
-mkdir -p ~/.kube/resources
+mkdir -p ~/.kube
 mkdir -p /tmp/aws
-mkdir -p /tmp2/aws
 cp .kube/config ~/.kube/config
 cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
-cp .kube/resources2/cluster_name.csv /tmp2/aws/cluster_name.csv
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -17,19 +15,23 @@ sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
-echo '#### Delete Cluster 1 ####'
-ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
-sleep 10
+{
+    echo '#### Delete Cluster 1 ####'
+    ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
+    sleep 10
 
-echo '#### Delete Cluster 2 ####'
-rm -rf /tmp/aws
-sleep 1
-mkdir -p /tmp/aws
-sleep 1
-cp /tmp2/aws/cluster_name.csv /tmp/aws/cluster_name.csv
-ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
-sleep 5
-
+    echo '#### Delete Cluster 2 ####'
+    rm -rf /tmp/aws
+    sleep 1
+    mkdir -p /tmp/aws
+    sleep 1
+    cp .kube/resources2/cluster_name.csv /tmp/aws/cluster_name.csv
+    ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
+    sleep 5
+} || {
+    echo '!!! Something went wrong during cluster cleanup !!!'
+}
+    
 echo '#### Delete Resources ####'
 cp .kube/resources/id.csv /tmp/aws/id.csv
 
