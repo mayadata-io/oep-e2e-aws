@@ -23,7 +23,7 @@ cd litmus/k8s/aws/k8s-installer
     echo '#### Delete Cluster 1 ####'
     kops delete cluster --name k8s-${cluster1}.k8s.local --state=s3://k8s-bucket-${cluster1} --yes
     sleep 10
-    aws s3api delete-bucket --bucket k8s-bucket-${cluster2} --region eu-central-1
+    aws s3api delete-bucket --bucket k8s-bucket-${cluster1} --region eu-central-1
 
     echo '#### Delete Cluster 2 ####'
     cp .kube/cluster2 ~/.kube/cluster2
@@ -37,7 +37,7 @@ cd litmus/k8s/aws/k8s-installer
 }
     
 echo '#### Delete Resources ####'
-cp ~/.kube/resources/id.csv /tmp/aws/id.csv
+cp .kube/resources/id.csv /tmp/aws/id.csv
 
 vpcid=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
 echo $vpcid

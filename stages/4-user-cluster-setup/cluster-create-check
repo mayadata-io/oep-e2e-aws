@@ -22,7 +22,7 @@ sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
 
 # Fetch director url
-url=$(cat ~/.kube/url)
+# url=$(cat ~/.kube/url)
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
