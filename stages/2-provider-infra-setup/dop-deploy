@@ -10,81 +10,81 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-IP=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
-URL=http://$IP
-echo "URL to access DOP: $URL"
+# IP=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+# URL=http://$IP
+# echo "URL to access DOP: $URL"
 
-# Create a configmap from URL
-kubectl create configmap config --from-literal=url=$URL -n litmus
-touch .kube/url
-echo $URL > .kube/url
+# # Create a configmap from URL
+# kubectl create configmap config --from-literal=url=$URL -n litmus
+# touch .kube/url
+# echo $URL > .kube/url
 
-#Configuring Helm
-wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
-tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
-mv linux-amd64/helm /usr/local/bin/helm
-echo $HELM_RBAC > HELM_RBAC.yaml
+# #Configuring Helm
+# wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
+# tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
+# mv linux-amd64/helm /usr/local/bin/helm
+# echo $HELM_RBAC > HELM_RBAC.yaml
 
-helm init
-sleep 45
-helm version
+# helm init
+# sleep 45
+# helm version
 
-######################
-##    Deploy DOP    ##
-######################
+# ######################
+# ##    Deploy DOP    ##
+# ######################
 
-echo "deploying DOP" 
+# echo "deploying DOP" 
 
-# Clone director-charts-internal repository
-git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
+# # Clone director-charts-internal repository
+# git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
 
-cd director-charts-internal
+# cd director-charts-internal
 
-# Checkout to dop-e2e branch
-git checkout dop-e2e
+# # Checkout to dop-e2e branch
+# git checkout dop-e2e
 
-# Get latest directory of helm chart
-REPO=$(cat baseline | awk -F',' 'NR==1{print $3}' | awk -F'=' '{print $2}')
-TAG=$(cat baseline | awk -F',' 'NR==1{print $NF}' | awk -F'=' '{print $2}')
+# # Get latest directory of helm chart
+# REPO=$(cat baseline | awk -F',' 'NR==1{print $3}' | awk -F'=' '{print $2}')
+# TAG=$(cat baseline | awk -F',' 'NR==1{print $NF}' | awk -F'=' '{print $2}')
 
-cd $REPO-$TAG
+# cd $REPO-$TAG
 
-# Apply docker secret
-kubectl apply -f docker-secret.yaml
+# # Apply docker secret
+# kubectl apply -f docker-secret.yaml
 
-# Create secret having maya-init repo access
-kubectl create secret docker-registry dop-secret --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD
+# # Create secret having maya-init repo access
+# kubectl create secret docker-registry dop-secret --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD
 
-# Create clusterrolebinding
-kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
+# # Create clusterrolebinding
+# kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
 
-# Replace mayadataurl with DOP URL
-sed 's|url: mayadataurl|url: '${IP}'|' -i ./values.yaml
-sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
-cat values.yaml
+# # Replace mayadataurl with DOP URL
+# sed 's|url: mayadataurl|url: '${IP}'|' -i ./values.yaml
+# sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
+# cat values.yaml
 
-sed '/initContainers:/,/Bidirectional/d' -i templates/dep-maya-ui.yaml
-cat templates/dep-maya-ui.yaml
+# sed '/initContainers:/,/Bidirectional/d' -i templates/dep-maya-ui.yaml
+# cat templates/dep-maya-ui.yaml
 
-# Apply helm chart
-helm install --name dop .
+# # Apply helm chart
+# helm install --name dop .
 
-# Cloning oep repository which contains all the test scripts
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-# Setup litmus on the cluster
-kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml
-# creating docker secret 
-kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
-## Add label to node
-node_name=$(kubectl get node | awk {'print $1'} | head -n 4 | tail -n 1)
-## Installing heapster components on the cluster for node monitoring
-git clone https://github.com/kubernetes-sigs/metrics-server.git
+# # Cloning oep repository which contains all the test scripts
+# git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+# # Setup litmus on the cluster
+# kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
+# kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml
+# # creating docker secret 
+# kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
+# ## Add label to node
+# node_name=$(kubectl get node | awk {'print $1'} | head -n 4 | tail -n 1)
+# ## Installing heapster components on the cluster for node monitoring
+# git clone https://github.com/kubernetes-sigs/metrics-server.git
 
-sed -i -e '/args:/ a\          - --kubelet-insecure-tls' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
-sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
-sed -i -e '/mountPath:/ a\      hostNetwork: true' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
-kubectl apply -f  metrics-server/deploy/kubernetes/
-sleep 300
-kubectl get po
-kubectl get po -n kube-system
+# sed -i -e '/args:/ a\          - --kubelet-insecure-tls' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+# sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+# sed -i -e '/mountPath:/ a\      hostNetwork: true' metrics-server/deploy/kubernetes/metrics-server-deployment.yaml
+# kubectl apply -f  metrics-server/deploy/kubernetes/
+# sleep 300
+# kubectl get po
+# kubectl get po -n kube-system
