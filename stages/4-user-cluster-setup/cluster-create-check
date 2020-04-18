@@ -35,8 +35,8 @@ echo "CREATING CLUSTER"
 ansible-playbook create-aws-cluster.yml -vv --extra-vars "vpc=$vpcid subnets=$sid k8s_version=1.15.10 image=ami-03d8059563982d7b0"
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
-touch .kube/cluster2
-echo $CNAME > .kube/cluster2
+touch ~/.kube/cluster2
+echo $CNAME > ~/.kube/cluster2
 
 # mkdir -p $path/.awscluster
 # cat ~/.kube/config > $path/.awscluster/config

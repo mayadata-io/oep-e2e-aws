@@ -35,7 +35,7 @@ VID=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 
 touch $path/.kube/cluster1
-echo $CNAME > .$path/.kube/cluster1
+echo $CNAME > $path/.kube/cluster1
 
 kubectl get nodes
 wget https://raw.githubusercontent.com/openebs/litmus/master/hack/rbac.yaml
