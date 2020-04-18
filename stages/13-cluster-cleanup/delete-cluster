@@ -3,12 +3,10 @@
 set -e
 path=$(pwd)
 mkdir -p ~/.kube
-mkdir -p /tmp/aws
-cp .kube ~/.kube
 cp .kube/config ~/.kube/config
-cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
+cp .kube/cluster1 ~/.kube/cluster1
 
-ls ~/.kube
+ls .kube
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -19,18 +17,21 @@ git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
 {
+    # Fetch cluster1 name
+    cluster1=$(cat ~/.kube/cluster1)
+
     echo '#### Delete Cluster 1 ####'
-    ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
+    kops delete cluster --name k8s-${cluster1}.k8s.local --state=s3://k8s-bucket-${cluster1} --yes
     sleep 10
+    aws s3api delete-bucket --bucket k8s-bucket-${cluster2} --region eu-central-1
 
     echo '#### Delete Cluster 2 ####'
-    rm -rf /tmp/aws
-    sleep 1
-    mkdir -p /tmp/aws
-    sleep 1
-    cp ~/.kube/resources2/cluster_name.csv /tmp/aws/cluster_name.csv
-    ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
-    sleep 5
+    cp .kube/cluster2 ~/.kube/cluster2
+    # Fetch cluster2 name url
+    cluster2=$(cat ~/.kube/cluster2)
+    kops delete cluster --name k8s-${cluster2}.k8s.local --state=s3://k8s-bucket-${cluster2} --yes
+    sleep 10
+    aws s3api delete-bucket --bucket k8s-bucket-${cluster2} --region eu-central-1
 } || {
     echo '!!! Something went wrong during cluster cleanup !!!'
 }
