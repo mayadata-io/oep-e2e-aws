@@ -3,6 +3,8 @@
 set -e
 path=$(pwd)
 mkdir -p ~/.kube
+mkdir -p /tmp/aws
+cp .kube/resources/id.csv /tmp/aws/id.csv
 cp .kube/config ~/.kube/config
 cp .kube/cluster1 ~/.kube/cluster1
 
@@ -37,8 +39,6 @@ cd litmus/k8s/aws/k8s-installer
 }
     
 echo '#### Delete Resources ####'
-cp .kube/resources/id.csv /tmp/aws/id.csv
-
 vpcid=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
 echo $vpcid
 
