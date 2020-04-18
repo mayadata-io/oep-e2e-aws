@@ -4,8 +4,11 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
+cp .kube ~/.kube
 cp .kube/config ~/.kube/config
 cp .kube/resources/cluster_name.csv /tmp/aws/cluster_name.csv
+
+ls ~/.kube
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -25,7 +28,7 @@ cd litmus/k8s/aws/k8s-installer
     sleep 1
     mkdir -p /tmp/aws
     sleep 1
-    cp .kube/resources2/cluster_name.csv /tmp/aws/cluster_name.csv
+    cp ~/.kube/resources2/cluster_name.csv /tmp/aws/cluster_name.csv
     ansible-playbook delete-aws-cluster.yml -vv --extra-vars "region=eu-central-1 zone=eu-central-1a"
     sleep 5
 } || {
@@ -33,7 +36,7 @@ cd litmus/k8s/aws/k8s-installer
 }
     
 echo '#### Delete Resources ####'
-cp .kube/resources/id.csv /tmp/aws/id.csv
+cp ~/.kube/resources/id.csv /tmp/aws/id.csv
 
 vpcid=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
 echo $vpcid

@@ -7,6 +7,7 @@ path=$(pwd)
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
 ls ~/.aws/
 
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
