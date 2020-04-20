@@ -2,6 +2,14 @@ AWSTemplateFormatVersion: '2010-09-09'
 
 Parameters:
   
+  ClusterName:
+    Type: String
+    Default: 'selenium-grid-aws-ci-dev'
+    Description: Cluster name.
+  LogName:
+    Type: String
+    Default: 'selenium-grid-aws-ecs-ci-dev'
+    Description: Cluster name.
   ContainerCpu:
     Type: Number
     Default: 2048
@@ -42,22 +50,22 @@ Parameters:
     
   PublicLoadBalancer:
     Type: String
-    Default: 'selenium-grid-aws-1701717047.eu-central-1.elb.amazonaws.com'
+    Default: 'selenium-grid-aws-505804605.eu-north-1.elb.amazonaws.com'
     Description: Name of load balancer
     
   PublicLoadBalancerArn:
     Type: String
-    Default: 'arn:aws:elasticloadbalancing:eu-central-1:385569096892:loadbalancer/app/selenium-grid-aws/bb7b2b60ee85d39b'
+    Default: 'arn:aws:elasticloadbalancing:eu-north-1:385569096892:loadbalancer/app/selenium-grid-aws/6ec9471dbbd7ba29'
     Description: ARN of Public Load Balancer
     
   TargetGroupArn:
     Type: String
-    Default: 'arn:aws:elasticloadbalancing:eu-central-1:385569096892:targetgroup/selenium-grid-aws-tg/5d325d9732aeb182'
+    Default: 'arn:aws:elasticloadbalancing:eu-north-1:385569096892:targetgroup/selenium-grid-aws-tg/8fc1c4a89abbe510'
     Description: ARN of Target Group
   
   SecurityGroup:
     Type: String
-    Default: 'sg-01992726882dd6331'
+    Default: 'sg-023c868cc88428118'
     
 Conditions:
   HasCustomRole: !Not [ !Equals [!Ref 'Role', ''] ]
@@ -67,7 +75,7 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: 'selenium-grid-aws'
+      ClusterName: !Ref 'ClusterName'
   PublicLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -81,7 +89,7 @@ Resources:
   LogGroup:
     Type: 'AWS::Logs::LogGroup'
     Properties:
-      LogGroupName: selenium-grid-aws-ecs
+      LogGroupName: !Ref 'LogName'
       RetentionInDays: 30
   TaskDefinitionHub:
     Type: AWS::ECS::TaskDefinition
@@ -185,9 +193,9 @@ Resources:
           SecurityGroups:
             - !Ref 'SecurityGroup'
           Subnets:
-            - 'subnet-00258bb2fa83dcf69'
-            - 'subnet-08dca2a94ff4710a3'
-            - 'subnet-0fe3e08f814157d3b'
+            - 'subnet-0027cf4119cc5d2d4'
+            - 'subnet-0e93574029eaf08a3'
+            - 'subnet-0fee3e522fd27c27a'
       TaskDefinition: !Ref 'TaskDefinitionHub'
       Role:
         Fn::If:
@@ -215,9 +223,9 @@ Resources:
           SecurityGroups:
             - !Ref 'SecurityGroup'
           Subnets:
-            - 'subnet-00258bb2fa83dcf69'
-            - 'subnet-08dca2a94ff4710a3'
-            - 'subnet-0fe3e08f814157d3b'
+            - 'subnet-0027cf4119cc5d2d4'
+            - 'subnet-0e93574029eaf08a3'
+            - 'subnet-0fee3e522fd27c27a'
       TaskDefinition: !Ref 'TaskDefinitionNodeChrome'
   # TargetGroup:
   #   Type: AWS::ElasticLoadBalancingV2::TargetGroup
