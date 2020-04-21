@@ -9,6 +9,8 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 ls ~/.aws/
 
+echo "VPC: $DEV_VPC"
+
 sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
