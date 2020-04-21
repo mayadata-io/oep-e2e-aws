@@ -3,6 +3,7 @@
 set -e
 
 path=$(pwd)
+mkdir -p ~/.kube
 cp .kube/cluster1 ~/.kube/cluster1
 
 echo '#### AWS CONFIG ####'
@@ -19,5 +20,6 @@ echo "Number of GUI test scripts: $tests_count"
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
 cd oep-e2e-aws/stages/16-selenium-grid/templates
 ls
+cluster1=$(cat ~/.kube/cluster1)
 
 aws cloudformation create-stack --stack-name selenium-grid-${cluster1} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${cluster1} ParameterKey=LogName,ParameterValue=${cluster1}
