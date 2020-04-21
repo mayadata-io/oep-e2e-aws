@@ -3,11 +3,13 @@
 set -e
 
 path=$(pwd)
+cp .kube/cluster1 ~/.kube/cluster1
 echo $path
+
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
 ls ~/.aws/
 
-aws cloudformation delete-stack --stack-name selenium-grid-aws
+aws cloudformation delete-stack --stack-name selenium-grid-${cluster1}
