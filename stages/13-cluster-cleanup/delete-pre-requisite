@@ -5,7 +5,6 @@ set -e
 mkdir ~/.kube
 mkdir -p /tmp/aws
 cp .kube/config ~/.kube/config
-cp .kube/resources/id.csv /tmp/aws/id.csv
 
 ls /tmp/aws
 

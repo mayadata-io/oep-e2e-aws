@@ -4,7 +4,6 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp .kube/resources/id.csv /tmp/aws/id.csv
 cp .kube/config ~/.kube/config
 cp .kube/cluster1 ~/.kube/cluster1
 

@@ -18,6 +18,8 @@ cd litmus/k8s/aws/k8s-installer
 
 sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
+sed '$a\vpc_id: '"$DEV_VPC" -i ./vars.yml
+sed '$a\subnet_id: '"$DEV_SUBNET" -i ./vars.yml
 
 # Fetch director url
 url=$(cat ~/.kube/url)
@@ -27,7 +29,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0 subnets=$DEV_SUBNET vpc=$DEV_VPC"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0"
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
