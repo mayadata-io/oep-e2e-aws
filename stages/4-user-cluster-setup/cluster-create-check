@@ -9,6 +9,7 @@ cp .kube/url ~/.kube/url
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 ls ~/.aws/
 ls ~/.kube
 
@@ -16,10 +17,8 @@ sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
-sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
-sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
-sed '$a\vpc_id: '"$DEV_VPC" -i ./vars.yml
-sed '$a\subnet_id: '"$DEV_SUBNET" -i ./vars.yml
+sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
+sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
 # Fetch director url
 url=$(cat ~/.kube/url)
@@ -29,7 +28,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0 master_size=r5dn.large node_size=r5dn.large"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-02d0ea44ae3fe9561 node_count=1 master_size=m5a.xlarge node_size=m5a.xlarge"
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
