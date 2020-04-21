@@ -17,6 +17,7 @@ git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
 {
+    ls ~/.kube
     # Fetch cluster1 name
     cluster1=$(cat ~/.kube/cluster1)
 
@@ -26,6 +27,7 @@ cd litmus/k8s/aws/k8s-installer
     aws s3api delete-bucket --bucket k8s-bucket-${cluster1} --region eu-central-1
 
     echo '#### Delete Cluster 2 ####'
+    ls .kube
     cp .kube/cluster2 ~/.kube/cluster2
     # Fetch cluster2 name url
     cluster2=$(cat ~/.kube/cluster2)
