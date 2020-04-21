@@ -3,6 +3,7 @@
 set -e
 
 path=$(pwd)
+mkdir -p ~/.kube
 cp .kube/cluster1 ~/.kube/cluster1
 
 echo '#### AWS CONFIG ####'
