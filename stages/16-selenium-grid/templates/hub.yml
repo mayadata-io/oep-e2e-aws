@@ -4,11 +4,11 @@ Parameters:
   
   ClusterName:
     Type: String
-    Default: 'selenium-grid-aws-ci-dev'
+    Default: 'selenium-grid-aws-ci-release'
     Description: Cluster name.
   LogName:
     Type: String
-    Default: 'selenium-grid-aws-ecs-ci-dev'
+    Default: 'selenium-grid-aws-ecs-ci-release'
     Description: Cluster name.
   ContainerCpu:
     Type: Number
