@@ -10,7 +10,7 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-IP=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+IP=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1)
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
@@ -44,13 +44,12 @@ cd director-charts-internal
 cd "$RELEASE"/director
 
 # Create secret having maya-init repo access
-kubectl create secret docker-registry dop-secret --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
+kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
 
 # Create clusterrolebinding
 kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
 
 # Replace mayadataurl with DOP URL
-sed 's|url: mayadataurl|url: '${IP}'|' -i ./values.yaml
 sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
@@ -58,7 +57,7 @@ sed '/initContainers:/,/Bidirectional/d' -i templates/dep-maya-ui.yaml
 cat templates/dep-maya-ui.yaml
 
 # Apply helm chart
-helm install --name dop .
+helm install --name dop . --set server.url=$IP
 
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
