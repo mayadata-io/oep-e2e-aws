@@ -15,13 +15,10 @@ cd litmus/k8s/aws/k8s-installer
 
 sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
-# Create VPC
-echo "CREATING VPC, Subnet, Internet-Gateway and route-table"
-ansible-playbook pre-requisite.yml -vv
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0 subnets=$DEV_SUBNET vpc=$DEV_VPC"
 
 mkdir $path/.kube
 mkdir $path/.kube/resources
@@ -30,8 +27,7 @@ cat ~/.kube/config > $path/.kube/admin.conf
 cp -r /tmp/aws/* $path/.kube/resources
 ls $path/.kube
 
-# Export VPC network name
-VID=`cat /tmp/aws/id.csv | cut -d ',' -f1 | sed -r 's|vpc_id:||'`
+# Export Cluster name
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 
 touch $path/.kube/cluster1
@@ -44,9 +40,9 @@ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --se
 kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
 
 # Create firewall-rule
-NGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$VID Name=group-name,Values=nodes.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId`
+NGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=nodes.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId`
 NSIG=`echo $NGROUP | awk {'print $2'} | sed -r 's/"+//g'`
-MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$VID Name=group-name,Values=masters.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId`
+MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=masters.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId`
 MSIG=`echo $MGROUP | awk {'print $2'} | sed -r 's/"+//g'`
 aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port all --cidr 0.0.0.0/0
