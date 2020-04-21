@@ -12,6 +12,9 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
 ls ~/.aws/
-cluster1=$(cat ~/.kube/cluster1)
-
-aws cloudformation delete-stack --stack-name selenium-grid-${cluster1}
+{
+    cluster1=$(cat ~/.kube/cluster1)
+    aws cloudformation delete-stack --stack-name selenium-grid-${cluster1}
+} || {
+    echo 'Selenium CloudFormation stack was absent'
+}

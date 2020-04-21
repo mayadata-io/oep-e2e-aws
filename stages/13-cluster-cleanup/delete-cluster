@@ -35,5 +35,5 @@ cd litmus/k8s/aws/k8s-installer
     sleep 10
     aws s3api delete-bucket --bucket k8s-bucket-${cluster2} --region eu-central-1
 } || {
-    echo '!!! Something went wrong during cluster cleanup !!!'          
+    echo '!!! Something went wrong during cluster cleanup !!!' 
 }

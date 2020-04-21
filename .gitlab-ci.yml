@@ -8,6 +8,7 @@ stages:
     - SELENIUM-GRID-SETUP
     - DIRECTOR-HEALTH-CHECK
     - DIRECTOR-GUI-CHECK
+    - SELENIUM-GRID-CLEANUP
     - USER-CLUSTER-SETUP
     - USER-CLUSTER-CONNECT
     - SELF-CLUSTER-CONNECT
@@ -17,8 +18,6 @@ stages:
     - OPENEBS-INSTALL-CHECK
     - OPENEBS-UPGRADE-CHECK
     - CSTORPOOL-RECOMMENDATION-CHECK
-    - SELENIUM-GRID-CLEANUP
-    - E2E-METRICS
     - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
@@ -32,8 +31,9 @@ cluster-create:
     when: always
     paths:
       - .kube/
+      - .awscluster/
 
-# Deploy director-onprem
+## Deploy director-onprem
 director-deploy:
   image: harshshekhar15/gitlab-job:v5
   stage: PROVIDER-INFRA-SETUP
@@ -701,27 +701,30 @@ selenium-grid-cleanup:
     paths:
       - .kube/
 
-e2e-metrics:
-  when: always
-  image: harshshekhar15/gitlab-job:v3
-  stage: E2E-METRICS
-  dependencies:
-    - cluster-create
-  script:
-    - chmod 755 ./stages/12-e2e-metrics/e2e-metrics
-    - ./stages/12-e2e-metrics/e2e-metrics
-  artifacts:
-    paths:
-      - .kube/
-
 # Kubernetes cluster cleanup
 cluster-cleanup:
   when: always
   image: harshshekhar15/gitlab-job:v5
+  dependencies:
+    - cluster-create
   stage: CLUSTER-CLEANUP
   script:
     - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
     - ./stages/13-cluster-cleanup/delete-cluster
+  artifacts:
+    when: always
+    paths:
+      - .kube/
+
+prerequisites-cleanup:
+  when: always
+  image: harshshekhar15/gitlab-job:v5
+  dependencies:
+    - cluster-create
+  stage: CLUSTER-CLEANUP
+  script:
+    - chmod 755 ./stages/13-cluster-cleanup/delete-pre-requisite
+    - ./stages/13-cluster-cleanup/delete-pre-requisite
   artifacts:
     when: always
     paths:
