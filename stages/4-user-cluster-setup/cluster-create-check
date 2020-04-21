@@ -17,6 +17,8 @@ sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
+sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
+sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
 sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
