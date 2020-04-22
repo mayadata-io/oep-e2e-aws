@@ -406,17 +406,17 @@ configs-db-check:
     paths:
       - .kube/
 
-ingress-nginx-check:
-  image: harshshekhar15/gitlab-job:v5
-  stage: DIRECTOR-HEALTH-CHECK
-  dependencies:
-    - director-deploy
-  script:
-    - chmod 755 ./stages/3-director-sanity-check/ingress-nginx-check
-    - ./stages/3-director-sanity-check/ingress-nginx-check
-  artifacts:
-    paths:
-      - .kube/
+# ingress-nginx-check:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: DIRECTOR-HEALTH-CHECK
+#   dependencies:
+#     - director-deploy
+#   script:
+#     - chmod 755 ./stages/3-director-sanity-check/ingress-nginx-check
+#     - ./stages/3-director-sanity-check/ingress-nginx-check
+#   artifacts:
+#     paths:
+#       - .kube/
 
 cluster-setup-check:
   image: harshshekhar15/gitlab-job:v5
