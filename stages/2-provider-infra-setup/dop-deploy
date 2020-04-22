@@ -57,7 +57,7 @@ sed '/initContainers:/,/Bidirectional/d' -i templates/dep-maya-ui.yaml
 cat templates/dep-maya-ui.yaml
 
 # Apply helm chart
-helm install --name dop . --set server.url=$IP
+helm install --name dop . --set server.url=$IP  --set nginx-ingress.enabled=false
 
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
