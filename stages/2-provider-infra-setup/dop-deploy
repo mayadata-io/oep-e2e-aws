@@ -10,7 +10,7 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-IP=$(kubectl get nodes -o wide --no-headers | awk {'print $7'} | head -n 1):30380
+IP=$(kubectl get nodes -o wide --no-headers | awk {'print $7'} | head -n 1)
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
@@ -49,15 +49,13 @@ kubectl create secret docker-registry directoronprem-registry-secret --docker-se
 # Create clusterrolebinding
 kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
 
-# Replace mayadataurl with DOP URL
+# Add DOP URL
+sed 's|url:|url: '${IP}'|' -i ./values.yaml
 sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
-sed '/initContainers:/,/Bidirectional/d' -i templates/dep-maya-ui.yaml
-cat templates/dep-maya-ui.yaml
-
 # Apply helm chart
-helm install --name dop . --set server.url=$IP  --set nginx-ingress.controller.kind=Deployment --set nginx-ingress.controller.service.enabled=true
+helm install --name dop .
 
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
