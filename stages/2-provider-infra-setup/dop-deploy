@@ -67,10 +67,12 @@ kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 ## Installing heapster components on the cluster for node monitoring
 wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
 sed -i -e '/args:/ a\          - --kubelet-insecure-tls' components.yaml
-sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalDNS,InternalIP,ExternalDNS,ExternalIP,Hostname' components.yaml
-sed -i -e '/mountPath:/ a\      hostNetwork: true' components.yaml
+sed -i -e '/args:/ a\          - --metric-resolution=30s' components.yaml
+sed -i -e '/args:/ a\          - --requestheader-allowed-names=aggregator' components.yaml
+sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' components.yaml
 
 kubectl apply -f components.yaml
 sleep 300
 kubectl get po
 kubectl get po -n kube-system
+kubectl get po -n maya-system
