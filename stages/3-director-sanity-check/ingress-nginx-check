@@ -18,6 +18,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 test_name=ingress-nginx-check
 echo $test_name
 kubectl get po
+sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
 kubectl create -f oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
