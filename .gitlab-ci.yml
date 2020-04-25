@@ -4,7 +4,7 @@
 
 stages:
     - CLUSTER-SETUP
-    - PROVIDER-INFRA-SETUP
+    - DIRECTOR-SETUP
     - SELENIUM-GRID-SETUP
     - DIRECTOR-HEALTH-CHECK
     - DIRECTOR-GUI-CHECK
@@ -16,7 +16,7 @@ stages:
     - TEAMING-CHECK
     - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
-    - OPENEBS-UPGRADE-CHECK
+    # - OPENEBS-UPGRADE-CHECK
     - CSTORPOOL-RECOMMENDATION-CHECK
     - E2E-METRICS
     - CLUSTER-CLEANUP
@@ -37,7 +37,7 @@ cluster-create:
 ## Deploy director-onprem
 director-deploy:
   image: harshshekhar15/gitlab-job:v5
-  stage: PROVIDER-INFRA-SETUP
+  stage: DIRECTOR-SETUP
   dependencies:
     - cluster-create
   script:
@@ -578,95 +578,95 @@ tcid-iuoi14-openebs-resource-limit-installation:
     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
-## Pool Upgrade Check
-tcid-iuod08-pool-upgrade:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-check
-    - ./stages/11-openebs-upgrade-check/pool-upgrade-check
+# ## Pool Upgrade Check
+# tcid-iuod08-pool-upgrade:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-check
+#     - ./stages/11-openebs-upgrade-check/pool-upgrade-check
 
-## Volume Upgrade Check
-tcid-iuod12-volume-upgrade:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/volume-upgrade-check
-    - ./stages/11-openebs-upgrade-check/volume-upgrade-check
+# ## Volume Upgrade Check
+# tcid-iuod12-volume-upgrade:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/volume-upgrade-check
+#     - ./stages/11-openebs-upgrade-check/volume-upgrade-check
 
-## Pool upgrade check when one pod is not running
-tcid-iuod24-pool-upgrade-one-pod-not-running:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-one-pod-not-running-check
-    - ./stages/11-openebs-upgrade-check/pool-upgrade-one-pod-not-running-check
+# ## Pool upgrade check when one pod is not running
+# tcid-iuod24-pool-upgrade-one-pod-not-running:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-one-pod-not-running-check
+#     - ./stages/11-openebs-upgrade-check/pool-upgrade-one-pod-not-running-check
 
-## Pool upgrade check when all pods are running
-tcid-iuod23-pool-upgrade-all-pod-running:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-running-check
-    - ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-running-check
+# ## Pool upgrade check when all pods are running
+# tcid-iuod23-pool-upgrade-all-pod-running:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-running-check
+#     - ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-running-check
 
-## Pool upgrade check when all pods are not running
-tcid-iuod26-pool-upgrade-all-pod-not-running:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-not-running
-    - ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-not-running
+# ## Pool upgrade check when all pods are not running
+# tcid-iuod26-pool-upgrade-all-pod-not-running:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-not-running
+#     - ./stages/11-openebs-upgrade-check/pool-upgrade-all-pod-not-running
 
-## Volume upgrade Jiva Check
-tcid-iuod27-volume-upgrade-jiva:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/volume-upgrade-jiva-check
-    - ./stages/11-openebs-upgrade-check/volume-upgrade-jiva-check
+# ## Volume upgrade Jiva Check
+# tcid-iuod27-volume-upgrade-jiva:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/volume-upgrade-jiva-check
+#     - ./stages/11-openebs-upgrade-check/volume-upgrade-jiva-check
 
-## Upgrade the application with 3 replicas when one replica pod is not running
-tcid-iuod28-upgrade-replica-pod-pending:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/upgrade-replica-pod-pending
-    - ./stages/11-openebs-upgrade-check/upgrade-replica-pod-pending
+# ## Upgrade the application with 3 replicas when one replica pod is not running
+# tcid-iuod28-upgrade-replica-pod-pending:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/upgrade-replica-pod-pending
+#     - ./stages/11-openebs-upgrade-check/upgrade-replica-pod-pending
 
-## Upgrade the application with 3 replicas when all replica pod is not running
-tcid-iuod30-upgrade-all-replica-pod-pending:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/upgrade-replica-all-pod-pending-check
-    - ./stages/11-openebs-upgrade-check/upgrade-replica-all-pod-pending-check
+# ## Upgrade the application with 3 replicas when all replica pod is not running
+# tcid-iuod30-upgrade-all-replica-pod-pending:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/upgrade-replica-all-pod-pending-check
+#     - ./stages/11-openebs-upgrade-check/upgrade-replica-all-pod-pending-check
 
-## Upgrade the application with 3 replicas when two replica pod is not running
-tcid-iuod29-upgrade-two-replica-pod-pending:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-UPGRADE-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/11-openebs-upgrade-check/upgrade-replica-two-pod-pending
-    - ./stages/11-openebs-upgrade-check/upgrade-replica-two-pod-pending
+# ## Upgrade the application with 3 replicas when two replica pod is not running
+# tcid-iuod29-upgrade-two-replica-pod-pending:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-UPGRADE-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/11-openebs-upgrade-check/upgrade-replica-two-pod-pending
+#     - ./stages/11-openebs-upgrade-check/upgrade-replica-two-pod-pending
 
 ## List capacity recommendations
 tcid-cpre01-list-recommendations:
