@@ -25,8 +25,8 @@ cluster-create:
   image: harshshekhar15/gitlab-job:v5
   stage: CLUSTER-SETUP
   script:
-    - chmod 755 ./stages/1-cluster-setup/aws-eks
-    - ./stages/1-cluster-setup/aws-eks
+    - chmod 755 ./stages/1-cluster-setup/setup
+    - ./stages/1-cluster-setup/setup
   artifacts:
     when: always
     paths:
