@@ -6,8 +6,9 @@ set -ex
 ######################
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
-kubectl get po
-URL=http://$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+cp .kube/url ~/.kube/url
+
+URL=$(cat ~/.kube/url)
 echo $URL
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
