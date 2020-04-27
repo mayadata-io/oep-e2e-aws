@@ -5,7 +5,7 @@ set -ex
 ##   Prerequisites  ##
 ######################
 mkdir ~/.kube
-cp  .kube/config ~/.kube/config
+cp .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)
 echo $URL
