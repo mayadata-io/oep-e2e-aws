@@ -1,5 +1,11 @@
 #!/bin/bash
 
+bash utils/e2e-cr jobname:cluster-create-check jobphase:Waiting
+bash utils/e2e-cr jobname:cluster-create-check jobphase:Running
+bash utils/e2e-cr jobname:tcid-iuoi02-openebs-install jobphase:Waiting
+bash utils/e2e-cr jobname:create-apikey-check jobphase:Waiting
+bash utils/e2e-cr jobname:director-self-cluster-connect-check jobphase:Waiting
+
 set -e
 path=$(pwd)
 mkdir -p ~/.kube
@@ -88,3 +94,6 @@ kubectl logs -f $litmus_pod -n litmus
 app_ns=$(kubectl get ns | grep $app | awk '{print $1}')
 echo $app_ns
 kubectl get pods -n $app_ns
+
+cd /
+bash utils/e2e-cr jobname:cluster-create-check jobphase:Completed

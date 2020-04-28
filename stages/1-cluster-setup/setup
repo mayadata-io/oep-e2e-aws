@@ -20,10 +20,6 @@ sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
 sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
-bash utils/e2e-cr jobname:setup jobphase:Waiting
-bash utils/e2e-cr jobname:setup jobphase:Running 
-bash utils/e2e-cr jobname:dop-deploy jobphase:Waiting
-
 # Create k8s cluster
 echo "CREATING CLUSTER"
 ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-03d8059563982d7b0"
@@ -54,5 +50,3 @@ MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC N
 MSIG=`echo $MGROUP | awk {'print $2'} | sed -r 's/"+//g'`
 aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port all --cidr 0.0.0.0/0
-
-bash utils/e2e-cr jobname:setup jobphase:Completed

@@ -4,10 +4,6 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
-
-bash utils/pooling jobname:setup
-bash utils/e2e-cr jobname:dop-deploy jobphase:Running 
-
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 kubectl get node -o wide
@@ -79,5 +75,3 @@ sleep 300
 kubectl get po
 kubectl get po -n kube-system
 kubectl get po -n maya-system
-
-bash utils/e2e-cr jobname:dop-deploy jobphase:Completed
