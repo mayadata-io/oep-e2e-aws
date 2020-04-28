@@ -3,10 +3,12 @@
 ## Define the stages & order of execution
 
 stages:
-    - CLUSTER1-SETUP
+    - CLUSTER-SETUP
     - DIRECTOR-SETUP
     - DIRECTOR-HEALTH-CHECK
     - USER-CLUSTER-SETUP
+    - SELENIUM-GRID-SETUP
+    - USER-CLUSTER-CONNECT
     - SELENIUM-GRID-SETUP
     - DIRECTOR-GUI-CHECK
     - SELENIUM-GRID-CLEANUP
@@ -20,7 +22,7 @@ stages:
 ## Setup the kubernetes cluster
 cluster-create:
   image: harshshekhar15/gitlab-job:v5
-  stage: CLUSTER1-SETUP
+  stage: CLUSTER-SETUP
   script:
     - chmod 755 ./stages/1-cluster-setup/setup
     - ./stages/1-cluster-setup/setup
@@ -310,7 +312,7 @@ ingress-nginx-check:
     paths:
       - .kube/
 
-## Create Cluster2
+## Create Cluster2 and Cluster3
 cluster-setup-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-SETUP
@@ -325,16 +327,30 @@ cluster-setup-check:
       - .kube/
       - .awscluster/
 
-create-apikey-check:
+cluster3-setup-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-SETUP
+  dependencies:
+    - director-deploy
+  script:
+    - chmod 755 ./stages/4-user-cluster-setup/cluster3-create-check
+    - ./stages/4-user-cluster-setup/cluster3-create-check
+  artifacts:
+    when: always
+    paths:
+      - .kube/
+      - .awscluster/
+
+create-apikey-check:
+  image: harshshekhar15/gitlab-job:v5
+  stage: USER-CLUSTER-CONNECT
   script:
     - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
     - ./stages/5-cluster-connect-check/create-apikey-check
 
 trrc01-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v5
-  stage: USER-CLUSTER-SETUP
+  stage: USER-CLUSTER-CONNECT
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
     - ./stages/5-cluster-connect-check/cluster-connect-check
@@ -346,14 +362,14 @@ trrc01-cluster-connect-check:
 
 client-components-check:
   image: harshshekhar15/gitlab-job:v5
-  stage: USER-CLUSTER-SETUP
+  stage: USER-CLUSTER-CONNECT
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
     - ./stages/5-cluster-connect-check/client-components-check
 
 director-self-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v5
-  stage: USER-CLUSTER-SETUP
+  stage: USER-CLUSTER-CONNECT
   script:
     - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
     - ./stages/6-self-cluster-connect/self-connect-cluster-check
