@@ -17,7 +17,7 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster/config ~/.kube/config
 cp .kube/cluster2 ~/.kube/cluster2
-# cp .kube/cluster3 ~/.kube/cluster3
+cp .kube/cluster3 ~/.kube/cluster3
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -34,6 +34,6 @@ sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
 ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster2}"
 ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster2}"
 ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster2}"
-# ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
-# ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
-# ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
+ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
+ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
+ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"

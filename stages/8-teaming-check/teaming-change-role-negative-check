@@ -5,7 +5,7 @@ set -e
 
 path=$(pwd)
 mkdir -p ~/.kube
-cp .awscluster/config ~/.kube/config
+cp .awscluster3/config ~/.kube/config
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
