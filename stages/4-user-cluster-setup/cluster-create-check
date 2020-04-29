@@ -1,4 +1,5 @@
 #!/bin/bash
+CLUSTER = "$1"
 
 set -e
 path=$(pwd)
@@ -31,12 +32,12 @@ ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 im
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
-touch $path/.kube/cluster2
-echo $CNAME > $path/.kube/cluster2
+touch $path/.kube/$CLUSTER
+echo $CNAME > $path/.kube/$CLUSTER
 
 mkdir -p $path/.awscluster
-cat ~/.kube/config > $path/.awscluster/config
-cat ~/.kube/config > $path/.awscluster/admin.conf
+cat ~/.kube/config > $path/.aws$CLUSTER/config
+cat ~/.kube/config > $path/.aws$CLUSTER/admin.conf
 
 kubectl get nodes
 
@@ -48,7 +49,7 @@ kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 # creating crb
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
 # creating configmap
-kubectl create configmap kubeconfig --from-file=$path/.awscluster/admin.conf -n litmus
+kubectl create configmap kubeconfig --from-file=$path/.aws$CLUSTER/admin.conf -n litmus
 kubectl create configmap config --from-literal=url=$url -n litmus
 
 # fetch openebs operator yaml

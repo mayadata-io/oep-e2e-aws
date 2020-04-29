@@ -1,13 +1,13 @@
 #!/bin/bash
-
+CLUSTER = "$1"
 set -e
 
 path=$(pwd)
 mkdir ~/.kube
-cp .awscluster/config ~/.kube/config
+cp .aws$CLUSTER/config ~/.kube/config
 
-bash utils/pooling jobname:trrc01-cluster-connect-check
-bash utils/e2e-cr jobname:client-components-check jobphase:Running
+bash utils/pooling jobname:trrc01-$CLUSTER-connect-check
+bash utils/e2e-cr jobname:client-$CLUSTER-components-check jobphase:Running
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 echo "Check cluster client components-------------------------------------------------"
@@ -29,6 +29,6 @@ if [ "$testResult" != Pass ]
 then 
     exit 1; 
 else
-    bash utils/e2e-cr jobname:client-components-check jobphase:Completed
+    bash utils/e2e-cr jobname:client-$CLUSTER-components-check jobphase:Completed
 fi
 

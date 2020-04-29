@@ -32,7 +32,7 @@ cluster-create:
     when: always
     paths:
       - .kube/
-      - .awscluster/
+      - .awscluster2/
 
 ## Deploy director-onprem
 director-deploy:
@@ -322,12 +322,12 @@ cluster-setup-check:
     - director-deploy
   script:
     - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check
+    - ./stages/4-user-cluster-setup/cluster-create-check cluster2
   artifacts:
     when: always
     paths:
       - .kube/
-      - .awscluster/
+      - .awscluster2/
 
 cluster3-setup-check:
   image: harshshekhar15/gitlab-job:v5
@@ -335,8 +335,8 @@ cluster3-setup-check:
   dependencies:
     - director-deploy
   script:
-    - chmod 755 ./stages/4-user-cluster-setup/cluster3-create-check
-    - ./stages/4-user-cluster-setup/cluster3-create-check
+    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
+    - ./stages/4-user-cluster-setup/cluster-create-check cluster3
   artifacts:
     when: always
     paths:
@@ -353,34 +353,60 @@ create-apikey-check:
     - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
     - ./stages/5-cluster-connect-check/create-apikey-check
 
-trrc01-cluster-connect-check:
+trrc01-cluster2-connect-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
-  dependencies:
-    - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
-    - ./stages/5-cluster-connect-check/cluster-connect-check
+    - ./stages/5-cluster-connect-check/cluster-connect-check cluster2
   artifacts:
     when: always
     paths:
       - .kube/
-      - .awscluster/
+      - .awscluster2/
 
-client-components-check:
+trrc01-cluster3-connect-check:
+  image: harshshekhar15/gitlab-job:v5
+  stage: USER-CLUSTER-CONNECT
+  script:
+    - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
+    - ./stages/5-cluster-connect-check/cluster-connect-check cluster3
+  artifacts:
+    when: always
+    paths:
+      - .kube/
+      - .awscluster3/
+
+client-cluster2-components-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   dependencies:
     - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
-    - ./stages/5-cluster-connect-check/client-components-check
+    - ./stages/5-cluster-connect-check/client-components-check cluster2
 
-ebs-volume-create:
+client-cluster3-components-check:
+  image: harshshekhar15/gitlab-job:v5
+  stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/5-cluster-connect-check/client-components-check
+    - ./stages/5-cluster-connect-check/client-components-check cluster3
+
+ebs-volume-create-cluster2:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   script:
-    - chmod 755 ./stages/17-ebs-volume/create
+    - chmod 755 ./stages/17-ebs-volume/create cluster2 3
+    - ./stages/17-ebs-volume/create
+
+ebs-volume-create-cluster3:
+  image: harshshekhar15/gitlab-job:v5
+  stage: USER-CLUSTER-CONNECT
+  script:
+    - chmod 755 ./stages/17-ebs-volume/create cluster3 3
     - ./stages/17-ebs-volume/create
 
 ## Self cluster connect
