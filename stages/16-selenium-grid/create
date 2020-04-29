@@ -21,4 +21,4 @@ cd oep-e2e-aws/stages/16-selenium-grid/templates
 ls
 cluster1=$(cat ~/.kube/cluster1)
 
-aws cloudformation create-stack --stack-name selenium-grid-${cluster1} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${cluster1} ParameterKey=LogName,ParameterValue=${cluster1}
+aws cloudformation create-stack --stack-name rancher-selenium-grid-${cluster1} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${cluster1} ParameterKey=LogName,ParameterValue=${cluster1}

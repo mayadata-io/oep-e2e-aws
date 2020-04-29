@@ -1,7 +1,4 @@
 #!/bin/bash
-bash utils/pooling jobname:e2e-metrics
-bash utils/e2e-cr jobname:cluster-cleanup jobphase:Running
-
 set -e
 path=$(pwd)
 mkdir -p ~/.kube
