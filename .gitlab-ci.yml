@@ -379,8 +379,6 @@ client-components-check:
 ebs-volume-create:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
-  dependencies:
-    - cluster-setup-check
   script:
     - chmod 755 ./stages/17-ebs-volume/create
     - ./stages/17-ebs-volume/create
