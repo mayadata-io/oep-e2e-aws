@@ -327,19 +327,19 @@ cluster-setup-check:
       - .kube/
       - .awscluster/
 
-cluster3-setup-check:
-  image: harshshekhar15/gitlab-job:v5
-  stage: USER-CLUSTER-SETUP
-  dependencies:
-    - director-deploy
-  script:
-    - chmod 755 ./stages/4-user-cluster-setup/cluster3-create-check
-    - ./stages/4-user-cluster-setup/cluster3-create-check
-  artifacts:
-    when: always
-    paths:
-      - .kube/
-      - .awscluster3/
+# cluster3-setup-check:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: USER-CLUSTER-SETUP
+#   dependencies:
+#     - director-deploy
+#   script:
+#     - chmod 755 ./stages/4-user-cluster-setup/cluster3-create-check
+#     - ./stages/4-user-cluster-setup/cluster3-create-check
+#   artifacts:
+#     when: always
+#     paths:
+#       - .kube/
+#       - .awscluster3/
 
 ## User cluster connect
 create-apikey-check:

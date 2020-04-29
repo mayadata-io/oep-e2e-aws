@@ -35,4 +35,5 @@ e2e_coverage_cr=$(kubectl get pcover -n $COVERAGE_NAMESPACE --no-headers | awk '
 kubectl get pcover $e2e_coverage_cr -n $COVERAGE_NAMESPACE -oyaml
 kubectl get pcover -n $COVERAGE_NAMESPACE -o=jsonpath='{.items[0].result.coverage}{"\n"}'
 
+
 bash utils/e2e-cr jobname:e2e-metrics jobphase:Completed
