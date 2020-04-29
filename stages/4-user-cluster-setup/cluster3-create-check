@@ -68,3 +68,23 @@ sed -i "${value_line_count}s/.*/          value: \"1\"/" $openebs_operator
 kubectl apply -f $openebs_operator
 sleep 100
 kubectl get pods -n openebs
+# # Deploy application
+# app="mongo"
+# wget https://raw.githubusercontent.com/mayadata-io/litmus/master/apps/mongodb/deployers/run_litmus_test.yml
+# sed -i 's/value: openebs-mongodb/value: openebs-cstor-sparse/g' run_litmus_test.yml
+# sed -i -e 's/generateName: litmus-mongodb-/generateName: litmus-mongodb-deploy/g' run_litmus_test.yml
+# cat run_litmus_test.yml
+# kubectl create -f run_litmus_test.yml
+# test_name=litmus-mongodb-deploy
+# litmus_pod=$(kubectl get po -n litmus | grep $test_name | awk {'print $1'} | tail -n 1)
+# echo $litmus_pod
+# job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
+# while [[ "$job_status" != "Completed" ]]
+# do 
+#     job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
+#     sleep 6
+# done
+# kubectl logs -f $litmus_pod -n litmus
+# app_ns=$(kubectl get ns | grep $app | awk '{print $1}')
+# echo $app_ns
+# kubectl get pods -n $app_ns
