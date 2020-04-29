@@ -9,6 +9,7 @@ stages:
     - USER-CLUSTER-SETUP
     - SELENIUM-GRID-SETUP
     - USER-CLUSTER-CONNECT
+    - SELF-CLUSTER-CONNECT
     - SELENIUM-GRID-SETUP
     - DIRECTOR-GUI-CHECK
     - SELENIUM-GRID-CLEANUP
@@ -345,6 +346,8 @@ cluster-setup-check:
 create-apikey-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
     - ./stages/5-cluster-connect-check/create-apikey-check
@@ -352,6 +355,8 @@ create-apikey-check:
 trrc01-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
     - ./stages/5-cluster-connect-check/cluster-connect-check
@@ -364,23 +369,30 @@ trrc01-cluster-connect-check:
 client-components-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
     - ./stages/5-cluster-connect-check/client-components-check
 
-director-self-cluster-connect-check:
-  image: harshshekhar15/gitlab-job:v5
-  stage: USER-CLUSTER-CONNECT
-  script:
-    - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
-    - ./stages/6-self-cluster-connect/self-connect-cluster-check
-
 ebs-volume-create:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/17-ebs-volume/create
     - ./stages/17-ebs-volume/create
+
+## Self cluster connect
+director-self-cluster-connect-check:
+  image: harshshekhar15/gitlab-job:v5
+  stage: SELF-CLUSTER-CONNECT
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
+    - ./stages/6-self-cluster-connect/self-connect-cluster-check
 
 ## GUI automated tests on Openebs installation on DOP cluster
 tcid-gaau01-gui-auth-check:

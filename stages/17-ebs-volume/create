@@ -17,16 +17,13 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster/config ~/.kube/config
 cp .kube/cluster2 ~/.kube/cluster2
-cp .kube/cluster3 ~/.kube/cluster3
+# cp .kube/cluster3 ~/.kube/cluster3
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
-ls ~/.aws/
-ls ~/.kube
 
-sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/ebs-volumes
 
@@ -37,6 +34,6 @@ sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
 ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster2}"
 ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster2}"
 ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster2}"
-ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
-ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
-ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
+# ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
+# ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"
+# ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.${cluster3}"

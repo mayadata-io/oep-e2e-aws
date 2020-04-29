@@ -4,10 +4,6 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
-
-bash utils/pooling jobname:client-components-check
-bash utils/e2e-cr jobname:director-self-cluster-connect-check jobphase:Running
-
 mkdir -p ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
@@ -58,7 +54,5 @@ kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
 if [ "$testResult" != Pass ]; then 
-    exit 1; 
-else
-    bash utils/e2e-cr jobname:director-self-cluster-connect-check jobphase:Completed
+exit 1; 
 fi
