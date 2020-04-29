@@ -8,7 +8,7 @@ mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
 
-url=$(cat ~/.kube/url)
+URL=$(cat ~/.kube/url)
 echo $URL
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
