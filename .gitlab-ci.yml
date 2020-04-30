@@ -378,6 +378,7 @@ tcid-gaau01-gui-auth-check:
     - chmod 755 ./stages/14-director-gui-check/gui-auth-check
     - ./stages/14-director-gui-check/gui-auth-check
   artifacts:
+    when: always
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
