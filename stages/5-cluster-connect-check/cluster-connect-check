@@ -1,6 +1,4 @@
 #!/bin/bash
-CLUSTER = "$1"
-
 set -e
 
 path=$(pwd)

@@ -1,6 +1,4 @@
 #!/bin/bash
-CLUSTER="$1"
-NUMBEROFVOLUMES="$2"
 set -ex
 
 job_id=$(echo $CI_JOB_ID)

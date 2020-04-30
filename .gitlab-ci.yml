@@ -28,11 +28,12 @@ cluster-create:
   script:
     - chmod 755 ./stages/1-cluster-setup/setup
     - ./stages/1-cluster-setup/setup
+  variables:
+    CLUSTER: cluster222222222
   artifacts:
     when: always
     paths:
       - .kube/
-      - .awscluster2/
 
 ## Deploy director-onprem
 director-deploy:
@@ -322,7 +323,9 @@ cluster-setup-check:
     - director-deploy
   script:
     - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check cluster2
+    - ./stages/4-user-cluster-setup/cluster-create-check
+  variables:
+    CLUSTER: cluster2
   artifacts:
     when: always
     paths:
@@ -336,7 +339,9 @@ cluster3-setup-check:
     - director-deploy
   script:
     - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check cluster3
+    - ./stages/4-user-cluster-setup/cluster-create-check
+  variables:
+    CLUSTER: cluster3
   artifacts:
     when: always
     paths:
@@ -358,7 +363,9 @@ trrc01-cluster2-connect-check:
   stage: USER-CLUSTER-CONNECT
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
-    - ./stages/5-cluster-connect-check/cluster-connect-check cluster2
+    - ./stages/5-cluster-connect-check/cluster-connect-check
+  variables:
+    CLUSTER: cluster2
   artifacts:
     when: always
     paths:
@@ -370,7 +377,9 @@ trrc01-cluster3-connect-check:
   stage: USER-CLUSTER-CONNECT
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
-    - ./stages/5-cluster-connect-check/cluster-connect-check cluster3
+    - ./stages/5-cluster-connect-check/cluster-connect-check
+  variables:
+    CLUSTER: cluster3
   artifacts:
     when: always
     paths:
@@ -384,7 +393,9 @@ client-cluster2-components-check:
     - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
-    - ./stages/5-cluster-connect-check/client-components-check cluster2
+    - ./stages/5-cluster-connect-check/client-components-check
+  variables:
+    CLUSTER: cluster2
 
 client-cluster3-components-check:
   image: harshshekhar15/gitlab-job:v5
@@ -393,21 +404,29 @@ client-cluster3-components-check:
     - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
-    - ./stages/5-cluster-connect-check/client-components-check cluster3
+    - ./stages/5-cluster-connect-check/client-components-check
+  variables:
+    CLUSTER: cluster3
 
 ebs-volume-create-cluster2:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   script:
-    - chmod 755 ./stages/17-ebs-volume/create cluster2 3
+    - chmod 755 ./stages/17-ebs-volume/create
     - ./stages/17-ebs-volume/create
+  variables:
+    CLUSTER: cluster2
+    NUMBEROFVOLUMES: 3
 
 ebs-volume-create-cluster3:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   script:
-    - chmod 755 ./stages/17-ebs-volume/create cluster3 3
+    - chmod 755 ./stages/17-ebs-volume/create
     - ./stages/17-ebs-volume/create
+  variables:
+    CLUSTER: cluster3
+    NUMBEROFVOLUMES: 3
 
 ## Self cluster connect
 director-self-cluster-connect-check:
