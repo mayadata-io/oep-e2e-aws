@@ -16,8 +16,11 @@ sleep 100
 
 bash utils/e2e-cr jobname:trrc01-$CLUSTER-connect-check jobphase:Running 
 
+echo '#### Copy files for S3 ####'
+cluster1=$(cat ~/.kube/cluster1)
 aws s3 cp s3://k8s-bucket-${cluster1}/secret.yaml secret.yaml
 sleep 30
+ls
 
 kubectl apply -f secret.yaml 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
