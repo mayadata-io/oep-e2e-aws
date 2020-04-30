@@ -11,6 +11,7 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
+kubectl apply -f utils/e2e-crd.yml
 sleep 100
 
 bash utils/e2e-cr jobname:trrc01-$CLUSTER-connect-check jobphase:Running 
@@ -23,7 +24,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 echo "Connect new cluster -------------------------------------------------"
 sed 's|value: oep-cluster|value: oep-cluster-'$CLUSTER'|' -i oep-e2e/litmus/director/cluster-connect/run_litmus_test.yml
 kubectl create -f oep-e2e/litmus/director/cluster-connect/run_litmus_test.yml
-test_name=cluster-connect
+test_name=cluster3-connect
 echo $test_name
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
