@@ -352,8 +352,6 @@ create-apikey-check:
   stage: USER-CLUSTER-CONNECT
   variables:
     CLUSTER: cluster2
-  dependencies:
-    - cluster-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
     - ./stages/5-cluster-connect-check/create-apikey-check
@@ -375,8 +373,6 @@ trrc01-cluster2-connect-check:
 trrc01-cluster3-connect-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
-  dependencies:
-    - cluster3-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-existing-user
     - ./stages/5-cluster-connect-check/cluster-connect-existing-user

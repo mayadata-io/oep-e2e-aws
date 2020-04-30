@@ -4,7 +4,13 @@ set -e
 
 path=$(pwd)
 mkdir ~/.kube
+cp .kube/cluster1 ~/.kube/cluster1
 cp .aws$CLUSTER/config ~/.kube/config
+
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 ######################################## Applying e2e-CRD
 echo "***Applying e2e-crd***********"
@@ -45,5 +51,8 @@ else
     # creating director-user-pass secret in director cluster
     kubectl create -f secret.yaml -n litmus
     kubectl get secret -n litmus
-    kubectl get secret -n litmus director-user-pass -o yaml > ~/.kube/secret.yaml
+    kubectl get secret -n litmus director-user-pass -o yaml > secret.yaml
+    cluster1=$(cat ~/.kube/cluster1)
+    aws s3 cp secret.yaml s3://k8s-bucket-${cluster1}
+    sleep 30
 fi

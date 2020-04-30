@@ -3,12 +3,20 @@ set -e
 
 path=$(pwd)
 mkdir ~/.kube
+cp .kube/cluster1 ~/.kube/cluster1
 cp .aws$CLUSTER/config ~/.kube/config
-cp .kube/secret.yaml ~/.kube/secret.yaml
+
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 sleep 100
 
 bash utils/e2e-cr jobname:trrc01-$CLUSTER-connect-check jobphase:Running 
+
+aws s3 cp s3://k8s-bucket-${cluster1}/secret.yaml secret.yaml
+sleep 30
 
 kubectl apply -f secret.yaml 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
