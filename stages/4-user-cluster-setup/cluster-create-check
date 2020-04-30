@@ -33,7 +33,7 @@ mkdir -p $path/.kube
 touch $path/.kube/$CLUSTER
 echo $CNAME > $path/.kube/$CLUSTER
 
-mkdir -p $path/.awscluster
+mkdir -p $path/.aws$CLUSTER
 cat ~/.kube/config > $path/.aws$CLUSTER/config
 cat ~/.kube/config > $path/.aws$CLUSTER/admin.conf
 

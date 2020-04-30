@@ -28,8 +28,6 @@ cluster-create:
   script:
     - chmod 755 ./stages/1-cluster-setup/setup
     - ./stages/1-cluster-setup/setup
-  variables:
-    CLUSTER: cluster222222222
   artifacts:
     when: always
     paths:
