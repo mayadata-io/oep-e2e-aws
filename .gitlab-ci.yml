@@ -347,11 +347,24 @@ cluster3-setup-check:
       - .awscluster3/
 
 ## User cluster connect
-create-apikey-check:
+create-apikey-check-cluster2:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
+  variables:
+    CLUSTER: cluster2
   dependencies:
     - cluster-setup-check
+  script:
+    - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
+    - ./stages/5-cluster-connect-check/create-apikey-check
+
+create-apikey-check-cluster3:
+  image: harshshekhar15/gitlab-job:v5
+  stage: USER-CLUSTER-CONNECT
+  variables:
+    CLUSTER: cluster3
+  dependencies:
+    - cluster3-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/create-apikey-check
     - ./stages/5-cluster-connect-check/create-apikey-check
@@ -373,6 +386,8 @@ trrc01-cluster2-connect-check:
 trrc01-cluster3-connect-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
+  dependencies:
+    - cluster3-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/cluster-connect-check
     - ./stages/5-cluster-connect-check/cluster-connect-check
@@ -399,7 +414,7 @@ client-cluster3-components-check:
   image: harshshekhar15/gitlab-job:v5
   stage: USER-CLUSTER-CONNECT
   dependencies:
-    - cluster-setup-check
+    - cluster3-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
     - ./stages/5-cluster-connect-check/client-components-check

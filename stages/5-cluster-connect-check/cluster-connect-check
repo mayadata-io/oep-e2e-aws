@@ -5,7 +5,7 @@ path=$(pwd)
 mkdir ~/.kube
 cp .aws$CLUSTER/config ~/.kube/config
 
-bash utils/pooling jobname:create-apikey-check
+bash utils/pooling jobname:create-apikey-check-$CLUSTER
 bash utils/e2e-cr jobname:trrc01-$CLUSTER-connect-check jobphase:Running 
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
