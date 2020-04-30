@@ -45,4 +45,5 @@ else
     # creating director-user-pass secret in director cluster
     kubectl create -f secret.yaml -n litmus
     kubectl get secret -n litmus
+    kubectl get secret -n litmus director-user-pass -o yaml > ~/.kube/secret.yaml
 fi
