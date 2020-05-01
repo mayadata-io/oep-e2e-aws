@@ -25,6 +25,7 @@ cd litmus/k8s/aws/k8s-installer
     echo '#### Delete Cluster 1 ####'
     kops delete cluster --name k8s-${cluster1}.k8s.local --state=s3://k8s-bucket-${cluster1} --yes
     sleep 10
+    aws s3 rm s3://k8s-bucket-${cluster1} --recursive
     aws s3api delete-bucket --bucket k8s-bucket-${cluster1} --region us-west-2
 
     echo '#### Delete Cluster 2 ####'

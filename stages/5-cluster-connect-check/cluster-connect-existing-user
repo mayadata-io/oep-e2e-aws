@@ -27,7 +27,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 echo "Connect new cluster -------------------------------------------------"
 sed 's|value: oep-cluster|value: oep-cluster-'$CLUSTER'|' -i oep-e2e/litmus/director/cluster-connect/run_litmus_test.yml
 kubectl create -f oep-e2e/litmus/director/cluster-connect/run_litmus_test.yml
-test_name=cluster3-connect
+test_name=cluster-connect
 echo $test_name
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
