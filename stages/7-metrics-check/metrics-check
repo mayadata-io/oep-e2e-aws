@@ -9,7 +9,7 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp  $path/.awscluster3/config ~/.kube/config
+cp  $path/.awscluster2/config ~/.kube/config
 
 kubectl create clusterrolebinding upgrade-admin --clusterrole cluster-admin --serviceaccount=litmus:litmus
 kubectl get po -n openebs
