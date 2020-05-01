@@ -7,17 +7,16 @@ stages:
     - DIRECTOR-SETUP
     - DIRECTOR-HEALTH-CHECK
     - USER-CLUSTER-SETUP
-    - SELENIUM-GRID-SETUP
     - USER-CLUSTER-CONNECT
     - SELF-CLUSTER-CONNECT
-    - SELENIUM-GRID-SETUP
-    # - DIRECTOR-GUI-CHECK
-    - SELENIUM-GRID-CLEANUP
     - METRICS-CHECK
     - TEAMING-CHECK
     - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
+    - SELENIUM-GRID-SETUP
     - CSTORPOOL-RECOMMENDATION-CHECK
+    # - DIRECTOR-GUI-CHECK
+    - SELENIUM-GRID-CLEANUP
     - E2E-METRICS
     - CLUSTER-CLEANUP
   
@@ -673,21 +672,6 @@ TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
     - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
-
-## Selenium Grid Clean up
-selenium-grid-cleanup:
-  when: always
-  image: harshshekhar15/gitlab-job:v5
-  stage: SELENIUM-GRID-CLEANUP
-  dependencies:
-    - director-deploy
-  script:
-    - chmod 755 ./stages/16-selenium-grid/delete
-    - ./stages/16-selenium-grid/delete
-  artifacts:
-    paths:
-      - .kube/
-
 ## E2E test coverage
 e2e-metrics:
   when: always
@@ -703,14 +687,26 @@ e2e-metrics:
       - .kube/
       
 ## Kubernetes cluster cleanup
-cluster-cleanup:
+# cluster-cleanup:
+#   when: always
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: CLUSTER-CLEANUP
+#   script:
+#     - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
+#     - ./stages/13-cluster-cleanup/delete-cluster
+#   artifacts:
+#     when: always
+#     paths:
+#       - .kube/
+
+## Selenium Grid Clean up
+selenium-grid-cleanup:
   when: always
   image: harshshekhar15/gitlab-job:v5
   stage: CLUSTER-CLEANUP
   script:
-    - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
-    - ./stages/13-cluster-cleanup/delete-cluster
+    - chmod 755 ./stages/16-selenium-grid/delete
+    - ./stages/16-selenium-grid/delete
   artifacts:
-    when: always
     paths:
       - .kube/
