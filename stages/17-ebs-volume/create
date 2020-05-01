@@ -31,8 +31,8 @@ sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
 clustername=$(cat ~/.kube/$CLUSTER)
 while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.$clustername"
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.$clustername"
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.$clustername"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
     let COUNTER=COUNTER+1
 done
