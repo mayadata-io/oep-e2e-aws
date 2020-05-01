@@ -669,8 +669,6 @@ tcid-iuoi14-openebs-resource-limit-installation:
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
   image: harshshekhar15/gitlab-job:v2
   stage: CSTORPOOL-RECOMMENDATION-CHECK
-  dependencies:
-    - OPENEBS-INSTALL-CHECK
   script:
     - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
