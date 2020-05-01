@@ -545,7 +545,7 @@ metrics-check:
   image: harshshekhar15/gitlab-job:v5
   stage: METRICS-CHECK
   dependencies:
-    - cluster3-setup-check
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/7-metrics-check/metrics-check
     - ./stages/7-metrics-check/metrics-check
@@ -554,7 +554,7 @@ triv01-teaming-invite-check:
   image: harshshekhar15/gitlab-job:v5
   stage: TEAMING-CHECK
   dependencies:
-    - cluster3-setup-check
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/8-teaming-check/teaming-invite-check
     - ./stages/8-teaming-check/teaming-invite-check
@@ -563,7 +563,7 @@ trrc02-teaming-change-role-check:
   image: harshshekhar15/gitlab-job:v5
   stage: TEAMING-CHECK
   dependencies:
-    - cluster3-setup-check
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/8-teaming-check/teaming-change-role-check
     - ./stages/8-teaming-check/teaming-change-role-check
@@ -572,7 +572,7 @@ trrc03-teaming-change-role-negative-check:
   image: harshshekhar15/gitlab-job:v5
   stage: TEAMING-CHECK
   dependencies:
-    - cluster3-setup-check
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/8-teaming-check/teaming-change-role-negative-check
     - ./stages/8-teaming-check/teaming-change-role-negative-check
@@ -581,7 +581,7 @@ topology-check:
   image: atulabhi/kops:v8
   stage: TOPOLOGY-CHECK
   dependencies:
-    - cluster3-setup-check
+    - cluster-setup-check
   script:
     - chmod 755 ./stages/9-topology-check/topology-check
     - ./stages/9-topology-check/topology-check
