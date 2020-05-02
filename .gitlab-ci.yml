@@ -542,6 +542,8 @@ director-self-cluster-connect-check:
 TCID-DIR-DMAAS-SCHD-LOCAL-HP:
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-CHECK
+   variables:
+    CLUSTER: cluster2
    dependencies:
      - director-deploy
    script:

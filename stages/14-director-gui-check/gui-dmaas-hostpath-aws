@@ -7,9 +7,8 @@ set -ex
 
 path=$(pwd)
 # Copy kubeconfig
-mkdir -p ~/.kube
-ls
-cp $path/.awscluster2/config ~/.kube/config
+mkdir ~/.kube
+cp .aws$CLUSTER/config ~/.kube/config
 
 
 kubectl get po -n openebs
