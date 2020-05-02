@@ -1,0 +1,49 @@
+#!/bin/bash
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+
+path=$(pwd)
+# Copy kubeconfig
+mkdir -p ~/.kube
+cp  $path/.awscluster2/config ~/.kube/config
+
+kubectl get po -n openebs
+
+kubectl create ns hostpath-minio
+kubectl get ns
+kubectl get sc
+PV_CLAIM_NAME="minio-pv-claim-hostpath-aws"
+NAMESPACE="hostpath-aws"
+STORAGE_CLASS_NAME="openebs-hostpath"
+NODE_PORT="32711"
+
+# clone mminio setup files
+git clone https://github.com/qiell/minio-manifest.git
+
+# Add pv claim name, namespace and storage class name in minio-pvc.yaml
+sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i ./minio-manifest/minio-pvc.yaml
+sed 's|storageClassName: openebs-cstor-sparse|storageClassName: '${STORAGE_CLASS_NAME}'|' -i ./minio-manifest/minio-pvc.yaml
+sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i ./minio-manifest/minio-pvc.yaml
+
+cat ./minio-manifest/minio-pvc.yaml
+
+# Add pv claim name and namespace in minio-official.yaml
+sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i ./minio-manifest/minio-official.yaml
+sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i ./minio-manifest/minio-official.yaml
+
+cat ./minio-manifest/minio-official.yaml
+
+# Add node port and namespace in minio-official.yaml
+sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i ./minio-manifest/minio-svc.yaml
+sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i ./minio-manifest/minio-svc.yaml
+
+cat ./minio-manifest/minio-svc.yaml
+
+pwd
+ls
+kubectl get ns
+kubectl apply -f minio-manifest/
+kubectl get pod -n '${NAMESPACE}'

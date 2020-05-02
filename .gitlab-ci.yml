@@ -15,7 +15,7 @@ stages:
     - OPENEBS-INSTALL-CHECK
     - SELENIUM-GRID-SETUP
     - CSTORPOOL-RECOMMENDATION-CHECK
-    # - DIRECTOR-GUI-CHECK
+    - DIRECTOR-GUI-CHECK
     - SELENIUM-GRID-CLEANUP
     - E2E-METRICS
     - CLUSTER-CLEANUP
@@ -538,6 +538,19 @@ director-self-cluster-connect-check:
 #      when: always
 #      paths:
 #          - /builds/oep/oep-e2e-aws/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-LOCAL-HP:
+   image: harshshekhar15/gitlab-job:v5
+   stage: DIRECTOR-GUI-CHECK
+   dependencies:
+     - director-deploy
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
+     - ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/gui-automation/results
 
 ## Metrics check
 # metrics-check:
