@@ -11,10 +11,10 @@ stages:
     - SELF-CLUSTER-CONNECT
     # - METRICS-CHECK
     - TEAMING-CHECK
-    - TOPOLOGY-CHECK
+    # - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
     - SELENIUM-GRID-SETUP
-    - CSTORPOOL-RECOMMENDATION-CHECK
+    # - CSTORPOOL-RECOMMENDATION-CHECK
     - DIRECTOR-GUI-CHECK
     - SELENIUM-GRID-CLEANUP
     - E2E-METRICS
@@ -589,14 +589,14 @@ trrc03-teaming-change-role-negative-check:
     - chmod 755 ./stages/8-teaming-check/teaming-change-role-negative-check
     - ./stages/8-teaming-check/teaming-change-role-negative-check
 
-topology-check:
-  image: atulabhi/kops:v8
-  stage: TOPOLOGY-CHECK
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/9-topology-check/topology-check
-    - ./stages/9-topology-check/topology-check
+# topology-check:
+#   image: atulabhi/kops:v8
+#   stage: TOPOLOGY-CHECK
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/9-topology-check/topology-check
+#     - ./stages/9-topology-check/topology-check
     
 ## Openebs installation on DOP cluster
 # tcid-iuoi01-openebs-self-install:
@@ -619,44 +619,44 @@ tcid-iuoi02-openebs-install:
     - ./stages/10-openebs-install-check/openebs-install-check
 
 ## Openebs control plane installation Check
-tcid-iuoi03-openebs-control-plane:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-INSTALL-CHECK
-  dependencies:
-    - cluster3-setup-check
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
-    - ./stages/10-openebs-install-check/openebs-control-plane-test
+# tcid-iuoi03-openebs-control-plane:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-INSTALL-CHECK
+#   dependencies:
+#     - cluster3-setup-check
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
+#     - ./stages/10-openebs-install-check/openebs-control-plane-test
 
 ## Openebs data plane installation Check
-tcid-iuoi04-openebs-data-plane:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-INSTALL-CHECK
-  dependencies:
-    - cluster3-setup-check
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
-    - ./stages/10-openebs-install-check/openebs-data-plane-test
+# tcid-iuoi04-openebs-data-plane:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-INSTALL-CHECK
+#   dependencies:
+#     - cluster3-setup-check
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
+#     - ./stages/10-openebs-install-check/openebs-data-plane-test
 
 ## Openebs reinstallation Check
-tcid-iuoi06-openebs-reinstallation:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-INSTALL-CHECK
-  dependencies:
-    - cluster3-setup-check
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
-    - ./stages/10-openebs-install-check/openebs-reinstallation-test
+# tcid-iuoi06-openebs-reinstallation:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-INSTALL-CHECK
+#   dependencies:
+#     - cluster3-setup-check
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
+#     - ./stages/10-openebs-install-check/openebs-reinstallation-test
 
 ## openebs-resource-limit-installation
-tcid-iuoi14-openebs-resource-limit-installation:
-  image: harshshekhar15/gitlab-job:v5
-  stage: OPENEBS-INSTALL-CHECK
-  dependencies:
-    - cluster3-setup-check
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
-    - ./stages/10-openebs-install-check/openebs-resource-limit-installation
+# tcid-iuoi14-openebs-resource-limit-installation:
+#   image: harshshekhar15/gitlab-job:v5
+#   stage: OPENEBS-INSTALL-CHECK
+#   dependencies:
+#     - cluster3-setup-check
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
+#     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
 ## List capacity recommendations
 # tcid-cpre01-list-recommendations:
@@ -678,12 +678,12 @@ tcid-iuoi14-openebs-resource-limit-installation:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
-  image: harshshekhar15/gitlab-job:v2
-  stage: CSTORPOOL-RECOMMENDATION-CHECK
-  script:
-    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+#   image: harshshekhar15/gitlab-job:v2
+#   stage: CSTORPOOL-RECOMMENDATION-CHECK
+#   script:
+#     - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+#     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
 ## E2E test coverage
 e2e-metrics:
