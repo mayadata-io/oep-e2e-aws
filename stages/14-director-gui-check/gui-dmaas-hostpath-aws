@@ -8,7 +8,7 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-ll
+ls
 cp $path/.awscluster2/config ~/.kube/config
 
 
