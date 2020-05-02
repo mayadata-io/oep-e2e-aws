@@ -9,7 +9,7 @@ stages:
     - USER-CLUSTER-SETUP
     - USER-CLUSTER-CONNECT
     - SELF-CLUSTER-CONNECT
-    # - METRICS-CHECK
+    - METRICS-CHECK
     - TEAMING-CHECK
     - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
@@ -540,14 +540,14 @@ director-self-cluster-connect-check:
 #          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 ## Metrics check
-# metrics-check:
-#   image: harshshekhar15/gitlab-job:v5
-#   stage: METRICS-CHECK
-#   dependencies:
-#     - cluster-setup-check
-#   script:
-#     - chmod 755 ./stages/7-metrics-check/metrics-check
-#     - ./stages/7-metrics-check/metrics-check
+metrics-check:
+   image: harshshekhar15/gitlab-job:v5
+   stage: METRICS-CHECK
+   dependencies:
+     - cluster-setup-check
+   script:
+     - chmod 755 ./stages/7-metrics-check/metrics-check
+     - ./stages/7-metrics-check/metrics-check
 
 triv01-teaming-invite-check:
   image: harshshekhar15/gitlab-job:v5
