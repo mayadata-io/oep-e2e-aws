@@ -8,20 +8,22 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
+ll
 cp $path/.awscluster2/config ~/.kube/config
 
-kubectl get po -n openebs
 
-kubectl create ns hostpath-minio
+kubectl get po -n openebs
 kubectl get ns
-kubectl get sc
-PV_CLAIM_NAME="minio-pv-claim-hostpath-aws"
-NAMESPACE="hostpath-aws"
+
+PV_CLAIM_NAME="minio-pv-claim-hostpath-minio"
+NAMESPACE="hostpath-minio"
 STORAGE_CLASS_NAME="openebs-hostpath"
 NODE_PORT="32711"
 
-# clone mminio setup files
+kubectl create ns ${NAMESPACE}
+
 git clone https://github.com/qiell/minio-manifest.git
+
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
 sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i ./minio-manifest/minio-pvc.yaml
@@ -46,4 +48,4 @@ pwd
 ls
 kubectl get ns
 kubectl apply -f minio-manifest/
-kubectl get pod -n '${NAMESPACE}'
+kubectl get pod -n ${NAMESPACE}
