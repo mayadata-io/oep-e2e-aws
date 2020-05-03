@@ -543,9 +543,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP:
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-CHECK
    variables:
-    CLUSTER: cluster2
-   dependencies:
-     - director-deploy
+     CLUSTER: cluster2
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
      - ./stages/14-director-gui-check/gui-dmaas-hostpath-aws

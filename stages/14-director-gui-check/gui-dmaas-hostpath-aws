@@ -1,11 +1,7 @@
 #!/bin/bash
+
 set -ex
 
-job_id=$(echo $CI_JOB_ID)
-job_name=$(echo $CI_JOB_NAME)
-gittoken=$(echo "$github_token")
-current_time=$(date)
-branch_name=$CI_COMMIT_REF_NAME
 
 ######################
 ##   Prerequisites  ##
@@ -14,7 +10,7 @@ branch_name=$CI_COMMIT_REF_NAME
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp $path/.awscluster2/config ~/.kube/config
+cp  $path/.awscluster2/config ~/.kube/config
 kubectl get ns
 
 PV_CLAIM_NAME="minio-pv-claim-hostpath-minio"
