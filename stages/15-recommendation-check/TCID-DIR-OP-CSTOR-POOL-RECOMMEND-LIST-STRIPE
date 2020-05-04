@@ -6,6 +6,7 @@ set -ex
 ##   Prerequisites  ##
 ######################
 
+
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
@@ -13,14 +14,16 @@ cp  $path/.awscluster3/config ~/.kube/config
 
 kubectl get po -n openebs
 
+bash utils/pooling jobname:tcid-dir-op-cstor-pool-recommend-list-mirror
+bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-stripe:Running
+
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-cd oep-e2e
 
-kubectl create -f litmus/director/tcid-cpre01-list-recommendations/run_litmus_test.yml
-kubectl get pods -n litmus 
+kubectl create -f oep-e2e/litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE/run_litmus_test.yml
+kubectl get pods -n litmus
 
-test_name=list-recommendations
+test_name=list-recommendations-stripe
 echo $test_name
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
@@ -37,7 +40,8 @@ kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
 
-if [ "$testResult" != Pass ]
-then 
+if [ "$testResult" != Pass ]; then 
     exit 1;
+else
+    bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-stripe:Completed
 fi

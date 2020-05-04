@@ -644,33 +644,42 @@ tcid-iuoi14-openebs-resource-limit-installation:
     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
-## List capacity recommendations
-# tcid-cpre01-list-recommendations:
-#   image: harshshekhar15/gitlab-job:v5
-#   stage: CSTORPOOL-RECOMMENDATION-CHECK
-#   dependencies:
-#     - cluster-setup-check
-#   script:
-#     - chmod 755 ./stages/15-recommendation-check/capacity-recommendation
-#     - ./stages/15-recommendation-check/capacity-recommendation
-
-# ## List device recommendations
-# tcid-cpre02-device-recommendation:
-#   image: harshshekhar15/gitlab-job:v5
-#   stage: CSTORPOOL-RECOMMENDATION-CHECK
-#   dependencies:
-#     - cluster-setup-check
-#   script:
-#     - chmod 755 ./stages/15-recommendation-check/device-recommendation
-#     - ./stages/15-recommendation-check/device-recommendation
-
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+    
+tcid-dir-op-cstor-pool-recommend-create-stripe:
   image: harshshekhar15/gitlab-job:v2
   stage: CSTORPOOL-RECOMMENDATION-CHECK
   script:
     - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
+tcid-dir-op-cstor-pool-recommend-list-mirror:
+  image: harshshekhar15/gitlab-job:v2
+  stage: CSTORPOOL-RECOMMENDATION-CHECK
+  script:
+    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
+    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
+
+tcid-dir-op-cstor-pool-recommend-list-stripe:
+  image: harshshekhar15/gitlab-job:v2
+  stage: CSTORPOOL-RECOMMENDATION-CHECK
+  script:
+    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
+    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
+
+tcid-dir-op-cstor-pool-recommend-list-no-ndm:
+  image: harshshekhar15/gitlab-job:v2
+  stage: CSTORPOOL-RECOMMENDATION-CHECK
+  script:
+    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
+    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
+
+tcid-dir-op-cstor-pool-recommend-create-mirror:
+  image: harshshekhar15/gitlab-job:v2
+  stage: CSTORPOOL-RECOMMENDATION-CHECK
+  script:
+    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
+    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
+  
 ## E2E test coverage
 e2e-metrics:
   when: always
