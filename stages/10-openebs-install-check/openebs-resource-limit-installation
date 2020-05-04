@@ -40,8 +40,6 @@ done
 
 kubectl logs -f $litmus_pod -n litmus
 
-sleep 180
-
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
 
