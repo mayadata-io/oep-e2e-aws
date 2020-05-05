@@ -718,3 +718,4 @@ selenium-grid-cleanup:
   artifacts:
     paths:
       - .kube/
+

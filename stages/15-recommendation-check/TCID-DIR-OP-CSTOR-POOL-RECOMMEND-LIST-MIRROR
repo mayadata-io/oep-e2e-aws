@@ -48,5 +48,3 @@ if [ "$testResult" != Pass ]; then
 else
     bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-mirror:Completed
 fi
-
-
