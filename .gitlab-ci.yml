@@ -646,7 +646,7 @@ tcid-iuoi02-openebs-install:
 #     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
 #     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+tcid-dir-op-cstor-pool-recommend-create-stripe:
   image: harshshekhar15/gitlab-job:v2
   stage: OPENEBS-INSTALL-CHECK
   script:
