@@ -14,7 +14,7 @@ stages:
     # - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
     # - SELENIUM-GRID-SETUP
-    - CSTORPOOL-RECOMMENDATION-CHECK
+    # - CSTORPOOL-RECOMMENDATION-CHECK
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
     # - DIRECTOR-GUI-CHECK
@@ -646,6 +646,23 @@ tcid-iuoi02-openebs-install:
 #     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
 #     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
+TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+  image: harshshekhar15/gitlab-job:v2
+  stage: OPENEBS-INSTALL-CHECK
+  script:
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+
+openebs-storage-policies:
+  when: always
+  image: harshshekhar15/gitlab-job:v2
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/10-openebs-install-check/openebs-storage-policies
+    - ./stages/10-openebs-install-checkl/openebs-storage-policies
+
 ## List capacity recommendations
 # tcid-cpre01-list-recommendations:
 #   image: harshshekhar15/gitlab-job:v5
@@ -666,23 +683,7 @@ tcid-iuoi02-openebs-install:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
-  image: harshshekhar15/gitlab-job:v2
-  stage: CSTORPOOL-RECOMMENDATION-CHECK
-  script:
-    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-
 ## Functional Tests
-openebs-storage-policies:
-  when: always
-  image: harshshekhar15/gitlab-job:v2
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/openebs-storage-policies
-    - ./stages/18-openebs-functional/openebs-storage-policies
 
 Jiva-App-Target-Affinity:
   when: always
