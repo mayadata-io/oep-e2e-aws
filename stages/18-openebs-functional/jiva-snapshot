@@ -24,6 +24,8 @@ bash utils/e2e-cr-new jobname:jiva-snapshot-clone jobphase:Waiting
 ################
 # LitmusBook 1 #
 ################
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/openebs/e2e-tests.git
 
 : << EOF
   --------------------------------------------------------------------------------------------------------------------     

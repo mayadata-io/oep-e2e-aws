@@ -26,6 +26,8 @@ echo $test_name
 ################
 # LitmusBook 1 #
 ################
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/openebs/e2e-tests.git
 
 cd e2e-tests
 echo "Running the litmus test for Busybox Deployment.."

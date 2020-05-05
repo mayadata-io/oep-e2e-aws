@@ -23,6 +23,9 @@ bash utils/e2e-cr-new jobname:controller-kill jobphase:Running init_time:"$curre
 ################
 # LitmusBook 1 #
 ################
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/openebs/e2e-tests.git
+
 #### Deploy BusyBox application
 
 #testcase name for the busybox deployers will be append with busybox-{{ action }}- {{ app-namespace }}

@@ -21,6 +21,8 @@ bash utils/e2e-cr-new jobname:app-target-affinity-jiva jobphase:Running
 ################
 # LitmusBook 1 #
 ################
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/openebs/e2e-tests.git
 
 test_name=$(bash utils/generate_test_name testcase=busybox-provision-target-affinity-jiva metadata="")
 echo $test_name

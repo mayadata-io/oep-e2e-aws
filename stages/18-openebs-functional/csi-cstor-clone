@@ -22,6 +22,8 @@ bash utils/e2e-cr-new jobname:csi-cstor-clone jobphase:Running init_time:"$curre
 ################
 
 echo "*******Performing clone litmus test**********"
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/openebs/e2e-tests.git
 
 test_name=$(bash utils/generate_test_name testcase=cstor-csi-clone metadata="")
 echo $test_name
