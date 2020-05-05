@@ -674,6 +674,16 @@ TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
 ## Functional Tests
+openebs-storage-policies:
+  when: always
+  image: harshshekhar15/gitlab-job:v2
+  stage: OPENEBS-FUNCTIONAL
+  dependencies:
+    - cluster-setup-check
+  script:
+    - chmod 755 ./stages/18-openebs-functional/openebs-storage-policies
+    - ./stages/18-openebs-functional/openebs-storage-policies
+
 Jiva-App-Target-Affinity:
   when: always
   image: harshshekhar15/gitlab-job:v2

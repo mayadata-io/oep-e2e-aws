@@ -15,6 +15,7 @@ current_time=$(eval $time)
 present_dir=$(pwd)
 echo $present_dir
 
+bash utils/pooling jobname:openebs-storage-policies
 bash utils/e2e-cr-new jobname:jiva-snapshot jobphase:Waiting
 bash utils/e2e-cr-new jobname:jiva-snapshot jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag"
 bash utils/e2e-cr-new jobname:jiva-snapshot-clone jobphase:Waiting
