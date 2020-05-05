@@ -422,7 +422,7 @@ ebs-volume-create-cluster3:
     - ./stages/17-ebs-volume/create
   variables:
     CLUSTER: cluster3
-    NUMBEROFVOLUMES: 3
+    NUMBEROFVOLUMES: 9
 
 ## Self cluster connect
 director-self-cluster-connect-check:
