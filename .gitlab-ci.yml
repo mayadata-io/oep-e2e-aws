@@ -661,7 +661,7 @@ openebs-storage-policies:
     - cluster-setup-check
   script:
     - chmod 755 ./stages/10-openebs-install-check/openebs-storage-policies
-    - ./stages/10-openebs-install-checkl/openebs-storage-policies
+    - ./stages/10-openebs-install-check/openebs-storage-policies
 
 ## List capacity recommendations
 # tcid-cpre01-list-recommendations:
