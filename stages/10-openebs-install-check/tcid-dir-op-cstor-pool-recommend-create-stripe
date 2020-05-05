@@ -21,7 +21,7 @@ kubectl get po -n openebs
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e
 
-kubectl create -f oep-e2e/litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE/run_litmus_test.yml
+kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE/run_litmus_test.yml
 kubectl get pods -n litmus
 
 test_name=create-cstor-pool
