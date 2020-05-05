@@ -1,6 +1,18 @@
-export KUBECONFIG=~/.kube/cluster2_config
+#!/bin/bash
+
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+
+path=$(pwd)
+# Copy kubeconfig
+mkdir ~/.kube
+cp $path/.awscluster2/config ~/.kube/config
 
 #pooling over previous job to complete
+bash utils/pooling jobname:TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 bash utils/e2e-cr jobname:openebs-storage-policies jobphase:Running
 
 test_name=$(bash utils/generate_test_name testcase=cstor-storage-policies metadata="")
