@@ -14,7 +14,7 @@ stages:
     # - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
     # - SELENIUM-GRID-SETUP
-    # - CSTORPOOL-RECOMMENDATION-CHECK
+    - CSTORPOOL-RECOMMENDATION-CHECK
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
     # - DIRECTOR-GUI-CHECK
@@ -666,12 +666,12 @@ tcid-iuoi14-openebs-resource-limit-installation:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
-#   image: harshshekhar15/gitlab-job:v2
-#   stage: CSTORPOOL-RECOMMENDATION-CHECK
-#   script:
-#     - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-#     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+  image: harshshekhar15/gitlab-job:v2
+  stage: CSTORPOOL-RECOMMENDATION-CHECK
+  script:
+    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
 ## Functional Tests
 Jiva-App-Target-Affinity:
@@ -761,8 +761,8 @@ cStor-xfs-volume-resize:
   dependencies:
     - cluster-setup-check
   script:
-    - chmod 755 ./stages/18-openebs-functional/csi-xfs-volume-resize
-    - ./stages/18-openebs-functional/csi-xfs-volume-resize
+    - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
+    - ./stages/18-openebs-functional/cstor-xfs-volume-resize
     
 # CHAOS Tests JOB
 Jiva-App-Kill:
