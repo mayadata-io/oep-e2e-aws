@@ -36,3 +36,17 @@ while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
     ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
     let COUNTER=COUNTER+1
 done
+
+while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    let COUNTER=COUNTER+1
+done
+
+while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local"
+    let COUNTER=COUNTER+1
+done
