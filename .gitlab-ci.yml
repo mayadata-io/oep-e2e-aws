@@ -650,8 +650,8 @@ tcid-dir-op-cstor-pool-recommend-create-stripe:
   image: harshshekhar15/gitlab-job:v2
   stage: OPENEBS-INSTALL-CHECK
   script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+    - chmod 755 ./stages/10-openebs-install-check/tcid-dir-op-cstor-pool-recommend-create-stripe
+    - ./stages/10-openebs-install-check/tcid-dir-op-cstor-pool-recommend-create-stripe
 
 openebs-storage-policies:
   when: always
