@@ -15,7 +15,7 @@ kubectl get ns
 
 PV_CLAIM_NAME="minio-pv-claim-cstor-minio"
 NAMESPACE="cstor-minio"
-STORAGE_CLASS_NAME="cstor-storage-class"
+STORAGE_CLASS_NAME="openebs-cstor-sparse"
 NODE_PORT="32751"
 
 kubectl create ns ${NAMESPACE}
