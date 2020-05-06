@@ -1,6 +1,10 @@
 #!/bin/bash
-
+path=$(pwd)
+# Copy kubeconfig
+mkdir -p ~/.kube
+cp  $path/.awscluster2/config ~/.kube/config
 source ~/.profile
+
 job_id=$(echo $CI_JOB_ID)
 pipeline_id=$(echo $CI_PIPELINE_ID)
 commit_id=$(echo $CI_COMMIT_SHA)

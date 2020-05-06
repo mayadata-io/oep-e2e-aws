@@ -50,6 +50,9 @@ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --se
 kubectl create configmap kubeconfig --from-file=$path/.aws$CLUSTER/admin.conf -n litmus
 kubectl create configmap config --from-literal=url=$url -n litmus
 
+wget https://openebs.github.io/charts/openebs-ubuntu-setup.yaml
+kubectl apply -f openebs-ubuntu-setup.yaml
+
 # fetch openebs operator yaml
 openebs_operator=openebs-operator-1.4.0.yaml 
 wget https://openebs.github.io/charts/$openebs_operator
