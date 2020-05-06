@@ -715,15 +715,15 @@ Jiva-Snapshot-Clone:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
     - ./stages/18-openebs-functional/jiva-snapshot-clone
 
-Jiva-Snapshot-Delete:
-  when: always
-  image: harshshekhar15/gitlab-job:v2
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-delete
-    - ./stages/18-openebs-functional/jiva-snapshot-delete
+# Jiva-Snapshot-Delete:
+#   when: always
+#   image: harshshekhar15/gitlab-job:v2
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-delete
+#     - ./stages/18-openebs-functional/jiva-snapshot-delete
 
 Jiva-Volume-Scaleup:
   when: always
