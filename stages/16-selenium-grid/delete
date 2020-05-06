@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
+CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
+
 path=$(pwd)
-mkdir -p ~/.kube
-cp .kube/cluster1 ~/.kube/cluster1
 echo $path
 
 echo '#### AWS CONFIG ####'
@@ -12,8 +14,7 @@ cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
 
 {
-    cluster1=$(cat ~/.kube/cluster1)
-    aws cloudformation delete-stack --stack-name selenium-grid-${cluster1}
+    aws cloudformation delete-stack --stack-name ${GUID}
 } || {
     echo 'Selenium CloudFormation stack was absent'
 }
