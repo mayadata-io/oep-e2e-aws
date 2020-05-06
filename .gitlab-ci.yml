@@ -14,7 +14,7 @@ stages:
     # - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
     - SELENIUM-GRID-SETUP
-    # - CSTORPOOL-RECOMMENDATION-CHECK
+    - CSTORPOOL-RECOMMENDATION-CHECK
     - DIRECTOR-GUI-CHECK
     - SELENIUM-GRID-CLEANUP
     - E2E-METRICS
@@ -769,12 +769,12 @@ tcid-iuoi02-openebs-install:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
-#   image: harshshekhar15/gitlab-job:v2
-#   stage: CSTORPOOL-RECOMMENDATION-CHECK
-#   script:
-#     - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-#     - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+  image: harshshekhar15/gitlab-job:v2
+  stage: CSTORPOOL-RECOMMENDATION-CHECK
+  script:
+    - chmod 755 ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+    - ./stages/15-recommendation-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
 ## E2E test coverage
 e2e-metrics:

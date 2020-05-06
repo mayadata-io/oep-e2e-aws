@@ -2,11 +2,16 @@
 
 set -ex
 
-
 ######################
 ##   Prerequisites  ##
 ######################
+mkdir ~/.kube
+cp  .kube/config ~/.kube/config
+cp .kube/url ~/.kube/url
+URL=$(cat ~/.kube/url)
+echo $URL
 
+# Install minio on cluster 2
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
@@ -48,3 +53,6 @@ kubectl get ns
 kubectl apply -f minio-manifest/
 kubectl get pod -n ${NAMESPACE}
 kubectl get sc
+kubectl get bd -n openebs
+kubectl get csp
+kubectl get spc

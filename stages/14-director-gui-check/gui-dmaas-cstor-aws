@@ -48,3 +48,6 @@ kubectl get ns
 kubectl apply -f minio-manifest/
 kubectl get pod -n ${NAMESPACE}
 kubectl get sc
+kubectl get bd -n openebs
+kubectl get csp
+kubectl get spc
