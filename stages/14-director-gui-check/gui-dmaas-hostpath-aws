@@ -48,3 +48,41 @@ kubectl get ns
 kubectl apply -f minio-manifest/
 kubectl get pod -n ${NAMESPACE}
 kubectl get sc
+
+####################################
+##   Prerequisites GUI Automation ##
+####################################
+mkdir ~/.kube
+cp  .kube/config ~/.kube/config
+cp .kube/url ~/.kube/url
+URL=$(cat ~/.kube/url)
+echo $URL
+
+CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
+
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
+
+output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].Outputs[].OutputValue | sed -r 's/"+//g'`
+grid=`echo $output | awk {'print $2'}`
+
+# Cloning oep repository which contains all the test scripts
+git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
+cd gui-automation
+
+#creating credential file
+cat $AWS_CREDS $MINIO_CREDS > cred.ini
+
+######################
+##   Running test  ##
+######################
+python3.7 -m pip install -r requirements.txt
+#Running tests with gaau01 marker
+python3.7 -m pytest -m dmaasHostpathAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
+
+#delete credential file
+rm -rf cred.ini

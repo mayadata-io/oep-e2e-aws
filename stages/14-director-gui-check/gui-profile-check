@@ -10,6 +10,10 @@ cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)
 echo $URL
 
+CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
+
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
@@ -25,5 +29,5 @@ cd gui-automation
 ##   Running test  ##
 ######################
 python3.7 -m pip install -r requirements.txt
-#Running tests with cluster marker
-python3.7 -m pytest -m dashboard --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
+#Running tests with gaau01 marker
+python3.7 -m pytest -m profile --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
