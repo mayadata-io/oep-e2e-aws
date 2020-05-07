@@ -19,6 +19,7 @@ tests_count=`find . -type f -name '*_test.py' -exec grep -e 'def test_' '{}' \; 
 echo "Number of GUI test scripts: $tests_count"
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
+git checkout oep-release
 cd oep-e2e-aws/stages/16-selenium-grid/templates
 cat hub.yml
 
