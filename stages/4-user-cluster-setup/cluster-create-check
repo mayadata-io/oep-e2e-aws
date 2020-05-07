@@ -26,7 +26,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-003634241a8fcdec0 node_size=r5n.xlarge"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0 node_size=r5n.xlarge"
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
