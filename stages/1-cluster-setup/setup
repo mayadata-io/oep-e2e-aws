@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo $CLUSTER
+
 path=$(pwd)
 echo $path
 echo '#### AWS CONFIG ####'
