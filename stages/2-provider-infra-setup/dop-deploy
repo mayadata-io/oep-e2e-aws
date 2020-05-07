@@ -9,7 +9,7 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1)
+IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $8'} | head -n 1)
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
