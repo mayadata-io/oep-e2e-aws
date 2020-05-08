@@ -106,7 +106,7 @@ Resources:
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
-      Name: !Join ['-', [!Ref 'AWS::StackName', 'drop-1']]
+      Name: !Ref 'AWS::StackName'
       Port: 4444
       Protocol: HTTP
       UnhealthyThresholdCount: 2
