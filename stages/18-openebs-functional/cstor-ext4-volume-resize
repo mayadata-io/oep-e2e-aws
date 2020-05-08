@@ -116,7 +116,7 @@ sed -i '/command:/i \
 
 cat run_cstor_volume_resize_ext4_test.yml
 
-bash ../utils/litmus_job_runner label='app:csi-vol-resize-ext4' job=run_cstor_volume_resize_ext4_test.yml
+bash ../utils/litmus_job_runner label='app:csi-vol-resize-ext' job=run_cstor_volume_resize_ext4_test.yml
 cd ..
 bash utils/dump_cluster_state;
 bash utils/event_updater jobname:csi-volume-resize-ext4 $test_name jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id"
