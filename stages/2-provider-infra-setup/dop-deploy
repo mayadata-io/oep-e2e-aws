@@ -19,8 +19,8 @@ touch .kube/url
 echo $URL > .kube/url
 
 #Configuring Helm
-wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
-tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
+tar -zxvf helm-v2.16.7-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm
 echo $HELM_RBAC > HELM_RBAC.yaml
 
