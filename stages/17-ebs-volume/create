@@ -23,6 +23,8 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
+kubectl get disks
+
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/ebs-volumes
 
@@ -35,8 +37,10 @@ chars=( {f..p} )
 while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
     chr="${chars[$COUNTER]}"
 
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/xvd$chr"
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/xvd$chr"
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/xvd$chr"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
+    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
     let COUNTER=COUNTER+1
 done
+
+kubectl get disks
