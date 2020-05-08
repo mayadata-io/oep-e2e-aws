@@ -796,7 +796,7 @@ Jiva-Revision-Counter:
     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
     - ./stages/19-openebs-chaos/jiva-revision-counter
 
-Jiva-Revision-Counter:
+Jiva-Replica-Network-Delay:
   when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
