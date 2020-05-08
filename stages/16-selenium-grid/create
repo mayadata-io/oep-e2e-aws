@@ -2,15 +2,16 @@
 
 set -e
 
+CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
+
 path=$(pwd)
-mkdir -p ~/.kube
-cp .kube/cluster1 ~/.kube/cluster1
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
-ls ~/.aws/
 
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
@@ -19,7 +20,6 @@ echo "Number of GUI test scripts: $tests_count"
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
 cd oep-e2e-aws/stages/16-selenium-grid/templates
-ls
-cluster1=$(cat ~/.kube/cluster1)
+cat hub.yml
 
-aws cloudformation create-stack --stack-name selenium-grid-${cluster1} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${cluster1} ParameterKey=LogName,ParameterValue=${cluster1}
+aws cloudformation create-stack --stack-name ${GUID} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${GUID} ParameterKey=LogName,ParameterValue=${GUID}
