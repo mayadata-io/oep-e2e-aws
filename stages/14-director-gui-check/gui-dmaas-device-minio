@@ -52,7 +52,7 @@ kubectl get sc
 ####################################
 ##   Prerequisites GUI Automation ##
 ####################################
-mkdir ~/.kube
+
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)

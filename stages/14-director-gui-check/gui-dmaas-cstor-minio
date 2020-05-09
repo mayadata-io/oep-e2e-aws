@@ -20,7 +20,7 @@ kubectl get ns
 
 PV_CLAIM_NAME="minio-pv-claim-cstor-minio"
 NAMESPACE="cstor-minio"
-STORAGE_CLASS_NAME="openebs-cstor-sparse"
+STORAGE_CLASS_NAME="cstor-sc-gui"
 NODE_PORT="32751"
 
 kubectl create ns ${NAMESPACE}
@@ -56,7 +56,7 @@ kubectl get pod -n ${NAMESPACE}
 ####################################
 ##   Prerequisites GUI Automation ##
 ####################################
-mkdir ~/.kube
+
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)

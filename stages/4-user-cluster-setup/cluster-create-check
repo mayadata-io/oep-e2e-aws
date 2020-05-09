@@ -64,6 +64,3 @@ sed -i "${value_line_count}s/.*/          value: \"1\"/" $openebs_operator
 kubectl apply -f $openebs_operator
 sleep 100
 kubectl get pods -n openebs
-
-#enable iscsi service
-kubectl apply -f https://openebs.github.io/charts/openebs-ubuntu-setup.yaml
