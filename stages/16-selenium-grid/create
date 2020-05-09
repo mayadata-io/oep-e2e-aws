@@ -4,7 +4,6 @@ set -e
 
 CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
-DATE=date +”%H%M”
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
 path=$(pwd)
