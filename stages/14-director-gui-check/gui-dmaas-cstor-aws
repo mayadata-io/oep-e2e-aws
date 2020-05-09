@@ -73,6 +73,8 @@ cd gui-automation
 
 #creating credential file
 cat $AWS_CREDS $MINIO_CREDS > cred.ini
+pwd
+ls
 
 ######################
 ##   Running test  ##
