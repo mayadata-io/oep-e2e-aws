@@ -10,10 +10,6 @@ Parameters:
     Type: String
     Default: 'grid-aws-ci-release'
     Description: Cluster name.
-  TGName:
-    Type: String
-    Default: 'grid-aws-tg-release'
-    Description: Cluster name.
   ContainerCpu:
     Type: Number
     Default: 2048
@@ -101,30 +97,6 @@ Resources:
         - 'subnet-0e93574029eaf08a3'
         - 'subnet-0fee3e522fd27c27a'
       SecurityGroups: [!Ref 'PublicLoadBalancerSG']
-
-  DummyTargetGroupPublic:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      HealthCheckIntervalSeconds: 6
-      HealthCheckPath: /
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 2
-      Name: !Ref 'AWS::StackName'
-      Port: 4444
-      Protocol: HTTP
-      UnhealthyThresholdCount: 2
-      VpcId: !Ref 'VPC'
-  PublicLoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    DependsOn: PublicLoadBalancer
-    Properties:
-      DefaultActions:
-        - TargetGroupArn: !Ref 'DummyTargetGroupPublic'
-          Type: 'forward'
-      LoadBalancerArn: !Ref 'PublicLoadBalancer'
-      Port: 4444
-      Protocol: HTTP
 
   ECSCluster:
     Type: AWS::ECS::Cluster
@@ -290,7 +262,7 @@ Resources:
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       TargetType: ip
-      Name: !Ref 'TGName'
+      Name: !Ref 'AWS::StackName'
       Port: 4444
       Protocol: HTTP
       UnhealthyThresholdCount: 2
