@@ -4,11 +4,15 @@ Parameters:
   
   ClusterName:
     Type: String
-    Default: 'selenium-grid-aws-ci-release'
+    Default: 'grid-aws-ci-release'
     Description: Cluster name.
   LogName:
     Type: String
-    Default: 'selenium-grid-aws-ecs-ci-release'
+    Default: 'grid-aws-ci-release'
+    Description: Cluster name.
+  TGName:
+    Type: String
+    Default: 'grid-aws-tg-release'
     Description: Cluster name.
   ContainerCpu:
     Type: Number
@@ -286,7 +290,7 @@ Resources:
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       TargetType: ip
-      Name: !Ref 'ClusterName'
+      Name: !Ref 'TGName'
       Port: 4444
       Protocol: HTTP
       UnhealthyThresholdCount: 2
