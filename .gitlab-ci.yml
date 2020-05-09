@@ -50,8 +50,8 @@ stages:
 selenium-grid-deploy:
   image: harshshekhar15/gitlab-job:v5
   stage: SELENIUM-GRID-SETUP
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/16-selenium-grid/create
     - ./stages/16-selenium-grid/create
@@ -372,8 +372,8 @@ selenium-grid-deploy:
 tcid-gaau01-gui-auth-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-auth-check
     - ./stages/14-director-gui-check/gui-auth-check
@@ -385,8 +385,8 @@ tcid-gaau01-gui-auth-check:
 tcid-gacc01-gui-cluster-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-cluster-check
     - ./stages/14-director-gui-check/gui-cluster-check
@@ -398,8 +398,8 @@ tcid-gacc01-gui-cluster-check:
 tcid-gada01-gui-dashboard-home-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-home-check
     - ./stages/14-director-gui-check/gui-dashboard-home-check
@@ -411,8 +411,8 @@ tcid-gada01-gui-dashboard-home-check:
 tcid-gato01-gui-dashboard-topology-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-topology-check
     - ./stages/14-director-gui-check/gui-dashboard-topology-check
@@ -424,8 +424,8 @@ tcid-gato01-gui-dashboard-topology-check:
 gui-dashboard-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-check
     - ./stages/14-director-gui-check/gui-dashboard-check
@@ -437,8 +437,8 @@ gui-dashboard-check:
 tcid-gaal01-gui-dashboard-alerts-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-alerts-check
     - ./stages/14-director-gui-check/gui-dashboard-alerts-check
@@ -450,8 +450,8 @@ tcid-gaal01-gui-dashboard-alerts-check:
 tcid-galo01-gui-dashboard-logs-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-logs-check
     - ./stages/14-director-gui-check/gui-dashboard-logs-check
@@ -463,8 +463,8 @@ tcid-galo01-gui-dashboard-logs-check:
 tcid-gada02-gui-dashboard-overview-check:
   image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-overview-check
     - ./stages/14-director-gui-check/gui-dashboard-overview-check
@@ -603,8 +603,8 @@ selenium-grid-cleanup:
   when: always
   image: harshshekhar15/gitlab-job:v5
   stage: SELENIUM-GRID-CLEANUP
-  dependencies:
-    - director-deploy
+  # dependencies:
+  #   - director-deploy
   script:
     - chmod 755 ./stages/16-selenium-grid/delete
     - ./stages/16-selenium-grid/delete
@@ -616,8 +616,8 @@ e2e-metrics:
   when: always
   image: harshshekhar15/gitlab-job:v3
   stage: E2E-METRICS
-  dependencies:
-    - cluster-create
+  # dependencies:
+  #   - cluster-create
   script:
     - chmod 755 ./stages/12-e2e-metrics/e2e-metrics
     - ./stages/12-e2e-metrics/e2e-metrics
