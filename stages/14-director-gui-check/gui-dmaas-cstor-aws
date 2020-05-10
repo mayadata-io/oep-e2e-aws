@@ -23,8 +23,6 @@ kubectl create ns ${NAMESPACE}
 # git clone https://github.com/qiell/minio-manifest.git
 mkdir -p $path/cstor-aws
 cp -R $path/stages/14-director-gui-check/template/minio-manifest $path/cstor-aws
-pwd
-ls
 
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
