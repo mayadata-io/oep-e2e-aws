@@ -20,30 +20,34 @@ NODE_PORT="32750"
 
 kubectl create ns ${NAMESPACE}
 
-git clone https://github.com/qiell/minio-manifest.git
+# git clone https://github.com/qiell/minio-manifest.git
+mkdir -p $path/cstor-aws
+cp -R $path/stages/14-director-gui-check/template/minio-manifest $path/cstor-aws
+pwd
+ls
 
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
-sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i ./minio-manifest/minio-pvc.yaml
-sed 's|storageClassName: openebs-cstor-sparse|storageClassName: '${STORAGE_CLASS_NAME}'|' -i ./minio-manifest/minio-pvc.yaml
-sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i ./minio-manifest/minio-pvc.yaml
+sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i $path/cstor-aws/minio-manifest/minio-pvc.yaml
+sed 's|storageClassName: openebs-cstor-sparse|storageClassName: '${STORAGE_CLASS_NAME}'|' -i $path/cstor-aws/minio-manifest/minio-pvc.yaml
+sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/cstor-aws/minio-manifest/minio-pvc.yaml
 
-cat ./minio-manifest/minio-pvc.yaml
+cat $path/cstor-aws/minio-manifest/minio-pvc.yaml
 
 # Add pv claim name and namespace in minio-official.yaml
-sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i ./minio-manifest/minio-official.yaml
-sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i ./minio-manifest/minio-official.yaml
+sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/cstor-aws/minio-manifest/minio-official.yaml
+sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/cstor-aws/minio-manifest/minio-official.yaml
 
-cat ./minio-manifest/minio-official.yaml
+cat $path/cstor-aws/minio-manifest/minio-official.yaml
 
 # Add node port and namespace in minio-official.yaml
-sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i ./minio-manifest/minio-svc.yaml
-sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i ./minio-manifest/minio-svc.yaml
+sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/cstor-aws/minio-manifest/minio-svc.yaml
+sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i $path/cstor-aws/minio-manifest/minio-svc.yaml
 
-cat ./minio-manifest/minio-svc.yaml
+cat $path/cstor-aws/minio-manifest/minio-svc.yaml
 
 kubectl get ns
-kubectl apply -f minio-manifest/
+kubectl apply -f $path/cstor-aws/minio-manifest/
 kubectl get pod -n ${NAMESPACE}
 
 ####################################
