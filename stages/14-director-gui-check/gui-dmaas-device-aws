@@ -24,6 +24,9 @@ kubectl create ns ${NAMESPACE}
 mkdir -p $path/device-aws
 cp -R $path/stages/14-director-gui-check/template/minio-manifest $path/device-aws
 
+kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}'
+NODE_SELECTOR=`kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}' | awk 'NR==1'`
+echo $NODE_SELECTOR
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
 sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i $path/device-aws/minio-manifest/minio-pvc.yaml
@@ -38,9 +41,10 @@ sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/device
 
 cat $path/device-aws/minio-manifest/minio-official.yaml
 
-# Add node port and namespace in minio-official.yaml
+# Add node port, namespace, nodeSelector in minio-official.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-aws/minio-manifest/minio-svc.yaml
 sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i $path/device-aws/minio-manifest/minio-svc.yaml
+sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-aws/minio-manifest/minio-svc.yaml
 
 cat $path/device-aws/minio-manifest/minio-svc.yaml
 
