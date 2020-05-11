@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo $CLUSTER
+
 path=$(pwd)
 echo $path
 echo '#### AWS CONFIG ####'
@@ -20,7 +20,7 @@ sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.15.10 image=ami-003634241a8fcdec0"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0"
 
 mkdir $path/.kube
 mkdir $path/.kube/resources

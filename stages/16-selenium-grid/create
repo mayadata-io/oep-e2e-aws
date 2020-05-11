@@ -11,7 +11,7 @@ path=$(pwd)
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
+sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
@@ -20,5 +20,6 @@ echo "Number of GUI test scripts: $tests_count"
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
 cd oep-e2e-aws/stages/16-selenium-grid/templates
+cat hub.yml
 
 aws cloudformation create-stack --stack-name ${GUID} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${GUID} ParameterKey=LogName,ParameterValue=${GUID}
