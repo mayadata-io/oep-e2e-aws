@@ -29,7 +29,6 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 ######################
 ##   Running test   ##
 ######################
-
 kubectl create -f oep-e2e/litmus/director/tcid-iuoi03-openebs-control-plane/run_litmus_test.yml
 kubectl get pods -n litmus
 test_name=openebs-control-plane-test
