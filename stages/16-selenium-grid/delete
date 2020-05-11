@@ -11,7 +11,7 @@ echo $path
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = eu-central-1|region = eu-north-1|' -i ~/.aws/config
+sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 
 {
     aws cloudformation delete-stack --stack-name ${GUID}
