@@ -13,6 +13,9 @@ cp  $path/.awscluster3/config ~/.kube/config
 
 kubectl get po -n openebs
 
+echo "***Applying e2e-crd***********"
+kubectl apply -f utils/e2e-crd.yml
+
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
