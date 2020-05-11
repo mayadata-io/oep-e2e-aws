@@ -438,6 +438,7 @@ director-self-cluster-connect-check:
 
 ## GUI automated tests on Openebs installation on DOP cluster
 tcid-gaau01-gui-auth-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -450,6 +451,7 @@ tcid-gaau01-gui-auth-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gacc01-gui-cluster-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -463,6 +465,7 @@ tcid-gacc01-gui-cluster-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada01-gui-dashboard-home-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -476,6 +479,7 @@ tcid-gada01-gui-dashboard-home-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gato01-gui-dashboard-topology-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -489,6 +493,7 @@ tcid-gato01-gui-dashboard-topology-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 gui-dashboard-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -502,6 +507,7 @@ gui-dashboard-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gaal01-gui-dashboard-alerts-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -515,6 +521,7 @@ tcid-gaal01-gui-dashboard-alerts-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
        
 tcid-galo01-gui-dashboard-logs-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -528,17 +535,18 @@ tcid-galo01-gui-dashboard-logs-check:
        - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada02-gui-dashboard-overview-check:
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-CHECK
-   dependencies:
-     - director-deploy
-   script:
-     - chmod 755 ./stages/14-director-gui-check/gui-dashboard-overview-check
-     - ./stages/14-director-gui-check/gui-dashboard-overview-check
-   artifacts:
-     when: always
-     paths:
-         - /builds/oep/oep-e2e-aws/gui-automation/results
+  when: always
+  image: harshshekhar15/gitlab-job:v6
+  stage: DIRECTOR-GUI-CHECK
+  dependencies:
+    - director-deploy
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-dashboard-overview-check
+    - ./stages/14-director-gui-check/gui-dashboard-overview-check
+  artifacts:
+    when: always
+    paths:
+        - /builds/oep/oep-e2e-aws/gui-automation/results
 
 ## Metrics check
 metrics-check:
@@ -586,15 +594,15 @@ topology-check:
     - chmod 755 ./stages/9-topology-check/topology-check
     - ./stages/9-topology-check/topology-check
     
-# Openebs installation on DOP cluster
-tcid-iuoi01-openebs-self-install:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
-  dependencies:
-    - cluster3-setup-check
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-self-installation-check
-    - ./stages/10-openebs-install-check/openebs-self-installation-check
+# # Openebs installation on DOP cluster
+# tcid-iuoi01-openebs-self-install:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-INSTALL-CHECK
+#   dependencies:
+#     - cluster3-setup-check
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/openebs-self-installation-check
+#     - ./stages/10-openebs-install-check/openebs-self-installation-check
     
 ## Openebs install check
 tcid-iuoi02-openebs-install:
@@ -606,45 +614,45 @@ tcid-iuoi02-openebs-install:
     - chmod 755 ./stages/10-openebs-install-check/openebs-install-check
     - ./stages/10-openebs-install-check/openebs-install-check
 
-# ## Openebs control plane installation Check
-# tcid-iuoi03-openebs-control-plane:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
-#     - ./stages/10-openebs-install-check/openebs-control-plane-test
+## Openebs control plane installation Check
+tcid-iuoi03-openebs-control-plane:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
+    - ./stages/10-openebs-install-check/openebs-control-plane-test
 
-# ## Openebs data plane installation Check
-# tcid-iuoi04-openebs-data-plane:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
-#     - ./stages/10-openebs-install-check/openebs-data-plane-test
+## Openebs data plane installation Check
+tcid-iuoi04-openebs-data-plane:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
+    - ./stages/10-openebs-install-check/openebs-data-plane-test
 
-# ## Openebs reinstallation Check
-# tcid-iuoi06-openebs-reinstallation:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
-#     - ./stages/10-openebs-install-check/openebs-reinstallation-test
+## Openebs reinstallation Check
+tcid-iuoi06-openebs-reinstallation:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
+    - ./stages/10-openebs-install-check/openebs-reinstallation-test
 
-# ## openebs-resource-limit-installation
-# tcid-iuoi14-openebs-resource-limit-installation:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
-#     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
+## openebs-resource-limit-installation
+tcid-iuoi14-openebs-resource-limit-installation:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
+    - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
 tcid-dir-op-cstor-pool-recommend-create-stripe:
   image: harshshekhar15/gitlab-job:v6
