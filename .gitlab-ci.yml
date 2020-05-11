@@ -625,35 +625,35 @@ tcid-iuoi03-openebs-control-plane:
     - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
     - ./stages/10-openebs-install-check/openebs-control-plane-test
 
-# ## Openebs data plane installation Check
-# tcid-iuoi04-openebs-data-plane:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
-#     - ./stages/10-openebs-install-check/openebs-data-plane-test
+## Openebs data plane installation Check
+tcid-iuoi04-openebs-data-plane:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
+    - ./stages/10-openebs-install-check/openebs-data-plane-test
 
-# ## Openebs reinstallation Check
-# tcid-iuoi06-openebs-reinstallation:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
-#     - ./stages/10-openebs-install-check/openebs-reinstallation-test
+## Openebs reinstallation Check
+tcid-iuoi06-openebs-reinstallation:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
+    - ./stages/10-openebs-install-check/openebs-reinstallation-test
 
-# ## openebs-resource-limit-installation
-# tcid-iuoi14-openebs-resource-limit-installation:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-INSTALL-CHECK
-#   dependencies:
-#     - cluster3-setup-check
-#   script: 
-#     - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
-#     - ./stages/10-openebs-install-check/openebs-resource-limit-installation
+## openebs-resource-limit-installation
+tcid-iuoi14-openebs-resource-limit-installation:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - cluster3-setup-check
+  script: 
+    - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
+    - ./stages/10-openebs-install-check/openebs-resource-limit-installation
 
 tcid-dir-op-cstor-pool-recommend-create-stripe:
   image: harshshekhar15/gitlab-job:v6
@@ -777,6 +777,7 @@ cStor-xfs-volume-resize:
     
 # CHAOS Tests JOB
 Jiva-App-Kill:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -786,6 +787,7 @@ Jiva-App-Kill:
     - ./stages/19-openebs-chaos/jiva-app-kill
 
 Jiva-Revision-Counter:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -813,6 +815,7 @@ Jiva-Controller-Kill:
     - ./stages/19-openebs-chaos/jiva-controller-kill
 
 Jiva-Controller-Network-Delay:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -822,6 +825,7 @@ Jiva-Controller-Network-Delay:
     - ./stages/19-openebs-chaos/ctrl-network-delay
 
 Jiva-Replica-Node-Affinity:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
