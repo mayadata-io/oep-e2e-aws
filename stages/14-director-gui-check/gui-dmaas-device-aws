@@ -38,13 +38,13 @@ cat $path/device-aws/minio-manifest/minio-pvc.yaml
 # Add pv claim name and namespace in minio-official.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
 sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
-
+sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
 cat $path/device-aws/minio-manifest/minio-official.yaml
 
-# Add node port, namespace, nodeSelector in minio-official.yaml
+# Add node port and namespacein minio-svc.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-aws/minio-manifest/minio-svc.yaml
 sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i $path/device-aws/minio-manifest/minio-svc.yaml
-sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-aws/minio-manifest/minio-svc.yaml
+
 
 cat $path/device-aws/minio-manifest/minio-svc.yaml
 
