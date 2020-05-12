@@ -20,7 +20,7 @@ kubectl apply -f utils/e2e-crd.yml
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/pooling jobname:tcid-iuoi02-openebs-install
+sleep 3
 bash utils/e2e-cr jobname:tcid-iuoi03-openebs-control-plane jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts
