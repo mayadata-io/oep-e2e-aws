@@ -11,16 +11,13 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster3/config ~/.kube/config
 
+sleep 100
 kubectl get po -n openebs
-
-echo "***Applying e2e-crd***********"
-kubectl apply -f utils/e2e-crd.yml
 
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/pooling jobname:tcid-iuoi02-openebs-install
 bash utils/e2e-cr jobname:tcid-iuoi03-openebs-control-plane jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts

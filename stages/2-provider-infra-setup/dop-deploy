@@ -87,6 +87,7 @@ kubectl get po -n maya-system
 
 echo -e "\n************************ Running basic-sanity checks **********************************\n"
 
+sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
 bash oep-e2e/scripts/director-health-check.sh
 
 # If any of the above check fails, then fail this job
