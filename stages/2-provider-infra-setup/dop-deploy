@@ -94,13 +94,13 @@ if [ $(cat result.txt | grep -ic fail) != 0 ];then
   testResult="Fail"
   echo -e "\nTest Result: $testResult\n"
   if [[ $branch_name == "oep-release" ]]; then
-    python3.7 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
+    python3 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
   fi
   exit 1
 else
   testResult="Pass"
   echo -e "\nTest Result: $testResult\n"
   if [[ $branch_name == "oep-release" ]]; then
-    python3.7 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
+    python3 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
   fi
 fi
