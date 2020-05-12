@@ -53,7 +53,9 @@ cat $path/cstor-minio/minio-manifest/minio-svc.yaml
 kubectl get ns
 kubectl apply -f $path/cstor-minio/minio-manifest/
 kubectl get pod -n ${NAMESPACE}
-
+ls
+rm -rf $path/cstor-minio
+ls
 ####################################
 ##   Prerequisites GUI Automation ##
 ####################################
@@ -76,12 +78,13 @@ output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].O
 grid=`echo $output | awk {'print $2'}`
 
 # Cloning oep repository which contains all the test scripts
+ls
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
 
 #creating credential file
 cat $AWS_CREDS $MINIO_CREDS > cred.ini
-
+ls
 ######################
 ##   Running test  ##
 ######################
