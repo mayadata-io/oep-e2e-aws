@@ -11,44 +11,43 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster3/config ~/.kube/config
 
-sleep 300
 kubectl get po -n openebs
 
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
 
-sleep 100
-bash utils/e2e-cr jobname:tcid-iuoi03-openebs-control-plane jobphase:Running
+bash utils/pooling jobname:tcid-iuoi14-openebs-resource-limit-installation
+bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-create-mirror jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-
-######################
-##   Running test   ##
-######################
-kubectl create -f oep-e2e/litmus/director/tcid-iuoi03-openebs-control-plane/run_litmus_test.yml
+cd oep-e2e
+kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR/run_litmus_test.yml
 kubectl get pods -n litmus
-test_name=openebs-control-plane-test
+
+test_name=create-cstor-pool-mirror
 echo $test_name
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
+
 job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
+
 while [[ "$job_status" != "Completed" ]]
 do 
     job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
     sleep 6
 done
-
-# wget https://openebs.github.io/charts/openebs-ubuntu-setup.yaml
-# kubectl apply -f openebs-ubuntu-setup.yaml
+cd ..
 
 kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
-if [ "$testResult" != Pass ]; then 
-exit 1; 
-else
-    bash utils/e2e-cr jobname:tcid-iuoi03-openebs-control-plane jobphase:Completed
-fi
 
+if [ "$testResult" != Pass ]
+then
+  bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-create-mirror jobphase:Completed
+  exit 1;
+else
+  bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-create-mirror jobphase:Completed
+fi
