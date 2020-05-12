@@ -18,6 +18,7 @@ kubectl get po -n openebs
 ##  Sequencing and Running test   ##
 ####################################
 
+sleep 100
 bash utils/e2e-cr jobname:tcid-iuoi03-openebs-control-plane jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts
