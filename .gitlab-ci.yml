@@ -545,6 +545,7 @@ tcid-gada02-gui-dashboard-overview-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
 gui-profile-check:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
