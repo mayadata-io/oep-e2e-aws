@@ -2,6 +2,11 @@
 set -ex
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
+
+bash utils/e2e-cr jobname:e2e-metrics jobphase:Waiting
+bash utils/e2e-cr jobname:e2e-metrics jobphase:Running 
+bash utils/e2e-cr jobname:cluster-cleanup jobphase:Waiting
+
 # set environment variables
 COVERAGE_NAMESPACE="e2e-metrics"
 E2E_METRICS_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
@@ -30,3 +35,5 @@ sleep 50
 e2e_coverage_cr=$(kubectl get pcover -n $COVERAGE_NAMESPACE --no-headers | awk '{print $1}')
 kubectl get pcover $e2e_coverage_cr -n $COVERAGE_NAMESPACE -oyaml
 kubectl get pcover -n $COVERAGE_NAMESPACE -o=jsonpath='{.items[0].result.coverage}{"\n"}'
+
+bash utils/e2e-cr jobname:e2e-metrics jobphase:Completed
