@@ -532,7 +532,7 @@ tcid-galo01-gui-dashboard-logs-check:
        - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada02-gui-dashboard-overview-check:
-  mage: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v5
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -572,6 +572,7 @@ DIRECTOR-DMAAS-PREREQUISITE:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -585,6 +586,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -598,6 +600,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -611,6 +614,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -624,6 +628,7 @@ TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -637,6 +642,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -650,6 +656,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -663,6 +670,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v5
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
