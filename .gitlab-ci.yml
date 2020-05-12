@@ -442,7 +442,7 @@ director-self-cluster-connect-check:
 ## GUI automated tests on Openebs installation on DOP cluster
 
 tcid-gaau01-gui-auth-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -454,7 +454,7 @@ tcid-gaau01-gui-auth-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gacc01-gui-cluster-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -467,7 +467,7 @@ tcid-gacc01-gui-cluster-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada01-gui-dashboard-home-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -480,7 +480,7 @@ tcid-gada01-gui-dashboard-home-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gato01-gui-dashboard-topology-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -493,7 +493,7 @@ tcid-gato01-gui-dashboard-topology-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 gui-dashboard-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -506,7 +506,7 @@ gui-dashboard-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gaal01-gui-dashboard-alerts-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -519,7 +519,7 @@ tcid-gaal01-gui-dashboard-alerts-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
        
 tcid-galo01-gui-dashboard-logs-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -532,7 +532,7 @@ tcid-galo01-gui-dashboard-logs-check:
        - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada02-gui-dashboard-overview-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -545,7 +545,7 @@ tcid-gada02-gui-dashboard-overview-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
 gui-profile-check:
-  image: harshshekhar15/gitlab-job:v5
+  image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - director-deploy
@@ -559,7 +559,7 @@ gui-profile-check:
 
 DIRECTOR-DMAAS-PREREQUISITE:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
    variables:
      CLUSTER: cluster2
@@ -573,7 +573,7 @@ DIRECTOR-DMAAS-PREREQUISITE:
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -587,7 +587,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -601,7 +601,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -615,7 +615,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -629,7 +629,7 @@ TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -643,7 +643,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -657,7 +657,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
@@ -671,7 +671,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
 
 TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
    when: always
-   image: harshshekhar15/gitlab-job:v5
+   image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
