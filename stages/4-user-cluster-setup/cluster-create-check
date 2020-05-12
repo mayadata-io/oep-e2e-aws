@@ -3,7 +3,6 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp .kube/url ~/.kube/url
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws

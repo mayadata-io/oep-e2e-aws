@@ -104,7 +104,7 @@ cluster2-litmus-setup-check:
       - .kube/
       - .awscluster2/
 
-cluster2-litmus-setup-check:
+cluster3-litmus-setup-check:
   image: harshshekhar15/gitlab-job:v6
   stage: USER-CLUSTER-SETUP
   script:
