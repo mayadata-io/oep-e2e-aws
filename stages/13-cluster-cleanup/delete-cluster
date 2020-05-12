@@ -27,6 +27,7 @@ cd litmus/k8s/aws/k8s-installer
     sleep 10
     aws s3 rm s3://k8s-bucket-${cluster1} --recursive
     aws s3api delete-bucket --bucket k8s-bucket-${cluster1} --region us-west-2
+    aws ec2 delete-tags --resources $RELEASE_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster1}.k8s.local
 
     echo '#### Delete Cluster 2 ####'
     # Fetch cluster2 name url
@@ -34,6 +35,7 @@ cd litmus/k8s/aws/k8s-installer
     kops delete cluster --name k8s-${cluster2}.k8s.local --state=s3://k8s-bucket-${cluster2} --yes
     sleep 10
     aws s3api delete-bucket --bucket k8s-bucket-${cluster2} --region us-west-2
+    aws ec2 delete-tags --resources $RELEASE_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster2}.k8s.local
 
     echo '#### Delete Cluster 3 ####'
     # Fetch cluster2 name url
@@ -41,6 +43,7 @@ cd litmus/k8s/aws/k8s-installer
     kops delete cluster --name k8s-${cluster3}.k8s.local --state=s3://k8s-bucket-${cluster3} --yes
     sleep 10
     aws s3api delete-bucket --bucket k8s-bucket-${cluster3} --region us-west-2
+    aws ec2 delete-tags --resources $RELEASE_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster3}.k8s.local
 } || {
     echo '!!! Something went wrong during cluster cleanup !!!' 
 }

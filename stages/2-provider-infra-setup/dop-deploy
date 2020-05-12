@@ -9,6 +9,15 @@ cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
+job_id=$(echo $CI_JOB_ID)
+gittoken=$(echo "$GITHUB_TOKEN")
+current_time=$(date)
+branch_name=$CI_COMMIT_REF_NAME
+test_name="TCID-DIR-INSTALL-ON-LOCAL-HP"
+stage="INFRA-SETUP"
+test_desc="Install DOP using helm with SSD underneath"
+
+
 IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1)
 URL=http://$IP
 echo "URL to access DOP: $URL"
@@ -34,12 +43,12 @@ helm version
 
 echo "deploying DOP" 
 
-# Clone director-charts-internal repository
+echo -e "\n[ Cloning director-charts-internal repo ]--------------------\n"
 git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
 
 cd director-charts-internal
 
-# Get latest directory of helm chart
+echo "\n[ Get DOP release version ]-------------------------------------\n"
 cd "$RELEASE"/director
 
 # Create secret having maya-init repo access
@@ -56,7 +65,7 @@ cat values.yaml
 # Apply helm chart
 helm install --name dop .
 
-# Cloning oep repository which contains all the test scripts
+echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
@@ -75,3 +84,24 @@ sleep 300
 kubectl get po
 kubectl get po -n kube-system
 kubectl get po -n maya-system
+
+echo -e "\n************************ Running basic-sanity checks **********************************\n"
+
+sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
+bash oep-e2e/scripts/director-health-check.sh
+
+# If any of the above check fails, then fail this job
+if [ $(cat result.txt | grep -ic fail) != 0 ];then
+  testResult="Fail"
+  echo -e "\nTest Result: $testResult\n"
+  if [[ $branch_name == "oep-release" ]]; then
+    python3 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
+  fi
+  exit 1
+else
+  testResult="Pass"
+  echo -e "\nTest Result: $testResult\n"
+  if [[ $branch_name == "oep-release" ]]; then
+    python3 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
+  fi
+fi

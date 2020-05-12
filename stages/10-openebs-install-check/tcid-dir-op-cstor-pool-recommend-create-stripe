@@ -11,7 +11,7 @@ path=$(pwd)
 mkdir ~/.kube
 cp $path/.awscluster2/config ~/.kube/config
 
-bash utils/pooling jobname:tcid-iuoi02-openebs-install 
+bash utils/pooling jobname:tcid-dir-op-install-openebs
 bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-create-stripe jobphase:Running
 
 
