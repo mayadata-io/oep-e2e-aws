@@ -9,9 +9,6 @@ cp .kube/cluster3 ~/.kube/cluster3 2>/dev/null || :
 
 ls .kube
 
-bash utils/pooling jobname:e2e-metrics
-bash utils/e2e-cr jobname:cluster-cleanup jobphase:Running
-
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
