@@ -3,6 +3,7 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
+cp  .kube/config ~/.kube/config
 cp .kube/cluster1 ~/.kube/cluster1
 cp .kube/cluster2 ~/.kube/cluster2 2>/dev/null || :
 cp .kube/cluster3 ~/.kube/cluster3 2>/dev/null || :
