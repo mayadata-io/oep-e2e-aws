@@ -11,6 +11,8 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster3/config ~/.kube/config
 
+sleep 120
+
 kubectl get po -n openebs
 
 ####################################
