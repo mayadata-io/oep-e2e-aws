@@ -53,3 +53,5 @@ echo -e "\n[ Print 'k8s version' ] ---------------------------------------------
 version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
 echo -e "KubernetesVersion: $version"
 
+echo -e "\n************************ Applying e2e-crd *********************************************\n"
+kubectl apply -f utils/e2e-crd.yml
