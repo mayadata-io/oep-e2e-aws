@@ -52,3 +52,4 @@ aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port 
 echo -e "\n[ Print 'k8s version' ] ---------------------------------------------\n"
 version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
 echo -e "KubernetesVersion: $version"
+
