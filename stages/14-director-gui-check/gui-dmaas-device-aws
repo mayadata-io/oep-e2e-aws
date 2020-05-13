@@ -75,14 +75,10 @@ sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].Outputs[].OutputValue | sed -r 's/"+//g'`
 grid=`echo $output | awk {'print $2'}`
 
-cat $AWS_TEST
-cat $MINIO_CREDS
 #copy aws and minio cred
 mkdir -p ~/.dmaas
-cp $AWS_TEST ~/.dmaas/aws_cred
+cp $AWS_CREDS ~/.dmaas/aws_cred
 cp $MINIO_CREDS ~/.dmaas/minio_cred
-cat ~/.dmaas/aws_cred
-cat ~/.dmaas/minio_cred
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto
@@ -92,11 +88,7 @@ git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
 
 #creating credential file
-cat ~/.dmaas/aws_cred  >> cred.ini
-cat ~/.dmaas/minio_cred >> cred.ini
-pwd
-ls
-cat cred.ini
+cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 
 ######################
 ##   Running test  ##

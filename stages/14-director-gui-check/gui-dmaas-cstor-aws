@@ -73,8 +73,6 @@ grid=`echo $output | awk {'print $2'}`
 mkdir -p ~/.dmaas
 cp $AWS_CREDS ~/.dmaas/aws_cred
 cp $MINIO_CREDS ~/.dmaas/minio_cred
-
-cat ~/.dmaas/minio_cred
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto
