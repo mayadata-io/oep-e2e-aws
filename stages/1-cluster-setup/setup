@@ -53,4 +53,5 @@ aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port 
 
 
 echo -e "\n************************ Applying e2e-crd *********************************************\n"
+cd ../../../..
 kubectl apply -f utils/e2e-crd.yml
