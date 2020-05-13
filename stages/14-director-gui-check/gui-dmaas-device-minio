@@ -76,6 +76,10 @@ sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].Outputs[].OutputValue | sed -r 's/"+//g'`
 grid=`echo $output | awk {'print $2'}`
 
+
+mkdir -p .dmaas
+cp $AWS_CREDS ~/.dmaas/aws_cred
+cd $MINIO_CREDS ~/.dmaas/minio_cred
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto

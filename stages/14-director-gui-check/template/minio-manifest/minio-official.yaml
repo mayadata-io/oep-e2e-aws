@@ -4,6 +4,8 @@ metadata:
   # This name uniquely identifies the Deployment
   name: minio-deployment
   namespace: test
+  labels:
+    name: minio
 spec:
   strategy:
     type: Recreate
