@@ -9,7 +9,7 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp  $path/.awscluster2/config ~/.kube/config
+cp  $path/.aws$CLUSTER/config ~/.kube/config
 
 kubectl apply -f $path/stages/14-director-gui-check/template/create-cstor-sc.yaml
 kubectl get sc

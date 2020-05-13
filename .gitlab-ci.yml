@@ -12,11 +12,11 @@ stages:
     - METRICS-CHECK
     - TEAMING-CHECK
     - TOPOLOGY-CHECK
-    - OPENEBS-INSTALL-CHECK
     - SELENIUM-GRID-SETUP
+    - OPENEBS-INSTALL-CHECK
     # - CSTORPOOL-RECOMMENDATION-CHECK
-    - OPENEBS-FUNCTIONAL
-    - OPENEBS-CHAOS
+    # - OPENEBS-FUNCTIONAL
+    # - OPENEBS-CHAOS
     - DIRECTOR-GUI-CHECK
     - DIRECTOR-GUI-DMAAS-PREREQUISITE
     - DIRECTOR-GUI-DMAAS-CHECK
@@ -545,7 +545,6 @@ tcid-gada02-gui-dashboard-overview-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
 gui-profile-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -558,7 +557,7 @@ gui-profile-check:
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
-DIRECTOR-DMAAS-PREREQUISITE:
+DIRECTOR-DMAAS-SC-CLUCTER2:
    when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
@@ -567,10 +566,17 @@ DIRECTOR-DMAAS-PREREQUISITE:
    script:
      - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
      - ./stages/14-director-gui-check/create-cstor-sc
-   artifacts:
-     when: always
-     paths:
-         - /builds/oep/oep-e2e-aws/gui-automation/results
+
+DIRECTOR-DMAAS-SC-CLUCTER3:
+   when: always
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
+   variables:
+     CLUSTER: cluster3
+   script:
+     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
+     - ./stages/14-director-gui-check/create-cstor-sc
+
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
    when: always
@@ -835,32 +841,32 @@ openebs-storage-policies:
 
 ## Functional Tests
 
-Jiva-App-Target-Affinity:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
-    - ./stages/18-openebs-functional/jiva-app-target-affinity
+# Jiva-App-Target-Affinity:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
+#     - ./stages/18-openebs-functional/jiva-app-target-affinity
 
-Jiva-Snapshot:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
-    - ./stages/18-openebs-functional/jiva-snapshot
+# Jiva-Snapshot:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
+#     - ./stages/18-openebs-functional/jiva-snapshot
 
-Jiva-Snapshot-Clone:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
-    - ./stages/18-openebs-functional/jiva-snapshot-clone
+# Jiva-Snapshot-Clone:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
+#     - ./stages/18-openebs-functional/jiva-snapshot-clone
 
 # Jiva-Snapshot-Delete:
 #   when: always
@@ -872,50 +878,50 @@ Jiva-Snapshot-Clone:
 #     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-delete
 #     - ./stages/18-openebs-functional/jiva-snapshot-delete
 
-Jiva-Volume-Scaleup:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
-    - ./stages/18-openebs-functional/jiva-vol-scaleup
+# Jiva-Volume-Scaleup:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
+#     - ./stages/18-openebs-functional/jiva-vol-scaleup
 
-cStor-csi-volume-snapshot:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
-    - ./stages/18-openebs-functional/csi-cstor-snapshot
+# cStor-csi-volume-snapshot:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
+#     - ./stages/18-openebs-functional/csi-cstor-snapshot
 
-cStor-csi-volume-clone:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
-    - ./stages/18-openebs-functional/csi-cstor-clone
+# cStor-csi-volume-clone:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
+#     - ./stages/18-openebs-functional/csi-cstor-clone
 
-cStor-ext4-volume-resize:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
-    - ./stages/18-openebs-functional/cstor-ext4-volume-resize
+# cStor-ext4-volume-resize:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
+#     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
 
-cStor-xfs-volume-resize:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
-    - ./stages/18-openebs-functional/cstor-xfs-volume-resize
+# cStor-xfs-volume-resize:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
+#     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
     
 # # CHAOS Tests JOB
 # Jiva-App-Kill:
@@ -937,63 +943,63 @@ cStor-xfs-volume-resize:
 #     - ./stages/19-openebs-chaos/jiva-revision-counter
 
 # CHAOS Tests JOB
-Jiva-App-Kill:
-  when: always
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
-    - ./stages/19-openebs-chaos/jiva-app-kill
+# Jiva-App-Kill:
+#   when: always
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
+#     - ./stages/19-openebs-chaos/jiva-app-kill
 
-Jiva-Revision-Counter:
-  when: always
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
-    - ./stages/19-openebs-chaos/jiva-revision-counter
+# Jiva-Revision-Counter:
+#   when: always
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
+#     - ./stages/19-openebs-chaos/jiva-revision-counter
 
-Jiva-Replica-Network-Delay:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
-    - ./stages/19-openebs-chaos/jiva-replica-network-delay
+# Jiva-Replica-Network-Delay:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
+#     - ./stages/19-openebs-chaos/jiva-replica-network-delay
 
-Jiva-Controller-Kill:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
-    - ./stages/19-openebs-chaos/jiva-controller-kill
+# Jiva-Controller-Kill:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
+#     - ./stages/19-openebs-chaos/jiva-controller-kill
 
-Jiva-Controller-Network-Delay:
-  when: always
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
-    - ./stages/19-openebs-chaos/ctrl-network-delay
+# Jiva-Controller-Network-Delay:
+#   when: always
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
+#     - ./stages/19-openebs-chaos/ctrl-network-delay
 
-Jiva-Replica-Node-Affinity:
-  when: always
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster-setup-check
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
-    - ./stages/19-openebs-chaos/rep-node-affinity
+# Jiva-Replica-Node-Affinity:
+#   when: always
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster-setup-check
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
+#     - ./stages/19-openebs-chaos/rep-node-affinity
 
 ## E2E test coverage
 e2e-metrics:

@@ -72,6 +72,11 @@ sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].Outputs[].OutputValue | sed -r 's/"+//g'`
 grid=`echo $output | awk {'print $2'}`
 
+
+#make empty directory
+mkdir -p selenium-auto
+cd selenium-auto
+ls
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
