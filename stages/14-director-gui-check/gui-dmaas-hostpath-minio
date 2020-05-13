@@ -74,9 +74,9 @@ grid=`echo $output | awk {'print $2'}`
 
 
 #copy aws and minio cred
-mkdir -p .dmaas
+mkdir -p ~/.dmaas
 cp $AWS_CREDS ~/.dmaas/aws_cred
-cd $MINIO_CREDS ~/.dmaas/minio_cred
+cp $MINIO_CREDS ~/.dmaas/minio_cred
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto

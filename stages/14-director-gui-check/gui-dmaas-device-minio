@@ -77,9 +77,10 @@ output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].O
 grid=`echo $output | awk {'print $2'}`
 
 
-mkdir -p .dmaas
+#copy aws and minio cred
+mkdir -p ~/.dmaas
 cp $AWS_CREDS ~/.dmaas/aws_cred
-cd $MINIO_CREDS ~/.dmaas/minio_cred
+cp $MINIO_CREDS ~/.dmaas/minio_cred
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto
@@ -89,7 +90,7 @@ git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
 
 #creating credential file
-cat $AWS_CREDS $MINIO_CREDS > cred.ini
+cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred > cred.ini
 
 ######################
 ##   Running test  ##
