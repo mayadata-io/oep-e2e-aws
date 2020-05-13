@@ -43,9 +43,11 @@ kubectl apply -f rbac.yaml
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
 kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
 
-# Create firewall-rule
+echo -e "\n************************ Create firewall rules *********************************************\n"
 NGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=nodes.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId`
+echo $NGROUP
 NSIG=`echo $NGROUP | awk {'print $2'} | sed -r 's/"+//g'`
+echo $NSIG
 MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=masters.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId`
 MSIG=`echo $MGROUP | awk {'print $2'} | sed -r 's/"+//g'`
 aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0
