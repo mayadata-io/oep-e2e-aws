@@ -5,7 +5,6 @@
 stages:
     - CLUSTER-SETUP
     - DIRECTOR-SETUP
-    # - DIRECTOR-HEALTH-CHECK
     - USER-CLUSTER-SETUP
     - USER-CLUSTER-CONNECT
     - SELF-CLUSTER-CONNECT
@@ -18,7 +17,7 @@ stages:
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
     - DIRECTOR-GUI-CHECK
-    # - E2E-METRICS
+    - E2E-METRICS
     - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
@@ -32,35 +31,6 @@ cluster-create:
     when: always
     paths:
       - .kube/
-
-## Create Cluster2 and Cluster3
-cluster-setup-check:
-  image: harshshekhar15/gitlab-job:v6
-  stage: CLUSTER-SETUP
-  script:
-    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check
-  variables:
-    CLUSTER: cluster2
-  artifacts:
-    when: always
-    paths:
-      - .kube/
-      - .awscluster2/
-
-cluster3-setup-check:
-  image: harshshekhar15/gitlab-job:v6
-  stage: CLUSTER-SETUP
-  script:
-    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check
-  variables:
-    CLUSTER: cluster3
-  artifacts:
-    when: always
-    paths:
-      - .kube/
-      - .awscluster3/
 
 ## Deploy director-onprem
 TCID-DIR-INSTALL-ON-LOCAL-HP:
@@ -90,12 +60,14 @@ selenium-grid-deploy:
       - .kube/
 
 ## Create Cluster2 and Cluster3
-cluster2-litmus-setup-check:
+cluster2-setup-check:
   image: harshshekhar15/gitlab-job:v6
   stage: USER-CLUSTER-SETUP
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
   script:
-    - chmod 755 ./stages/4-user-cluster-setup/setup-litmus-on-cluster
-    - ./stages/4-user-cluster-setup/setup-litmus-on-cluster
+    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
+    - ./stages/4-user-cluster-setup/cluster-create-check
   variables:
     CLUSTER: cluster2
   artifacts:
@@ -104,12 +76,14 @@ cluster2-litmus-setup-check:
       - .kube/
       - .awscluster2/
 
-cluster3-litmus-setup-check:
+cluster3-setup-check:
   image: harshshekhar15/gitlab-job:v6
   stage: USER-CLUSTER-SETUP
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
   script:
-    - chmod 755 ./stages/4-user-cluster-setup/setup-litmus-on-cluster
-    - ./stages/4-user-cluster-setup/setup-litmus-on-cluster
+    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
+    - ./stages/4-user-cluster-setup/cluster-create-check
   variables:
     CLUSTER: cluster3
   artifacts:
@@ -160,7 +134,7 @@ client-cluster2-components-check:
   image: harshshekhar15/gitlab-job:v6
   stage: USER-CLUSTER-CONNECT
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/5-cluster-connect-check/client-components-check
     - ./stages/5-cluster-connect-check/client-components-check
@@ -203,7 +177,7 @@ director-self-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v6
   stage: SELF-CLUSTER-CONNECT
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
     - ./stages/6-self-cluster-connect/self-connect-cluster-check
@@ -325,7 +299,7 @@ metrics-check:
    image: harshshekhar15/gitlab-job:v6
    stage: METRICS-CHECK
    dependencies:
-     - cluster-setup-check
+     - cluster2-setup-check
    script:
      - chmod 755 ./stages/7-metrics-check/metrics-check
      - ./stages/7-metrics-check/metrics-check
@@ -334,7 +308,7 @@ triv01-teaming-invite-check:
   image: harshshekhar15/gitlab-job:v6
   stage: TEAMING-CHECK
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/8-teaming-check/teaming-invite-check
     - ./stages/8-teaming-check/teaming-invite-check
@@ -343,7 +317,7 @@ trrc02-teaming-change-role-check:
   image: harshshekhar15/gitlab-job:v6
   stage: TEAMING-CHECK
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/8-teaming-check/teaming-change-role-check
     - ./stages/8-teaming-check/teaming-change-role-check
@@ -352,7 +326,7 @@ trrc03-teaming-change-role-negative-check:
   image: harshshekhar15/gitlab-job:v6
   stage: TEAMING-CHECK
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/8-teaming-check/teaming-change-role-negative-check
     - ./stages/8-teaming-check/teaming-change-role-negative-check
@@ -361,7 +335,7 @@ topology-check:
   image: atulabhi/kops:v8
   stage: TOPOLOGY-CHECK
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/9-topology-check/topology-check
     - ./stages/9-topology-check/topology-check
@@ -377,14 +351,14 @@ topology-check:
 #     - ./stages/10-openebs-install-check/openebs-self-installation-check
     
 ## Openebs install check
-tcid-dir-op-install-openebs:
+tcid-iuoi02-openebs-install:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
+    - chmod 755 ./stages/10-openebs-install-check/openebs-install-check
+    - ./stages/10-openebs-install-check/openebs-install-check
 
 ## Openebs control plane installation Check
 tcid-iuoi03-openebs-control-plane:
@@ -433,18 +407,11 @@ tcid-dir-op-cstor-pool-recommend-create-stripe:
     - chmod 755 ./stages/10-openebs-install-check/tcid-dir-op-cstor-pool-recommend-create-stripe
     - ./stages/10-openebs-install-check/tcid-dir-op-cstor-pool-recommend-create-stripe
 
-tcid-dir-op-cstor-pool-recommend-create-mirror:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
-
 openebs-storage-policies:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/10-openebs-install-check/openebs-storage-policies
     - ./stages/10-openebs-install-check/openebs-storage-policies
@@ -454,7 +421,7 @@ openebs-storage-policies:
 #   image: harshshekhar15/gitlab-job:v6
 #   stage: CSTORPOOL-RECOMMENDATION-CHECK
 #   dependencies:
-#     - cluster-setup-check
+#     - cluster2-setup-check
 #   script:
 #     - chmod 755 ./stages/15-recommendation-check/capacity-recommendation
 #     - ./stages/15-recommendation-check/capacity-recommendation
@@ -464,7 +431,7 @@ openebs-storage-policies:
 #   image: harshshekhar15/gitlab-job:v6
 #   stage: CSTORPOOL-RECOMMENDATION-CHECK
 #   dependencies:
-#     - cluster-setup-check
+#     - cluster2-setup-check
 #   script:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
@@ -475,7 +442,7 @@ Jiva-App-Target-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
     - ./stages/18-openebs-functional/jiva-app-target-affinity
@@ -484,7 +451,7 @@ Jiva-Snapshot:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
     - ./stages/18-openebs-functional/jiva-snapshot
@@ -493,7 +460,7 @@ Jiva-Snapshot-Clone:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
     - ./stages/18-openebs-functional/jiva-snapshot-clone
@@ -503,7 +470,7 @@ Jiva-Snapshot-Clone:
 #   image: harshshekhar15/gitlab-job:v6
 #   stage: OPENEBS-FUNCTIONAL
 #   dependencies:
-#     - cluster-setup-check
+#     - cluster2-setup-check
 #   script:
 #     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-delete
 #     - ./stages/18-openebs-functional/jiva-snapshot-delete
@@ -512,7 +479,7 @@ Jiva-Volume-Scaleup:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
     - ./stages/18-openebs-functional/jiva-vol-scaleup
@@ -521,7 +488,7 @@ cStor-csi-volume-snapshot:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
     - ./stages/18-openebs-functional/csi-cstor-snapshot
@@ -530,7 +497,7 @@ cStor-csi-volume-clone:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
     - ./stages/18-openebs-functional/csi-cstor-clone
@@ -539,7 +506,7 @@ cStor-ext4-volume-resize:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
@@ -548,7 +515,7 @@ cStor-xfs-volume-resize:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
@@ -559,7 +526,7 @@ Jiva-App-Kill:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
     - ./stages/19-openebs-chaos/jiva-app-kill
@@ -569,7 +536,7 @@ Jiva-Revision-Counter:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
     - ./stages/19-openebs-chaos/jiva-revision-counter
@@ -578,7 +545,7 @@ Jiva-Replica-Network-Delay:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
     - ./stages/19-openebs-chaos/jiva-replica-network-delay
@@ -587,7 +554,7 @@ Jiva-Controller-Kill:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
     - ./stages/19-openebs-chaos/jiva-controller-kill
@@ -597,7 +564,7 @@ Jiva-Controller-Network-Delay:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
     - ./stages/19-openebs-chaos/ctrl-network-delay
@@ -607,7 +574,7 @@ Jiva-Replica-Node-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
@@ -616,7 +583,7 @@ Jiva-Replica-Node-Affinity:
 e2e-metrics:
   when: always
   image: harshshekhar15/gitlab-job:v3
-  stage: CLUSTER-CLEANUP
+  stage: E2E-METRICS
   dependencies:
     - cluster-create
   script:
