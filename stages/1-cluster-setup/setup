@@ -48,3 +48,9 @@ MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$RELEASE_V
 MSIG=`echo $MGROUP | awk {'print $2'} | sed -r 's/"+//g'`
 aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port all --cidr 0.0.0.0/0
+
+
+
+
+echo -e "\n************************ Applying e2e-crd *********************************************\n"
+kubectl apply -f utils/e2e-crd.yml

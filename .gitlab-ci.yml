@@ -9,9 +9,10 @@ stages:
     - USER-CLUSTER-SETUP
     - USER-CLUSTER-CONNECT
     - SELF-CLUSTER-CONNECT
-    - METRICS-CHECK
-    - TEAMING-CHECK
-    - TOPOLOGY-CHECK
+    - DIRECTOR-API-CHECK
+    # - METRICS-CHECK
+    # - TEAMING-CHECK
+    # - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
     - SELENIUM-GRID-SETUP
     # - CSTORPOOL-RECOMMENDATION-CHECK
@@ -323,7 +324,7 @@ tcid-gada02-gui-dashboard-overview-check:
 ## Metrics check
 metrics-check:
    image: harshshekhar15/gitlab-job:v6
-   stage: METRICS-CHECK
+   stage: DIRECTOR-API-CHECK
    dependencies:
      - cluster-setup-check
    script:
@@ -332,7 +333,7 @@ metrics-check:
 
 triv01-teaming-invite-check:
   image: harshshekhar15/gitlab-job:v6
-  stage: TEAMING-CHECK
+  stage: DIRECTOR-API-CHECK
   dependencies:
     - cluster-setup-check
   script:
@@ -341,7 +342,7 @@ triv01-teaming-invite-check:
 
 trrc02-teaming-change-role-check:
   image: harshshekhar15/gitlab-job:v6
-  stage: TEAMING-CHECK
+  stage: DIRECTOR-API-CHECK
   dependencies:
     - cluster-setup-check
   script:
@@ -350,7 +351,7 @@ trrc02-teaming-change-role-check:
 
 trrc03-teaming-change-role-negative-check:
   image: harshshekhar15/gitlab-job:v6
-  stage: TEAMING-CHECK
+  stage: DIRECTOR-API-CHECK
   dependencies:
     - cluster-setup-check
   script:
@@ -359,7 +360,7 @@ trrc03-teaming-change-role-negative-check:
 
 topology-check:
   image: atulabhi/kops:v8
-  stage: TOPOLOGY-CHECK
+  stage: DIRECTOR-API-CHECK
   dependencies:
     - cluster-setup-check
   script:
