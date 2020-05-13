@@ -4,8 +4,9 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
+path=$(pwd)
 mkdir -p ~/.kube
-cp  .kube/config ~/.kube/config
+cp  $path/.awscluster2/config ~/.kube/config
 cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)
 echo $URL
