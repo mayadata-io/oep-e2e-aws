@@ -1,0 +1,66 @@
+#!/bin/bash
+path=$(pwd)
+# Copy kubeconfig
+mkdir -p ~/.kube
+cp  $path/.awscluster2/config ~/.kube/config
+
+job_id=$(echo $CI_JOB_ID)
+pipeline_id=$(echo $CI_PIPELINE_ID)
+releaseTag=$(echo $RELEASE_TAG)
+case_id=8QQP
+
+time="date"
+current_time=$(eval $time)
+
+present_dir=$(pwd)
+echo $present_dir
+
+bash utils/e2e-cr-new jobname:jiva-internal-snapshot-deletion jobphase:Waiting
+bash utils/e2e-cr-new jobname:jiva-internal-snapshot-deletion jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag"
+
+################
+# LitmusBook 1 #
+################
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/openebs/e2e-tests.git
+
+: << EOF
+  --------------------------------------------------------------------------------------------------------------------     
+ | specAttribute     | kind   |         default value               | test specifc value                              |
+  ------------------------------------------------------------------------------------------------------------------- |
+ | storage clas      | env    | openebs-jiva-standard               | openebs-jiva-default                            |
+ | appNamespace      | env    | fio                                 | fio-jiva-snapshot-del                           |
+  ---------------------------------------------------------------------------------------------------------------------
+EOF
+
+test_name=$(bash utils/generate_test_name testcase=fio-di-delete-jiva-snapshots metadata="")
+echo $test_name
+
+
+cd e2e-tests
+echo "Running the litmus test for Jiva internal snapshot deletion."
+cp experiments/functional/snapshot_deletion/jiva/run_litmus_test.yml jiva_snapshot_delete.yml
+
+sed -i -e 's/value: fio/value: fio-jiva-snapshot-del/g' \
+-e 's/value: openebs-jiva-standard/value: openebs-jiva-default/g' jiva_snapshot_delete.yml
+
+cat jiva_snapshot_delete.yml
+
+bash ../utils/litmus_job_runner label='app:fio-di-litmus-snap-del' job=jiva_snapshot_delete.yml
+cd ..
+bash utils/dump_cluster_state;
+bash utils/event_updater jobname:jiva-internal-snapshot-deletion $test_name jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id"
+
+rc_val=$(echo $?)
+current_time=$(eval $time)
+
+if [ "$rc_val" != "0" ]; then
+bash utils/e2e-cr-new jobname:jiva-internal-snapshot-deletion jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag" test_result:Fail
+exit 1;
+fi
+
+bash utils/e2e-cr-new jobname:jiva-internal-snapshot-deletion jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag" test_result:Pass
+
+if [ "$rc_val" != "0" ]; then
+exit 1;
+fi

@@ -23,4 +23,3 @@ cd oep-e2e-aws/stages/16-selenium-grid/templates
 cat hub.yml
 
 aws cloudformation create-stack --stack-name ${GUID} --template-body file://hub.yml --parameters ParameterKey=NumberOfChromeNodes,ParameterValue=$tests_count ParameterKey=ClusterName,ParameterValue=${GUID} ParameterKey=LogName,ParameterValue=${GUID}
-sleep 100

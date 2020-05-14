@@ -11,10 +11,14 @@ branch_name=$CI_COMMIT_REF_NAME
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
+<<<<<<< HEAD
 
 # director url
+=======
+>>>>>>> 99fd57da1a041d35fc2af24d2c6f350c2dfd949f
 URL=$(cat ~/.kube/url)
 echo $URL
+
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e

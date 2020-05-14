@@ -4,13 +4,21 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
-
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 kubectl get node -o wide
 kubectl get po
 
-IP=$(kubectl get node -o wide | awk {'print $7'} | head -n 4 | tail -n 1):30380
+job_id=$(echo $CI_JOB_ID)
+gittoken=$(echo "$GITHUB_TOKEN")
+current_time=$(date)
+branch_name=$CI_COMMIT_REF_NAME
+test_name="TCID-DIR-INSTALL-ON-LOCAL-HP"
+stage="INFRA-SETUP"
+test_desc="Install DOP using helm with SSD underneath"
+
+
+IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1)
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
@@ -20,8 +28,8 @@ touch .kube/url
 echo $URL > .kube/url
 
 #Configuring Helm
-wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
-tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
+tar -zxvf helm-v2.16.7-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm
 echo $HELM_RBAC > HELM_RBAC.yaml
 
@@ -35,12 +43,12 @@ helm version
 
 echo "deploying DOP" 
 
-# Clone director-charts-internal repository
+echo -e "\n[ Cloning director-charts-internal repo ]--------------------\n"
 git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
 
 cd director-charts-internal
 
-# Checkout to dop-e2e branch
+echo "\n[ Get DOP dev version ]-------------------------------------\n"
 git checkout dop-e2e
 
 # Get latest directory of helm chart
@@ -48,9 +56,6 @@ REPO=$(cat baseline | awk -F',' 'NR==1{print $3}' | awk -F'=' '{print $2}')
 TAG=$(cat baseline | awk -F',' 'NR==1{print $NF}' | awk -F'=' '{print $2}')
 
 cd $REPO-$TAG
-
-# Apply docker secret
-kubectl apply -f docker-secret.yaml
 
 # Create secret having maya-init repo access
 kubectl create secret docker-registry dop-secret --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD
@@ -89,3 +94,24 @@ kubectl apply -f components.yaml
 sleep 300
 kubectl get po
 kubectl get po -n kube-system
+
+echo -e "\n************************ Running basic-sanity checks **********************************\n"
+
+sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
+bash oep-e2e/scripts/director-health-check.sh
+
+# If any of the above check fails, then fail this job
+if [ $(cat result.txt | grep -ic fail) != 0 ];then
+  testResult="Fail"
+  echo -e "\nTest Result: $testResult\n"
+  if [[ $branch_name == "oep-release" ]]; then
+    python3 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
+  fi
+  exit 1
+else
+  testResult="Pass"
+  echo -e "\nTest Result: $testResult\n"
+  if [[ $branch_name == "oep-release" ]]; then
+    python3 oep-e2e/utils/result_update.py --job_id "$job_id" --stage "$stage" --test_desc "$test_desc" --test_result "$testResult" --time_stamp "$current_time" --token "$gittoken" --test_name "$test_name" --job_name "$test_name" --platform "aws"
+  fi
+fi

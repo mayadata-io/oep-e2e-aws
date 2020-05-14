@@ -1,19 +1,23 @@
 #!/bin/bash
-
 set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
+cp  .kube/config ~/.kube/config
 cp .kube/cluster1 ~/.kube/cluster1
 cp .kube/cluster2 ~/.kube/cluster2 2>/dev/null || :
+cp .kube/cluster3 ~/.kube/cluster3 2>/dev/null || :
 
 ls .kube
+
+bash utils/pooling jobname:e2e-metrics
+bash utils/e2e-cr jobname:cluster-cleanup jobphase:Running
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-ls ~/.aws/
-sudo bash -c "aws configure list"
+sed 's|region = us-west-2|region = eu-central-1|' -i ~/.aws/config
+
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
@@ -25,6 +29,7 @@ cd litmus/k8s/aws/k8s-installer
     echo '#### Delete Cluster 1 ####'
     kops delete cluster --name k8s-${cluster1}.k8s.local --state=s3://k8s-bucket-${cluster1} --yes
     sleep 10
+    aws s3 rm s3://k8s-bucket-${cluster1} --recursive
     aws s3api delete-bucket --bucket k8s-bucket-${cluster1} --region eu-central-1
     aws ec2 delete-tags --resources $DEV_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster1}.k8s.local --region eu-central-1
 
@@ -35,6 +40,15 @@ cd litmus/k8s/aws/k8s-installer
     sleep 10
     aws s3api delete-bucket --bucket k8s-bucket-${cluster2} --region eu-central-1
     aws ec2 delete-tags --resources $DEV_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster2}.k8s.local --region eu-central-1
+
+    echo '#### Delete Cluster 3 ####'
+    # Fetch cluster2 name url
+    cluster3=$(cat ~/.kube/cluster3)
+    kops delete cluster --name k8s-${cluster3}.k8s.local --state=s3://k8s-bucket-${cluster3} --yes
+    sleep 10
+    sleep 10
+    aws s3api delete-bucket --bucket k8s-bucket-${cluster3} --region eu-central-1
+    aws ec2 delete-tags --resources $DEV_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster3}.k8s.local --region eu-central-1
 } || {
     echo '!!! Something went wrong during cluster cleanup !!!' 
 }

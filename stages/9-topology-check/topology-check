@@ -9,12 +9,14 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp  $path/.awscluster/config ~/.kube/config
+cp  $path/.awscluster2/config ~/.kube/config
 
 kubectl get po -n openebs
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
+bash utils/pooling jobname:metrics-check
 
 ######################
 ##   Running test   ##

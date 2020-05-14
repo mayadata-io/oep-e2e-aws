@@ -1,31 +1,21 @@
 #!/bin/bash
-
 set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp .kube/url ~/.kube/url
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-ls ~/.aws/
-ls ~/.kube
+sed 's|region = us-west-2|region = eu-central-1|' -i ~/.aws/config
 
-sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
 sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
-sed '$a\vpc_id: '"$DEV_VPC" -i ./vars.yml
-sed '$a\subnet_id: '"$DEV_SUBNET" -i ./vars.yml
-
-# Fetch director url
-url=$(cat ~/.kube/url)
-
-# Cloning oep-e2e repository which contains all the test scripts
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
+sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
@@ -33,37 +23,11 @@ ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 ima
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
-touch $path/.kube/cluster2
-echo $CNAME > $path/.kube/cluster2
+touch $path/.kube/$CLUSTER
+echo $CNAME > $path/.kube/$CLUSTER
 
-mkdir -p $path/.awscluster
-cat ~/.kube/config > $path/.awscluster/config
-cat ~/.kube/config > $path/.awscluster/admin.conf
+mkdir -p $path/.aws$CLUSTER
+cat ~/.kube/config > $path/.aws$CLUSTER/config
+cat ~/.kube/config > $path/.aws$CLUSTER/admin.conf
 
 kubectl get nodes
-
-# Setup litmus on the cluster
-kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml 
-# creating docker secret 
-kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
-# creating crb
-kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
-# creating configmap
-kubectl create configmap kubeconfig --from-file=$path/.awscluster/admin.conf -n litmus
-kubectl create configmap config --from-literal=url=$url -n litmus
-
-# fetch openebs operator yaml
-openebs_operator=openebs-operator-1.4.0.yaml 
-wget https://openebs.github.io/charts/$openebs_operator
-# set fields required for sparse pool setup
-default_pool_line=$(cat $openebs_operator | grep -n  OPENEBS_IO_INSTALL_DEFAULT_CSTOR_SPARSE_POOL | tail -n +2 | awk -F':' '{print $1}')
-value_line_pool=$(( default_pool_line + 1 ))
-sed -i "${value_line_pool}s/.*/          value: \"true\"/" $openebs_operator
-sparse_line=$(cat $openebs_operator | grep -n  SPARSE_FILE_COUNT | awk -F':' '{print $1}')
-value_line_count=$(( sparse_line + 1 ))
-sed -i "${value_line_count}s/.*/          value: \"1\"/" $openebs_operator
-# deploy openebs operator 
-kubectl apply -f $openebs_operator
-sleep 100
-kubectl get pods -n openebs

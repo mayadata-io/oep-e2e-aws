@@ -4,13 +4,20 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
+path=$(pwd)
 mkdir -p ~/.kube
+<<<<<<< HEAD
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
 
 # director url
+=======
+cp  $path/.awscluster2/config ~/.kube/config
+cp .kube/url ~/.kube/url
+>>>>>>> 99fd57da1a041d35fc2af24d2c6f350c2dfd949f
 URL=$(cat ~/.kube/url)
 echo $URL
+
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 ######################

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 path=$(pwd)
@@ -7,11 +6,10 @@ echo $path
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-ls ~/.aws/
+sed 's|region = us-west-2|region = eu-central-1|' -i ~/.aws/config
 
 echo "VPC: $DEV_VPC"
 
-sudo bash -c "aws configure list"
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/k8s-installer
 
@@ -19,8 +17,9 @@ sed 's|region: eu-west-2|region: eu-central-1|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: eu-central-1a|' -i ./vars.yml
 sed '$a\vpc_id: '"$DEV_VPC" -i ./vars.yml
 sed '$a\subnet_id: '"$DEV_SUBNET" -i ./vars.yml
+
 # Create k8s cluster
-echo "CREATING CLUSTER"
+echo -e "\n************************ Create cluster *********************************************\n"
 ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-03d8059563982d7b0"
 
 mkdir $path/.kube
@@ -45,10 +44,16 @@ kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
 
 echo -e "\n************************ Create firewall rules *********************************************\n"
 NGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=nodes.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId --region eu-central-1`
-echo $NGROUP
 NSIG=`echo $NGROUP | awk {'print $2'} | sed -r 's/"+//g'`
-echo $NSIG
 MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=masters.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId --region eu-central-1`
 MSIG=`echo $MGROUP | awk {'print $2'} | sed -r 's/"+//g'`
 aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0 --region eu-central-1
 aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port all --cidr 0.0.0.0/0 --region eu-central-1
+
+echo -e "\n[ Print 'k8s version' ] ---------------------------------------------\n"
+version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
+echo -e "KubernetesVersion: $version"
+
+echo -e "\n************************ Applying e2e-crd *********************************************\n"
+cd ../../../..
+kubectl apply -f utils/e2e-crd.yml

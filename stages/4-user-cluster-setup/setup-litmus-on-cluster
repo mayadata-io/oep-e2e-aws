@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+path=$(pwd)
+mkdir -p ~/.kube
+mkdir -p /tmp/aws
+cp  $path/.aws$CLUSTER/config ~/.kube/config
+cp .kube/url ~/.kube/url
+
+# Fetch director url
+url=$(cat ~/.kube/url)
+
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
+# Setup litmus on the cluster
+kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
+kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml 
+# creating docker secret 
+kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
+# creating crb
+kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+# creating configmap
+kubectl create configmap kubeconfig --from-file=$path/.aws$CLUSTER/admin.conf -n litmus
+kubectl create configmap config --from-literal=url=$url -n litmus
+
+# fetch openebs operator yaml
+openebs_operator=openebs-operator-1.4.0.yaml 
+wget https://openebs.github.io/charts/$openebs_operator
+# set fields required for sparse pool setup
+default_pool_line=$(cat $openebs_operator | grep -n  OPENEBS_IO_INSTALL_DEFAULT_CSTOR_SPARSE_POOL | tail -n +2 | awk -F':' '{print $1}')
+value_line_pool=$(( default_pool_line + 1 ))
+sed -i "${value_line_pool}s/.*/          value: \"true\"/" $openebs_operator
+sparse_line=$(cat $openebs_operator | grep -n  SPARSE_FILE_COUNT | awk -F':' '{print $1}')
+value_line_count=$(( sparse_line + 1 ))
+sed -i "${value_line_count}s/.*/          value: \"1\"/" $openebs_operator
+# deploy openebs operator 
+kubectl apply -f $openebs_operator
+sleep 100
+kubectl get pods -n openebs

@@ -7,10 +7,14 @@ set -ex
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
+<<<<<<< HEAD
 
 # director url
+=======
+>>>>>>> 99fd57da1a041d35fc2af24d2c6f350c2dfd949f
 URL=$(cat ~/.kube/url)
 echo $URL
+
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 ######################
@@ -19,6 +23,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 test_name=ingress-nginx-check
 echo $test_name
 kubectl get po
+sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
 kubectl create -f oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod

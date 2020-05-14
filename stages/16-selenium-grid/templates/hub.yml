@@ -4,11 +4,19 @@ Parameters:
   
   ClusterName:
     Type: String
+<<<<<<< HEAD
     Default: 'grid-aws-ci-dev'
     Description: Cluster name.
   LogName:
     Type: String
     Default: 'grid-aws-ci-dev'
+=======
+    Default: 'grid-aws-ci-release'
+    Description: Cluster name.
+  LogName:
+    Type: String
+    Default: 'grid-aws-ci-release'
+>>>>>>> 99fd57da1a041d35fc2af24d2c6f350c2dfd949f
     Description: Cluster name.
   ContainerCpu:
     Type: Number
