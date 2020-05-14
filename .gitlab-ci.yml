@@ -78,7 +78,6 @@ TCID-DIR-INSTALL-ON-LOCAL-HP:
 
 ## Selenium Grid Spin up
 selenium-grid-deploy:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: SELENIUM-GRID-SETUP
   dependencies:
@@ -209,7 +208,6 @@ director-self-cluster-connect-check:
 
 ## GUI automated tests on Openebs installation on DOP cluster
 tcid-gaau01-gui-auth-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -222,7 +220,6 @@ tcid-gaau01-gui-auth-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gacc01-gui-cluster-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -236,7 +233,6 @@ tcid-gacc01-gui-cluster-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada01-gui-dashboard-home-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -250,7 +246,6 @@ tcid-gada01-gui-dashboard-home-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gato01-gui-dashboard-topology-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -264,7 +259,6 @@ tcid-gato01-gui-dashboard-topology-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 gui-dashboard-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -278,7 +272,6 @@ gui-dashboard-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gaal01-gui-dashboard-alerts-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -292,7 +285,6 @@ tcid-gaal01-gui-dashboard-alerts-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
        
 tcid-galo01-gui-dashboard-logs-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -306,7 +298,6 @@ tcid-galo01-gui-dashboard-logs-check:
        - /builds/oep/oep-e2e-aws/gui-automation/results
  
 tcid-gada02-gui-dashboard-overview-check:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -498,7 +489,6 @@ Jiva-Snapshot-Clone:
     - ./stages/18-openebs-functional/jiva-snapshot-clone
 
 # Jiva-Snapshot-Delete:
-#   when: always
 #   image: harshshekhar15/gitlab-job:v6
 #   stage: OPENEBS-FUNCTIONAL
 #   dependencies:
@@ -554,7 +544,6 @@ cStor-xfs-volume-resize:
     
 # CHAOS Tests JOB
 Jiva-App-Kill:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -564,7 +553,6 @@ Jiva-App-Kill:
     - ./stages/19-openebs-chaos/jiva-app-kill
 
 Jiva-Revision-Counter:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -592,7 +580,6 @@ Jiva-Controller-Kill:
     - ./stages/19-openebs-chaos/jiva-controller-kill
 
 Jiva-Controller-Network-Delay:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -602,7 +589,6 @@ Jiva-Controller-Network-Delay:
     - ./stages/19-openebs-chaos/ctrl-network-delay
 
 Jiva-Replica-Node-Affinity:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
