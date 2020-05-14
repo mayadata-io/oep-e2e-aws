@@ -24,8 +24,8 @@ spec:
         persistentVolumeClaim:
           # Name of the PVC created earlier
                 claimName: minio-pv-claim
-      nodeSelector:
-        kubernetes.io/os: linux
+      # nodeSelector:
+      #   kubernetes.io/os: linux
       containers:
       - name: minio
         # Pulls the default Minio image from Docker Hub

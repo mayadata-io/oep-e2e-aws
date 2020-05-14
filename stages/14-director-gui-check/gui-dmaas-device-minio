@@ -24,9 +24,9 @@ kubectl create ns ${NAMESPACE}
 mkdir -p $path/device-minio
 cp -R $path/stages/14-director-gui-check/template/minio-manifest $path/device-minio
 
-kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}'
-NODE_SELECTOR=`kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}' | awk 'NR==1'`
-echo $NODE_SELECTOR
+# kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}'
+# NODE_SELECTOR=`kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}' | awk 'NR==1'`
+# echo $NODE_SELECTOR
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
 sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i $path/device-minio/minio-manifest/minio-pvc.yaml
@@ -38,18 +38,15 @@ cat $path/device-minio/minio-manifest/minio-pvc.yaml
 # Add pv claim name, namespace and node selector in minio-official.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
 sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
-sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
+# sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
 cat $path/device-minio/minio-manifest/minio-official.yaml
 
 # Add node port and namespace in minio-svc.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-minio/minio-manifest/minio-svc.yaml
 sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i $path/device-minio/minio-manifest/minio-svc.yaml
 
-
 cat $path/device-minio/minio-manifest/minio-svc.yaml
 
-pwd
-ls
 kubectl get ns
 kubectl apply -f $path/device-minio/minio-manifest/
 kubectl get pod -n ${NAMESPACE}
@@ -84,7 +81,7 @@ cp $MINIO_CREDS ~/.dmaas/minio_cred
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto
-ls
+
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
@@ -97,5 +94,5 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 ######################
 python3.7 -m pip install -r requirements.txt
 #Running tests with gaau01 marker
-python3.7 -m pytest -m dmaasDeviceMinio --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
+python3.7 -m pytest -m dmaasDeviceMinio --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 

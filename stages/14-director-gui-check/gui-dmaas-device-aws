@@ -24,9 +24,9 @@ kubectl create ns ${NAMESPACE}
 mkdir -p $path/device-aws
 cp -R $path/stages/14-director-gui-check/template/minio-manifest $path/device-aws
 
-kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}'
-NODE_SELECTOR=`kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}' | awk 'NR==1'`
-echo $NODE_SELECTOR
+# kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}'
+# NODE_SELECTOR=`kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}' | awk 'NR==1'`
+# echo $NODE_SELECTOR
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
 sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i $path/device-aws/minio-manifest/minio-pvc.yaml
@@ -38,7 +38,7 @@ cat $path/device-aws/minio-manifest/minio-pvc.yaml
 # Add pv claim name and namespace in minio-official.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
 sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
-sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
+# sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
 cat $path/device-aws/minio-manifest/minio-official.yaml
 
 # Add node port and namespacein minio-svc.yaml
@@ -79,10 +79,11 @@ grid=`echo $output | awk {'print $2'}`
 mkdir -p ~/.dmaas
 cp $AWS_CREDS ~/.dmaas/aws_cred
 cp $MINIO_CREDS ~/.dmaas/minio_cred
+
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto
-ls
+
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
@@ -95,5 +96,5 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 ######################
 python3.7 -m pip install -r requirements.txt
 #Running tests with gaau01 marker
-python3.7 -m pytest -m dmaasDeviceAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
+python3.7 -m pytest -m dmaasDeviceAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
