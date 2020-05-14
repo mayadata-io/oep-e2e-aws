@@ -57,6 +57,9 @@ TAG=$(cat baseline | awk -F',' 'NR==1{print $NF}' | awk -F'=' '{print $2}')
 
 cd $REPO-$TAG
 
+# Apply docker secret
+kubectl apply -f docker-secret.yaml
+
 # Create secret having maya-init repo access
 kubectl create secret docker-registry dop-secret --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD
 
