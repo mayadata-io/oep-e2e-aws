@@ -8,11 +8,11 @@ E2E_METRICS_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 E2E_METRICS_RUN_ID=$(echo $CI_JOB_ID)
 # create namespace for e2e-metric components
 kubectl create ns $COVERAGE_NAMESPACE
-# clone oep-e2e-gcp repo to access files
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e-gcp.git
+# clone oep-e2e-aws repo to access files
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-cp oep-e2e/.master-plan.yml oep-e2e-gcp/.master-plan.yml
-cd oep-e2e-gcp
+cp oep-e2e/.master-plan.yml oep-e2e-aws/.master-plan.yml
+cd oep-e2e-aws
 # create configmap from master test plan file
 kubectl create configmap metrics-config-test -n $COVERAGE_NAMESPACE --from-file=.master-plan.yml --from-file=.gitlab-ci.yml
 cd ..

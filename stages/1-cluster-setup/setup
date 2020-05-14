@@ -50,5 +50,5 @@ NSIG=`echo $NGROUP | awk {'print $2'} | sed -r 's/"+//g'`
 echo $NSIG
 MGROUP=`aws ec2 describe-security-groups --filters Name=vpc-id,Values=$DEV_VPC Name=group-name,Values=masters.k8s-$CNAME.k8s.local --query SecurityGroups[].GroupId --region eu-central-1`
 MSIG=`echo $MGROUP | awk {'print $2'} | sed -r 's/"+//g'`
-aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0
-aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port all --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id $NSIG --protocol all --port all --cidr 0.0.0.0/0 --region eu-central-1
+aws ec2 authorize-security-group-ingress --group-id $MSIG --protocol all --port all --cidr 0.0.0.0/0 --region eu-central-1
