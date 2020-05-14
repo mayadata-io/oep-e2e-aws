@@ -579,7 +579,7 @@ Jiva-App-Target-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
     - ./stages/18-openebs-functional/jiva-app-target-affinity
@@ -588,7 +588,7 @@ Jiva-Snapshot:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
     - ./stages/18-openebs-functional/jiva-snapshot
@@ -597,7 +597,7 @@ Jiva-Snapshot-Clone:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
-    - cluster-setup-check
+    - cluster2-setup-check
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
     - ./stages/18-openebs-functional/jiva-snapshot-clone
