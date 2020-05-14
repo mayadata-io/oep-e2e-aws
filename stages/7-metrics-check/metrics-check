@@ -24,7 +24,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 ######################
 kubectl delete secret director-admin-pass -n litmus
 sleep 30
-
+ 
 echo "Fetching director admin credentials for the following test----------------"
 kubectl create -f oep-e2e/litmus/director/admin-secret/run_litmus_test.yml
 test_name=fetch-unique-id-check
