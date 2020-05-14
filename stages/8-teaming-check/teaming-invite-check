@@ -15,12 +15,14 @@ sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 echo "***Applying e2e-crd***********"
 kubectl apply -f utils/e2e-crd.yml
 
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
+bash utils/pooling jobname:metrics-check
 bash utils/e2e-cr jobname:triv01-teaming-invite-check jobphase:Waiting
 bash utils/e2e-cr jobname:triv01-teaming-invite-check jobphase:Running 
 bash utils/e2e-cr jobname:trrc02-teaming-change-role-check jobphase:Waiting
 bash utils/e2e-cr jobname:trrc03-teaming-change-role-negative-check jobphase:Waiting
 
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 echo "Validate teaming invitation process --------------------------------------------"
 kubectl create -f oep-e2e/litmus/director/invite/run_litmus_test.yml
 test_name=invite-check
