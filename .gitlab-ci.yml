@@ -355,8 +355,6 @@ tcid-dir-op-install-openebs:
 tcid-iuoi03-openebs-control-plane:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
-  dependencies:
-    - cluster3-setup-check
   script: 
     - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
     - ./stages/10-openebs-install-check/openebs-control-plane-test
