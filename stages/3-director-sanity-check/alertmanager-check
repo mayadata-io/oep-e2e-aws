@@ -7,11 +7,8 @@ set -ex
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
-<<<<<<< HEAD
 
 # director url
-=======
->>>>>>> 99fd57da1a041d35fc2af24d2c6f350c2dfd949f
 URL=$(cat ~/.kube/url)
 echo $URL
 

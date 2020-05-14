@@ -21,7 +21,7 @@ cp .kube/$CLUSTER ~/.kube/$CLUSTER
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
+sed 's|region = us-west-2|region = eu-central-1|' -i ~/.aws/config
 
 kubectl get disks
 

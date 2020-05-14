@@ -10,7 +10,7 @@ cp .aws$CLUSTER/config ~/.kube/config
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
+sed 's|region = us-west-2|region = eu-central-1|' -i ~/.aws/config
 
 ######################################## Applying e2e-CRD
 echo "***Applying e2e-crd***********"
