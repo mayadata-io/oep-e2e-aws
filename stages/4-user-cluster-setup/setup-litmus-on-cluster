@@ -3,41 +3,14 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
+cp  $path/.aws$CLUSTER/config ~/.kube/config
 cp .kube/url ~/.kube/url
-
-echo '#### AWS CONFIG ####'
-mkdir -p ~/.aws
-cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
-
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus/k8s/aws/k8s-installer
-
-sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
-sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
-sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
-sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
-
-# Cloning oep-e2e repository which contains all the test scripts
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-
-# Create k8s cluster
-echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0 node_size=r5n.xlarge"
-
-CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
-mkdir -p $path/.kube
-touch $path/.kube/$CLUSTER
-echo $CNAME > $path/.kube/$CLUSTER
-
-mkdir -p $path/.aws$CLUSTER
-cat ~/.kube/config > $path/.aws$CLUSTER/config
-cat ~/.kube/config > $path/.aws$CLUSTER/admin.conf
-
-kubectl get nodes
 
 # Fetch director url
 url=$(cat ~/.kube/url)
+
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
@@ -64,8 +37,3 @@ sed -i "${value_line_count}s/.*/          value: \"1\"/" $openebs_operator
 kubectl apply -f $openebs_operator
 sleep 100
 kubectl get pods -n openebs
-
-echo -e "\n[ Print 'k8s version' ] ---------------------------------------------\n"
-version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
-echo -e "KubernetesVersion: $version"
-
