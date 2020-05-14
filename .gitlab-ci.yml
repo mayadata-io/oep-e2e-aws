@@ -203,8 +203,6 @@ ebs-volume-create-cluster3:
 director-self-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v6
   stage: SELF-CLUSTER-CONNECT
-  dependencies:
-    - cluster-setup-check
   script:
     - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
     - ./stages/6-self-cluster-connect/self-connect-cluster-check
