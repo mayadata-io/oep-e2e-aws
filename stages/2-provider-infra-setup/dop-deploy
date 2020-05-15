@@ -18,7 +18,7 @@ stage="INFRA-SETUP"
 test_desc="Install DOP using helm with SSD underneath"
 
 
-IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1)
+IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1):30380
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
@@ -72,6 +72,7 @@ sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
 sed '/initContainers:/,/Bidirectional/d' -i templates/dep-maya-ui.yaml
+
 cat templates/dep-maya-ui.yaml
 
 # Apply helm chart
@@ -88,7 +89,6 @@ kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 node_name=$(kubectl get node | awk {'print $1'} | head -n 4 | tail -n 1)
 ## Installing heapster components on the cluster for node monitoring
 wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
-sed -i -e '/args:/ a\          - --kubelet-insecure-tls' components.yaml
 sed -i -e '/args:/ a\          - --kubelet-insecure-tls' components.yaml
 sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' components.yaml
 sed -i -e '/mountPath:/ a\      hostNetwork: true' components.yaml
