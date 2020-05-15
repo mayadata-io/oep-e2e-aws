@@ -11,6 +11,7 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster2/config ~/.kube/config
 
+bash utils/pooling jobname:director-self-cluster-connect-check
 bash utils/e2e-cr jobname:metrics-check jobphase:Running
 
 kubectl create clusterrolebinding upgrade-admin --clusterrole cluster-admin --serviceaccount=litmus:litmus

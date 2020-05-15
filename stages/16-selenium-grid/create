@@ -8,6 +8,9 @@ GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
 path=$(pwd)
 
+bash utils/pooling jobname:triv01-teaming-invite-check
+bash utils/e2e-cr jobname:selenium-grid-deploy jobphase:Running
+
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
