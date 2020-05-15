@@ -11,12 +11,14 @@ stages:
     - METRICS-CHECK
     - TEAMING-CHECK
     - TOPOLOGY-CHECK
-    - OPENEBS-INSTALL-CHECK
     - SELENIUM-GRID-SETUP
+    - OPENEBS-INSTALL-CHECK
+    - DIRECTOR-GUI-CHECK
     # - CSTORPOOL-RECOMMENDATION-CHECK
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
-    - DIRECTOR-GUI-CHECK
+    - DIRECTOR-GUI-DMAAS-PREREQUISITE
+    - DIRECTOR-GUI-DMAAS-CHECK
     - E2E-METRICS
     - CLUSTER-CLEANUP
   
@@ -182,6 +184,7 @@ director-self-cluster-connect-check:
     - ./stages/6-self-cluster-connect/self-connect-cluster-check
 
 ## GUI automated tests on Openebs installation on DOP cluster
+
 tcid-gaau01-gui-auth-check:
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
@@ -283,7 +286,143 @@ tcid-gada02-gui-dashboard-overview-check:
   artifacts:
     when: always
     paths:
-        - /builds/oep/oep-e2e-aws/gui-automation/results
+      - /builds/oep/oep-e2e-aws/gui-automation/results
+
+gui-profile-check:
+  image: harshshekhar15/gitlab-job:v6
+  stage: DIRECTOR-GUI-CHECK
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-profile-check
+    - ./stages/14-director-gui-check/gui-profile-check
+  artifacts:
+    when: always
+    paths:
+      - /builds/oep/oep-e2e-aws/gui-automation/results
+
+DIRECTOR-DMAAS-SC-CLUCTER2:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
+     - ./stages/14-director-gui-check/create-cstor-sc
+
+DIRECTOR-DMAAS-SC-CLUCTER3:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
+   variables:
+     CLUSTER: cluster3
+   script:
+     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
+     - ./stages/14-director-gui-check/create-cstor-sc
+
+
+TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
+     - ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
+     - ./stages/14-director-gui-check/gui-dmaas-device-aws
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-aws
+     - ./stages/14-director-gui-check/gui-dmaas-jiva-aws
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-aws
+     - ./stages/14-director-gui-check/gui-dmaas-cstor-aws
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
+     - ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
+     - ./stages/14-director-gui-check/gui-dmaas-device-minio
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-minio
+     - ./stages/14-director-gui-check/gui-dmaas-jiva-minio
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
+TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   variables:
+     CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-minio
+     - ./stages/14-director-gui-check/gui-dmaas-cstor-minio
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 ## Metrics check
 metrics-check:
@@ -514,7 +653,7 @@ cStor-xfs-volume-resize:
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
-    
+
 # CHAOS Tests JOB
 Jiva-App-Kill:
   image: harshshekhar15/gitlab-job:v6

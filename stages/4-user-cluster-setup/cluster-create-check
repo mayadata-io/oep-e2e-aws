@@ -68,3 +68,4 @@ kubectl get pods -n openebs
 echo -e "\n[ Print 'k8s version' ] ---------------------------------------------\n"
 version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
 echo -e "KubernetesVersion: $version"
+
