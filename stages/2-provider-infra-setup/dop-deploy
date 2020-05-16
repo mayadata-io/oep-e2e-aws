@@ -10,6 +10,11 @@ cp .kube/cluster1 ~/.kube/cluster1
 
 bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Running
 
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
+
 kubectl get node -o wide
 kubectl get po
 
@@ -30,7 +35,6 @@ echo "URL to access DOP: $URL"
 kubectl create configmap config --from-literal=url=$URL -n litmus
 touch .kube/url
 echo $URL > .kube/url
-
 cluster1=$(cat ~/.kube/cluster1)
 aws s3 cp .kube/url s3://k8s-bucket-${cluster1}
 
