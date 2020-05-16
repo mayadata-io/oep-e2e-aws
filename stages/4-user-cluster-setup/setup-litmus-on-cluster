@@ -31,7 +31,7 @@ echo ${cluster1}
 aws s3 cp s3://k8s-bucket-${cluster1}/url .kube/url
 sleep 60
 ls .kube
-url=$(cat ~/.kube/url)
+url=$(cat .kube/url)
 
 # creating configmap
 kubectl create configmap kubeconfig --from-file=$path/.aws$CLUSTER/admin.conf -n litmus
