@@ -77,6 +77,7 @@ cat values.yaml
 helm install --name dop .
 
 echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
+cd ../../..
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
@@ -95,6 +96,7 @@ sleep 300
 kubectl get po
 kubectl get po -n kube-system
 kubectl get po -n maya-system
+
 bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Completed
 
 echo -e "\n************************ Running basic-sanity checks **********************************\n"
