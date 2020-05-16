@@ -25,9 +25,11 @@ kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 # creating crb
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
 
-# Fetch director url
+echo -e "\n************************ Fetch director url *********************************************\n"
 cluster1=$(cat ~/.kube/cluster1)
-aws s3 cp s3://k8s-bucket-${cluster1}/.kube/url .kube/url
+echo ${cluster1}
+aws s3 cp s3://k8s-bucket-${cluster1}/url .kube/url
+ls
 url=$(cat ~/.kube/url)
 
 # creating configmap
