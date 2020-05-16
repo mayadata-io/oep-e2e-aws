@@ -19,7 +19,7 @@ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --se
 
 # creating configmap
 
-bash utils/pooling jobname:TCID-DIR-INSTALL-ON-LOCAL-HP
+bash utils/pooling jobname:tcid-dir-install-on-local-hp
 
 # Fetch director url
 cluster1=$(cat ~/.kube/cluster1)

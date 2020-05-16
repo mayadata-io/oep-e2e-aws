@@ -8,7 +8,7 @@ mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/cluster1 ~/.kube/cluster1
 
-bash utils/e2e-cr jobname:TCID-DIR-INSTALL-ON-LOCAL-HP jobphase:Running
+bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Running
 
 kubectl get node -o wide
 kubectl get po
@@ -91,7 +91,7 @@ sleep 300
 kubectl get po
 kubectl get po -n kube-system
 kubectl get po -n maya-system
-bash utils/e2e-cr jobname:TCID-DIR-INSTALL-ON-LOCAL-HP jobphase:Completed
+bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Completed
 
 echo -e "\n************************ Running basic-sanity checks **********************************\n"
 
