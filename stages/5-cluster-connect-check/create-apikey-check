@@ -52,7 +52,6 @@ else
     kubectl create -f secret.yaml -n litmus
     kubectl get secret -n litmus
     kubectl get secret -n litmus director-user-pass -o yaml > secret.yaml
-    cluster1=$(cat ~/.kube/cluster1)
     aws s3 cp secret.yaml s3://k8s-bucket-${cluster1}
     sleep 10
 fi

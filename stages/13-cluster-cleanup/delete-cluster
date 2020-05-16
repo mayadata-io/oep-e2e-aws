@@ -28,7 +28,7 @@ cd litmus/k8s/aws/k8s-installer
     kops delete cluster --name k8s-${cluster}.k8s.local --state=s3://k8s-bucket-${cluster} --yes
     sleep 10
 
-    if [[ "$testResult" == cluster1 ]];then 
+    if [[ "$CLUSTER" == cluster1 ]];then 
         aws s3 rm s3://k8s-bucket-${cluster} --recursive 
     fi
     
