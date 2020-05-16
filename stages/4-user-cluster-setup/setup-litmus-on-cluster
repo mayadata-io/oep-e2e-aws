@@ -29,7 +29,8 @@ echo -e "\n************************ Fetch director url *************************
 cluster1=$(cat ~/.kube/cluster1)
 echo ${cluster1}
 aws s3 cp s3://k8s-bucket-${cluster1}/url .kube/url
-ls
+sleep 60
+ls .kube
 url=$(cat ~/.kube/url)
 
 # creating configmap
