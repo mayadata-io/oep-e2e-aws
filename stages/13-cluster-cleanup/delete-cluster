@@ -3,9 +3,8 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp  .kube/config ~/.kube/config
+cp .kube/config ~/.kube/config
 cp .kube/$CLUSTER ~/.kube/$CLUSTER 2>/dev/null || :
-
 ls .kube
 
 bash utils/pooling jobname:e2e-metrics

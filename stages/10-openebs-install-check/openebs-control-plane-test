@@ -9,14 +9,18 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp  $path/.awscluster3/config ~/.kube/config
+cp $path/.awscluster2/config ~/.kube/config
 
 kubectl get po -n openebs
 
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
-sleep 100
+
+bash utils/pooling jobname:tcid-dir-op-install-openebs
+
+cp $path/.awscluster3/config ~/.kube/config
+
 bash utils/e2e-cr jobname:tcid-iuoi03-openebs-control-plane jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts

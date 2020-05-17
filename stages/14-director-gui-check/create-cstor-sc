@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+# Install minio on cluster 2
+path=$(pwd)
+# Copy kubeconfig
+mkdir -p ~/.kube
+cp  $path/.aws$CLUSTER/config ~/.kube/config
+
+kubectl apply -f $path/stages/14-director-gui-check/template/create-cstor-sc.yaml
+kubectl get sc
