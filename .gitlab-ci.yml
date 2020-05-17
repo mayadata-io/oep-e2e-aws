@@ -4,41 +4,15 @@
 
 stages:
     - CLUSTER-SETUP
-<<<<<<< HEAD
     - INFRA-SETUP
-    # - DIRECTOR-HEALTH-CHECK
-    # - USER-CLUSTER-SETUP
     - CLUSTER-CONNECT
-    # - SELF-CLUSTER-CONNECT
     - DIRECTOR-API-CHECK
-    # - METRICS-CHECK
-    # - TEAMING-CHECK
-    # - TOPOLOGY-CHECK
     - OPENEBS-INSTALL-CHECK
-    # - SELENIUM-GRID-SETUP
-=======
-    - DIRECTOR-SETUP
-    - USER-CLUSTER-SETUP
-    - USER-CLUSTER-CONNECT
-    - SELF-CLUSTER-CONNECT
-    - METRICS-CHECK
-    - TEAMING-CHECK
-    - TOPOLOGY-CHECK
-    - SELENIUM-GRID-SETUP
-    - OPENEBS-INSTALL-CHECK
-    - DIRECTOR-GUI-CHECK
->>>>>>> 065d9dfa9bb02d34a021b66cee926f214a3323a4
-    # - CSTORPOOL-RECOMMENDATION-CHECK
     - DIRECTOR-GUI-CHECK
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
-<<<<<<< HEAD
-    # - E2E-METRICS
-=======
     - DIRECTOR-GUI-DMAAS-PREREQUISITE
     - DIRECTOR-GUI-DMAAS-CHECK
-    - E2E-METRICS
->>>>>>> 065d9dfa9bb02d34a021b66cee926f214a3323a4
     - CLUSTER-CLEANUP
   
 ## Setup the kubernetes cluster
@@ -53,7 +27,6 @@ cluster1-setup:
     paths:
       - .kube/
 
-<<<<<<< HEAD
 ## Create Cluster2 and Cluster3
 cluster2-setup:
   image: harshshekhar15/gitlab-job:v6
@@ -83,8 +56,6 @@ cluster3-setup:
       - .kube/
       - .awscluster3/
 
-=======
->>>>>>> 065d9dfa9bb02d34a021b66cee926f214a3323a4
 ## Deploy director-onprem
 TCID-DIR-INSTALL-ON-LOCAL-HP:
   image: harshshekhar15/gitlab-job:v6
@@ -782,7 +753,7 @@ Jiva-Replica-Node-Affinity:
 e2e-metrics:
   when: always
   image: harshshekhar15/gitlab-job:v3
-  stage: E2E-METRICS
+  stage: CLUSTER-CLEANUP
   dependencies:
     - cluster1-setup
   script:
