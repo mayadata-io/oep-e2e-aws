@@ -519,14 +519,14 @@ TCID-DIR-OP-RE-INSTALL-OPENEBS:
     - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
 
 ## openebs-resource-limit-installation
-TCID-IUOI14-OPENEBS-RESOURCE-LIMIT-INSTALLATION:
+TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
     - cluster3-setup-check
   script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
-    - ./stages/10-openebs-install-check/openebs-resource-limit-installation
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
   image: harshshekhar15/gitlab-job:v6
