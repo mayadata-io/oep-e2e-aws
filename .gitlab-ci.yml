@@ -519,7 +519,7 @@ TCID-DIR-OP-RE-INSTALL-OPENEBS:
     - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
 
 ## openebs-resource-limit-installation
-tcid-iuoi14-openebs-resource-limit-installation:
+TCID-IUOI14-OPENEBS-RESOURCE-LIMIT-INSTALLATION:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
@@ -563,7 +563,7 @@ TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
 
-openebs-storage-policies:
+OPENEBS-STORAGE-POLICIES:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
