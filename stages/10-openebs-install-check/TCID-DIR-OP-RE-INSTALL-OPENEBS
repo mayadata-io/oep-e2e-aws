@@ -17,8 +17,8 @@ kubectl get po -n openebs
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/pooling jobname:tcid-iuoi04-openebs-data-plane
-bash utils/e2e-cr jobname:tcid-iuoi06-openebs-reinstallation jobphase:Running
+bash utils/pooling jobname:tcid-dir-op-install-openebs-dp-on-specific-node
+bash utils/e2e-cr jobname:tcid-dir-op-re-install-openebs:Running
 
 
 # Cloning oep-e2e repository which contains all the test scripts
@@ -28,7 +28,7 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 ##   Running test   ##
 ######################
 
-kubectl create -f oep-e2e/litmus/director/tcid-iuoi06-openebs-reinstallation/run_litmus_test.yml
+kubectl create -f oep-e2e/litmus/director/TCID-DIR-OP-RE-INSTALL-OPENEBS/run_litmus_test.yml
 kubectl get pods -n litmus
 test_name=openebs-reinstallation
 echo $test_name
@@ -46,5 +46,5 @@ echo $testResult
 if [ "$testResult" != Pass ]; then 
 exit 1; 
 else
-    bash utils/e2e-cr jobname:tcid-iuoi06-openebs-reinstallation jobphase:Completed
+    bash utils/e2e-cr jobname:tcid-dir-op-re-install-openebs jobphase:Completed
 fi 
