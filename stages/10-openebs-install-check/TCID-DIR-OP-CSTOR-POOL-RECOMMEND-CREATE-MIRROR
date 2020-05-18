@@ -19,7 +19,7 @@ kubectl get po -n openebs
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/pooling jobname:tcid-iuoi14-openebs-resource-limit-installation
+bash utils/pooling jobname:tcid-dir-op-install-openebs-limit-resource
 bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-create-mirror jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts

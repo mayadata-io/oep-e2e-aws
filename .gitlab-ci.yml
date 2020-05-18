@@ -491,42 +491,42 @@ TCID-DIR-OP-INSTALL-OPENEBS:
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
 
 ## Openebs control plane installation Check
-tcid-iuoi03-openebs-control-plane:
+TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-control-plane-test
-    - ./stages/10-openebs-install-check/openebs-control-plane-test
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
 
 ## Openebs data plane installation Check
-tcid-iuoi04-openebs-data-plane:
+TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
     - cluster3-setup-check
   script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-data-plane-test
-    - ./stages/10-openebs-install-check/openebs-data-plane-test
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
 
 ## Openebs reinstallation Check
-tcid-iuoi06-openebs-reinstallation:
+TCID-DIR-OP-RE-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
     - cluster3-setup-check
   script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-reinstallation-test
-    - ./stages/10-openebs-install-check/openebs-reinstallation-test
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
 
 ## openebs-resource-limit-installation
-tcid-iuoi14-openebs-resource-limit-installation:
+TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
     - cluster3-setup-check
   script: 
-    - chmod 755 ./stages/10-openebs-install-check/openebs-resource-limit-installation
-    - ./stages/10-openebs-install-check/openebs-resource-limit-installation
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
   image: harshshekhar15/gitlab-job:v6
@@ -563,7 +563,7 @@ TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
 
-openebs-storage-policies:
+OPENEBS-STORAGE-POLICIES:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
   dependencies:
