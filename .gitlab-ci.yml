@@ -73,8 +73,6 @@ TCID-DIR-INSTALL-ON-LOCAL-HP:
 selenium-grid-deploy:
   image: harshshekhar15/gitlab-job:v6
   stage: SELENIUM-GRID-SETUP
-  dependencies:
-    - TCID-DIR-INSTALL-ON-LOCAL-HP
   script:
     - chmod 755 ./stages/16-selenium-grid/create
     - ./stages/16-selenium-grid/create
