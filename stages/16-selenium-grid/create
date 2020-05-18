@@ -4,14 +4,12 @@ set -e
 
 path=$(pwd)
 mkdir -p ~/.kube
-cp .awscluster2/config ~/.kube/config
 
 CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
-bash utils/pooling jobname:triv01-teaming-invite-check
-bash utils/e2e-cr jobname:selenium-grid-deploy jobphase:Running
+sleep 120
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
