@@ -73,10 +73,13 @@ TCID-DIR-INSTALL-ON-LOCAL-HP:
 selenium-grid-deploy:
   image: harshshekhar15/gitlab-job:v6
   stage: SELENIUM-GRID-SETUP
+  dependencies:
+    - cluster2-setup
   script:
     - chmod 755 ./stages/16-selenium-grid/create
     - ./stages/16-selenium-grid/create
   artifacts:
+    when: always
     paths:
       - .kube/
 

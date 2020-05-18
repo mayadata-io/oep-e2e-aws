@@ -10,8 +10,6 @@ CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
-path=$(pwd)
-
 bash utils/pooling jobname:triv01-teaming-invite-check
 bash utils/e2e-cr jobname:selenium-grid-deploy jobphase:Running
 
