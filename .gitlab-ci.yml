@@ -82,13 +82,13 @@ selenium-grid-deploy:
     paths:
       - .kube/
 
-## Create Cluster2 and Cluster3
-cluster2-setup-check:
+## Setup Litmus on Cluster2 and Cluster3
+setup-litmus-on-cluster2:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
   script:
-    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check
+    - chmod 755 ./stages/4-user-cluster-setup/setup-litmus-on-cluster
+    - ./stages/4-user-cluster-setup/setup-litmus-on-cluster
   variables:
     CLUSTER: cluster2
   artifacts:
@@ -97,12 +97,12 @@ cluster2-setup-check:
       - .kube/
       - .awscluster2/
 
-cluster3-setup-check:
+setup-litmus-on-cluster3:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
   script:
-    - chmod 755 ./stages/4-user-cluster-setup/cluster-create-check
-    - ./stages/4-user-cluster-setup/cluster-create-check
+    - chmod 755 ./stages/4-user-cluster-setup/setup-litmus-on-cluster
+    - ./stages/4-user-cluster-setup/setup-litmus-on-cluster
   variables:
     CLUSTER: cluster3
   artifacts:
