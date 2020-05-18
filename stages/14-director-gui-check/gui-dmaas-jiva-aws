@@ -11,6 +11,13 @@ path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
 cp  $path/.awscluster2/config ~/.kube/config
+
+####################################
+##  Sequencing and Running test   ##
+####################################
+bash utils/pooling jobname:TCID-DIR-DMAAS-MINIO-DELETE
+bash utils/e2e-cr jobname:TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET jobphase:Running
+
 kubectl get ns
 
 PV_CLAIM_NAME="minio-pv-claim-jiva-aws"
@@ -88,5 +95,7 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 ##   Running test  ##
 ######################
 python3.7 -m pip install -r requirements.txt
-#Running tests with gaau01 marker
+#Running tests with dmaasJivaAws marker
 python3.7 -m pytest -m dmaasJivaAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
+
+bash $path/utils/e2e-cr jobname:TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET jobphase:Completed
