@@ -15,8 +15,8 @@ cp  $path/.awscluster2/config ~/.kube/config
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
-bash utils/pooling jobname:TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET
-bash utils/e2e-cr jobname:TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET jobphase:Running
+bash utils/pooling jobname:tcid-dir-dmaas-schd-jiva-minio-bucket
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-hp-minio-bucket jobphase:Running
 
 kubectl get ns
 
@@ -103,4 +103,4 @@ python3.7 -m pip install -r requirements.txt
 python3.7 -m pytest -m dmaasHostpathMinio --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
 
-bash $path/utils/e2e-cr jobname:TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET jobphase:Completed
+bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-hp-minio-bucket jobphase:Completed

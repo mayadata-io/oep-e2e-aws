@@ -7,8 +7,8 @@ set -ex
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/e2e-cr jobname:DIRECTOR-DMAAS-SC-CREATION jobphase:Waiting
-bash utils/e2e-cr jobname:DIRECTOR-DMAAS-SC-CREATION jobphase:Running
+bash utils/e2e-cr jobname:director-dmaas-sc-creation jobphase:Waiting
+bash utils/e2e-cr jobname:director-dmaas-sc-creation jobphase:Running
 
 ######################
 ##   Prerequisites  ##
@@ -28,4 +28,4 @@ cp  $path/.awscluster3/config ~/.kube/config
 kubectl apply -f $path/stages/14-director-gui-check/template/create-cstor-sc.yaml
 kubectl get sc
 
-bash utils/e2e-cr jobname:tcid-dir-op-install-openebs jobphase:Completed
+bash utils/e2e-cr jobname:director-dmaas-sc-creation jobphase:Completed

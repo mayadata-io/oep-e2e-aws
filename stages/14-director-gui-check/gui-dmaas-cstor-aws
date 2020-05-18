@@ -15,8 +15,8 @@ cp  $path/.awscluster2/config ~/.kube/config
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
-bash utils/pooling jobname:TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET
-bash utils/e2e-cr jobname:TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET jobphase:Running
+bash utils/pooling jobname:tcid-dir-dmaas-schd-local-hp-aws-bucket
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-cstor-aws-bucket jobphase:Running
 
 
 kubectl get ns
@@ -98,4 +98,4 @@ python3.7 -m pip install -r requirements.txt
 #Running tests with dmaasCstorAws marker
 python3.7 -m pytest -m dmaasCstorAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
-bash $path/utils/e2e-cr jobname:TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET jobphase:Completed
+bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-cstor-aws-bucket jobphase:Completed
