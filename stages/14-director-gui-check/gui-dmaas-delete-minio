@@ -16,8 +16,8 @@ echo $URL
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
-bash utils/pooling jobname:TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET
-bash utils/e2e-cr jobname:TCID-DIR-DMAAS-MINIO-DELETE jobphase:Running
+bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-minio-bucket
+bash utils/e2e-cr jobname:tcid-dir-dmaas-minio-delete jobphase:Running
 
 CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
@@ -49,4 +49,5 @@ python3.7 -m pip install -r requirements.txt
 python3.7 -m pytest -m dmaasDelete --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
 cp  $path/.awscluster2/config ~/.kube/config
-bash $path/utils/e2e-cr jobname:TCID-DIR-DMAAS-MINIO-DELETE jobphase:Completed
+cd ../..
+bash utils/e2e-cr jobname:tcid-dir-dmaas-minio-delete jobphase:Completed

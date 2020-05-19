@@ -101,5 +101,6 @@ python3.7 -m pytest -m dmaasJivaMinio --url $URL --environment remote --hub $gri
 
 
 cp  $path/.awscluster2/config ~/.kube/config
-bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-jiva-minio-bucket jobphase:Completed
+cd ../..
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-jiva-minio-bucket jobphase:Completed
 

@@ -101,4 +101,5 @@ python3.7 -m pip install -r requirements.txt
 python3.7 -m pytest -m dmaasHostpathAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
 cp  $path/.awscluster2/config ~/.kube/config
-bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-hp-aws-bucket jobphase:Completed
+cd ../..
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-hp-aws-bucket jobphase:Completed

@@ -104,4 +104,5 @@ python3.7 -m pytest -m dmaasHostpathMinio --url $URL --environment remote --hub 
 
 
 cp  $path/.awscluster2/config ~/.kube/config
-bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-hp-minio-bucket jobphase:Completed
+cd ../..
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-hp-minio-bucket jobphase:Completed

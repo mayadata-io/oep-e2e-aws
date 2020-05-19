@@ -262,17 +262,17 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
      paths:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
-   when: always
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-DMAAS-CHECK
-   script:
-     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
-     - ./stages/14-director-gui-check/gui-dmaas-device-aws
-   artifacts:
-     when: always
-     paths:
-         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+#    when: always
+#    image: harshshekhar15/gitlab-job:v6
+#    stage: DIRECTOR-GUI-DMAAS-CHECK
+#    script:
+#      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
+#      - ./stages/14-director-gui-check/gui-dmaas-device-aws
+#    artifacts:
+#      when: always
+#      paths:
+#          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
    when: always
@@ -310,17 +310,17 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
      paths:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
-   when: always
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-DMAAS-CHECK
-   script:
-     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
-     - ./stages/14-director-gui-check/gui-dmaas-device-minio
-   artifacts:
-     when: always
-     paths:
-         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+#    when: always
+#    image: harshshekhar15/gitlab-job:v6
+#    stage: DIRECTOR-GUI-DMAAS-CHECK
+#    script:
+#      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
+#      - ./stages/14-director-gui-check/gui-dmaas-device-minio
+#    artifacts:
+#      when: always
+#      paths:
+#          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
    when: always
