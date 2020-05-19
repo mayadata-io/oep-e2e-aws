@@ -185,6 +185,7 @@ director-self-cluster-connect-check:
 ## GUI automated tests on Openebs installation on DOP cluster
 
 TCID-GUI-AUTH:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -197,6 +198,7 @@ TCID-GUI-AUTH:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 TCID-GUI-CLUSTER:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -210,6 +212,7 @@ TCID-GUI-CLUSTER:
       - /builds/oep/oep-e2e-aws/gui-automation/results
  
 TCID-GUI-DASHBOARD:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -223,6 +226,7 @@ TCID-GUI-DASHBOARD:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
 TCID-GUI-PROFILE:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -236,6 +240,7 @@ TCID-GUI-PROFILE:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
 DIRECTOR-DMAAS-SC-CREATION:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
@@ -246,6 +251,7 @@ DIRECTOR-DMAAS-SC-CREATION:
 
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -257,6 +263,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -268,6 +275,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -279,6 +287,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -290,6 +299,7 @@ TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -301,6 +311,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -312,6 +323,7 @@ TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -323,6 +335,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
@@ -334,6 +347,7 @@ TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-MINIO-DELETE:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
