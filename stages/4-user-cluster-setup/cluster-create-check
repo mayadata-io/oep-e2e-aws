@@ -3,7 +3,6 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp .kube/url ~/.kube/url
 
 job_id=$(echo $CI_JOB_ID)
 
@@ -21,9 +20,6 @@ sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
 sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 sed '$a\cluster_name: k8s-aws-'"$CLUSTER-$job_id.k8s.local" -i ./vars.yml
 
-# Cloning oep-e2e repository which contains all the test scripts
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-
 # Create k8s cluster
 echo "CREATING CLUSTER"
 ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0 node_size=r5n.xlarge"
@@ -38,35 +34,6 @@ cat ~/.kube/config > $path/.aws$CLUSTER/config
 cat ~/.kube/config > $path/.aws$CLUSTER/admin.conf
 
 kubectl get nodes
-
-# Fetch director url
-url=$(cat ~/.kube/url)
-
-# Setup litmus on the cluster
-kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml 
-# creating docker secret 
-kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
-# creating crb
-kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
-# creating configmap
-kubectl create configmap kubeconfig --from-file=$path/.aws$CLUSTER/admin.conf -n litmus
-kubectl create configmap config --from-literal=url=$url -n litmus
-
-# fetch openebs operator yaml
-openebs_operator=openebs-operator-1.4.0.yaml 
-wget https://openebs.github.io/charts/$openebs_operator
-# set fields required for sparse pool setup
-default_pool_line=$(cat $openebs_operator | grep -n  OPENEBS_IO_INSTALL_DEFAULT_CSTOR_SPARSE_POOL | tail -n +2 | awk -F':' '{print $1}')
-value_line_pool=$(( default_pool_line + 1 ))
-sed -i "${value_line_pool}s/.*/          value: \"true\"/" $openebs_operator
-sparse_line=$(cat $openebs_operator | grep -n  SPARSE_FILE_COUNT | awk -F':' '{print $1}')
-value_line_count=$(( sparse_line + 1 ))
-sed -i "${value_line_count}s/.*/          value: \"1\"/" $openebs_operator
-# deploy openebs operator 
-kubectl apply -f $openebs_operator
-sleep 100
-kubectl get pods -n openebs
 
 echo -e "\n[ Print 'k8s version' ] ---------------------------------------------\n"
 version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
