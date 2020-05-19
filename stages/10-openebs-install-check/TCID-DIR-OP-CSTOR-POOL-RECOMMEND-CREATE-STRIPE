@@ -14,7 +14,6 @@ cp $path/.awscluster2/config ~/.kube/config
 bash utils/pooling jobname:tcid-dir-op-install-openebs
 bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-create-stripe jobphase:Running
 
-
 kubectl get po -n openebs
 
 # Cloning oep-e2e repository which contains all the test scripts

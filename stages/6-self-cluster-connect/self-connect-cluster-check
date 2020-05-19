@@ -4,14 +4,18 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
+path=$(pwd)
 mkdir -p ~/.kube
-cp  .kube/config ~/.kube/config
+cp  $path/.awscluster2/config ~/.kube/config
 cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)
 echo $URL
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
+bash utils/e2e-cr jobname:director-self-cluster-connect-check jobphase:Running
+
 ######################
 ##   Running test  ##
 ######################
@@ -54,5 +58,7 @@ kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
 if [ "$testResult" != Pass ]; then 
-exit 1; 
+    exit 1; 
+else
+    bash utils/e2e-cr jobname:director-self-cluster-connect-check jobphase:Completed
 fi
