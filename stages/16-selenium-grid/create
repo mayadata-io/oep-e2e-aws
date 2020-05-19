@@ -2,11 +2,14 @@
 
 set -e
 
+path=$(pwd)
+mkdir -p ~/.kube
+
 CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
-path=$(pwd)
+sleep 120
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws

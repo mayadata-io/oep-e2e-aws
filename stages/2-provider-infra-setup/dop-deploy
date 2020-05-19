@@ -6,6 +6,15 @@ set -ex
 ######################
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
+cp .kube/cluster1 ~/.kube/cluster1
+
+bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Running
+
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
+
 kubectl get node -o wide
 kubectl get po
 
@@ -26,6 +35,8 @@ echo "URL to access DOP: $URL"
 kubectl create configmap config --from-literal=url=$URL -n litmus
 touch .kube/url
 echo $URL > .kube/url
+cluster1=$(cat ~/.kube/cluster1)
+aws s3 cp .kube/url s3://k8s-bucket-${cluster1}
 
 #Configuring Helm
 wget https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
@@ -78,7 +89,8 @@ cat templates/dep-maya-ui.yaml
 # Apply helm chart
 helm install --name dop .
 
-# Cloning oep repository which contains all the test scripts
+echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
+cd ../../..
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
@@ -97,6 +109,8 @@ kubectl apply -f components.yaml
 sleep 300
 kubectl get po
 kubectl get po -n kube-system
+
+bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Completed
 
 echo -e "\n************************ Running basic-sanity checks **********************************\n"
 

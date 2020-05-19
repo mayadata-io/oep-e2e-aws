@@ -31,3 +31,9 @@ cat ~/.kube/config > $path/.aws$CLUSTER/config
 cat ~/.kube/config > $path/.aws$CLUSTER/admin.conf
 
 kubectl get nodes
+
+echo -e "\n[ Print 'k8s version' ] ---------------------------------------------\n"
+version=$(kubectl get nodes -o=jsonpath='{.items[0].status.nodeInfo.kubeletVersion}')
+echo -e "KubernetesVersion: $version"
+
+echo -e "\n"

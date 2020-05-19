@@ -11,6 +11,7 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster2/config ~/.kube/config
 
+bash utils/pooling jobname:director-self-cluster-connect-check
 bash utils/e2e-cr jobname:metrics-check jobphase:Running
 
 kubectl create clusterrolebinding upgrade-admin --clusterrole cluster-admin --serviceaccount=litmus:litmus
@@ -22,7 +23,9 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 ######################
 ##   Running test   ##
 ######################
-
+kubectl delete secret director-admin-pass -n litmus
+sleep 30
+ 
 echo "Fetching director admin credentials for the following test----------------"
 kubectl create -f oep-e2e/litmus/director/admin-secret/run_litmus_test.yml
 test_name=fetch-unique-id-check

@@ -3,22 +3,36 @@ set -e
 path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp  $path/.aws$CLUSTER/config ~/.kube/config
-cp .kube/url ~/.kube/url
+cp  .kube/config ~/.kube/config
+bash utils/pooling jobname:tcid-dir-install-on-local-hp
 
-# Fetch director url
-url=$(cat ~/.kube/url)
+cp  $path/.aws$CLUSTER/config ~/.kube/config
+cp .kube/cluster1 ~/.kube/cluster1
+
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
-# Setup litmus on the cluster
+echo -e "\n************************ Setup litmus on the cluster *********************************************\n"
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
 kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml 
 # creating docker secret 
 kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
 # creating crb
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+
+echo -e "\n************************ Fetch director url *********************************************\n"
+cluster1=$(cat ~/.kube/cluster1)
+echo ${cluster1}
+aws s3 cp s3://k8s-bucket-${cluster1}/url .kube/url
+sleep 60
+ls .kube
+url=$(cat .kube/url)
+
 # creating configmap
 kubectl create configmap kubeconfig --from-file=$path/.aws$CLUSTER/admin.conf -n litmus
 kubectl create configmap config --from-literal=url=$url -n litmus
