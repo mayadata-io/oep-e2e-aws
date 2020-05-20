@@ -29,5 +29,5 @@ cd gui-automation
 ##   Running test  ##
 ######################
 python3.7 -m pip install -r requirements.txt
-#Running tests with gaau01 marker
+#Running tests with profile marker
 python3.7 -m pytest -m profile --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html

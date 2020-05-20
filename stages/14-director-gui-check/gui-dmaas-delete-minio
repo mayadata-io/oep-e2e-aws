@@ -1,14 +1,26 @@
 #!/bin/bash
+
 set -ex
+
 
 ######################
 ##   Prerequisites  ##
 ######################
+
 mkdir ~/.kube
 cp  .kube/config ~/.kube/config
 cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)
 echo $URL
+
+path=$(pwd)
+cp  $path/.awscluster2/config ~/.kube/config
+
+####################################
+##  Sequencing and Running test   ##
+####################################
+bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-minio-bucket
+bash utils/e2e-cr jobname:tcid-dir-dmaas-minio-delete jobphase:Running
 
 CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
@@ -22,12 +34,23 @@ sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].Outputs[].OutputValue | sed -r 's/"+//g'`
 grid=`echo $output | awk {'print $2'}`
 
+
+#make empty directory
+mkdir -p selenium-auto
+cd selenium-auto
+
 # Cloning oep repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
+
+
 ######################
 ##   Running test  ##
 ######################
 python3.7 -m pip install -r requirements.txt
-#Running tests with cluster marker
-python3.7 -m pytest -m gada01 --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
+#Running tests with dmaasDelete marker
+python3.7 -m pytest -m dmaasDelete --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
+
+#cp  $path/.awscluster2/config ~/.kube/config
+cd ../..
+bash utils/e2e-cr jobname:tcid-dir-dmaas-minio-delete jobphase:Completed
