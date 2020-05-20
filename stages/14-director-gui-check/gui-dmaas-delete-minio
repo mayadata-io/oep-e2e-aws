@@ -13,6 +13,9 @@ cp .kube/url ~/.kube/url
 URL=$(cat ~/.kube/url)
 echo $URL
 
+path=$(pwd)
+cp  $path/.awscluster2/config ~/.kube/config
+
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
@@ -48,6 +51,6 @@ python3.7 -m pip install -r requirements.txt
 #Running tests with dmaasDelete marker
 python3.7 -m pytest -m dmaasDelete --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
-cp  $path/.awscluster2/config ~/.kube/config
+#cp  $path/.awscluster2/config ~/.kube/config
 cd ../..
 bash utils/e2e-cr jobname:tcid-dir-dmaas-minio-delete jobphase:Completed
