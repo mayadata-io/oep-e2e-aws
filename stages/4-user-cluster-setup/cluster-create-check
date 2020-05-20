@@ -5,14 +5,15 @@ mkdir -p ~/.kube
 mkdir -p /tmp/aws
 
 job_id=$(echo $CI_JOB_ID)
+cluster_name="aws-$CLUSTER-$job_id"
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus/k8s/aws/k8s-installer
+git clone https://github.com/openebs/e2e-tests.git
+cd e2e-tests/k8s/aws/k8s-installer
 
 sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
@@ -22,7 +23,7 @@ sed '$a\cluster_name: k8s-aws-'"$CLUSTER-$job_id.k8s.local" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0 node_size=r5n.xlarge"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0 node_size=r5n.xlarge cluster_name=$cluster_name"
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
