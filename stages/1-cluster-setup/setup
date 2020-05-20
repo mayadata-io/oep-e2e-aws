@@ -8,8 +8,8 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
-job_id=$(echo $CI_JOB_ID)
-cluster_name="aws-cluster1-"$job_id
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+cluster_name="aws-cluster1-"$CI_PIPELINE_ID
 echo "VPC: $RELEASE_VPC"
 
 git clone https://github.com/openebs/e2e-tests.git
@@ -19,7 +19,7 @@ sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
 sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
-sed '$a\cluster_name: aws-cluster1-'"$job_id" -i ./vars.yml
+sed '$a\cluster_name: aws-cluster1-'"$CI_PIPELINE_ID" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"

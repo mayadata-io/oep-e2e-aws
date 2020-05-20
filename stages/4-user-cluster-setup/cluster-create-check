@@ -4,8 +4,8 @@ path=$(pwd)
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
 
-job_id=$(echo $CI_JOB_ID)
-cluster_name="aws-$CLUSTER-$job_id"
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+cluster_name="aws-$CLUSTER-$CI_PIPELINE_ID"
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -19,7 +19,7 @@ sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed '$a\vpc_id: '"$RELEASE_VPC" -i ./vars.yml
 sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
-sed '$a\cluster_name: k8s-aws-'"$CLUSTER-$job_id.k8s.local" -i ./vars.yml
+sed '$a\cluster_name: k8s-aws-'"$CLUSTER-$CI_PIPELINE_ID.k8s.local" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
