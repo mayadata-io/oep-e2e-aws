@@ -27,7 +27,7 @@ stage="INFRA-SETUP"
 test_desc="Install DOP using helm with SSD underneath"
 
 
-IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1):30380
+IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1)
 URL=http://$IP
 echo "URL to access DOP: $URL"
 
