@@ -54,13 +54,11 @@ helm version
 
 echo "deploying DOP" 
 
-echo -e "\n[ Cloning director-charts-internal repo ]--------------------\n"
+echo -e "\n[ Cloning director-charts repo ]--------------------\n"
 git clone https://$username:$password@github.com/mayadata-io/director-charts.git
 
-cd director-charts
-
 echo "\n[ Get DOP release version ]-------------------------------------\n"
-cd "$RELEASE"
+cd director-charts/"$RELEASE"
 
 # Create secret having maya-init repo access
 kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
@@ -78,7 +76,7 @@ cat values.yaml
 helm install --name dop .
 
 echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
-cd ../../..
+cd ../..
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
