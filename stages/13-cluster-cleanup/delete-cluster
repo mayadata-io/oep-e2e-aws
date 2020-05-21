@@ -7,6 +7,9 @@ cp .kube/config ~/.kube/config
 cp .kube/$CLUSTER ~/.kube/$CLUSTER 2>/dev/null || :
 ls .kube
 
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+cluster_name="aws-$CLUSTER-"$CI_PIPELINE_ID
+
 bash utils/pooling jobname:e2e-metrics
 bash utils/e2e-cr jobname:$CLUSTER-cleanup jobphase:Running
 
@@ -24,15 +27,15 @@ cd litmus/k8s/aws/k8s-installer
     cluster=$(cat ~/.kube/$CLUSTER)
 
     echo '#### Delete '$CLUSTER' ####'
-    kops delete cluster --name k8s-${cluster}.k8s.local --state=s3://k8s-bucket-${cluster} --yes
+    kops delete cluster --name k8s-${cluster_name}.k8s.local --state=s3://k8s-bucket-${cluster_name} --yes
     sleep 10
 
     if [[ "$CLUSTER" == cluster1 ]];then 
-        aws s3 rm s3://k8s-bucket-${cluster} --recursive 
+        aws s3 rm s3://k8s-bucket-${cluster_name} --recursive 
     fi
     
-    aws s3api delete-bucket --bucket k8s-bucket-${cluster} --region us-west-2
-    aws ec2 delete-tags --resources $RELEASE_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster}.k8s.local
+    aws s3api delete-bucket --bucket k8s-bucket-${cluster_name} --region us-west-2
+    aws ec2 delete-tags --resources $RELEASE_SUBNET --tags Key=kubernetes.io/cluster/k8s-${cluster_name}.k8s.local
 } || {
     echo '!!! Something went wrong during cluster cleanup !!!' 
 }

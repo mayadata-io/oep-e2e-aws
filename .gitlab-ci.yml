@@ -11,11 +11,11 @@ stages:
     - DIRECTOR-GUI-CHECK
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
-    - DIRECTOR-GUI-DMAAS-PREREQUISITE
     - DIRECTOR-GUI-DMAAS-CHECK
     - CLUSTER-CLEANUP
-  
-## Setup the kubernetes cluster
+
+## CLUSTER-SETUP
+# Setup the kubernetes cluster1
 cluster1-setup:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-SETUP
@@ -27,7 +27,7 @@ cluster1-setup:
     paths:
       - .kube/
 
-## Create Cluster2 and Cluster3
+# Setup the kubernetes cluster2
 cluster2-setup:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-SETUP
@@ -42,6 +42,7 @@ cluster2-setup:
       - .kube/
       - .awscluster2/
 
+# Setup the kubernetes cluster3
 cluster3-setup:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-SETUP
@@ -56,7 +57,8 @@ cluster3-setup:
       - .kube/
       - .awscluster3/
 
-## Deploy director-onprem
+## INFRA-SETUP
+# Deploy director-onprem
 TCID-DIR-INSTALL-ON-LOCAL-HP:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
@@ -69,21 +71,7 @@ TCID-DIR-INSTALL-ON-LOCAL-HP:
     paths:
       - .kube/
 
-## Selenium Grid Spin up
-selenium-grid-deploy:
-  image: harshshekhar15/gitlab-job:v6
-  stage: SELENIUM-GRID-SETUP
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/16-selenium-grid/create
-    - ./stages/16-selenium-grid/create
-  artifacts:
-    when: always
-    paths:
-      - .kube/
-
-## Setup Litmus on Cluster2 and Cluster3
+# Setup Litmus on cluster2
 setup-litmus-on-cluster2:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
@@ -98,6 +86,7 @@ setup-litmus-on-cluster2:
       - .kube/
       - .awscluster2/
 
+# Setup Litmus on cluster3
 setup-litmus-on-cluster3:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
@@ -112,7 +101,7 @@ setup-litmus-on-cluster3:
       - .kube/
       - .awscluster3/
 
-## User cluster connect
+## CLUSTER-CONNECT
 create-apikey-check:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-CONNECT
@@ -192,18 +181,9 @@ ebs-volume-create-cluster3:
     CLUSTER: cluster3
     NUMBEROFVOLUMES: 9
 
-## Self cluster connect
-director-self-cluster-connect-check:
-  image: harshshekhar15/gitlab-job:v6
-  stage: SELF-CLUSTER-CONNECT
-  dependencies:
-    - cluster2-setup-check
-  script:
-    - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
-    - ./stages/6-self-cluster-connect/self-connect-cluster-check
-
-## GUI automated tests on Openebs installation on DOP cluster
-tcid-gaau01-gui-auth-check:
+## DIRECTOR-GUI-CHECK
+TCID-GUI-AUTH:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -214,8 +194,14 @@ tcid-gaau01-gui-auth-check:
   artifacts:
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
+<<<<<<< HEAD
 
 tcid-gacc01-gui-cluster-check:
+=======
+ 
+TCID-GUI-CLUSTER:
+  when: always
+>>>>>>> bcf508239da50a3be72dfa01a43e6b1c4757a075
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -227,6 +213,7 @@ tcid-gacc01-gui-cluster-check:
     when: always
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
+<<<<<<< HEAD
 
 tcid-gada01-gui-dashboard-home-check:
   image: harshshekhar15/gitlab-job:v6
@@ -255,6 +242,11 @@ tcid-gato01-gui-dashboard-topology-check:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
 gui-dashboard-check:
+=======
+ 
+TCID-GUI-DASHBOARD:
+  when: always
+>>>>>>> bcf508239da50a3be72dfa01a43e6b1c4757a075
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -266,6 +258,7 @@ gui-dashboard-check:
     when: always
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
+<<<<<<< HEAD
 
 tcid-gaal01-gui-dashboard-alerts-check:
   image: harshshekhar15/gitlab-job:v6
@@ -305,8 +298,11 @@ tcid-gada02-gui-dashboard-overview-check:
     when: always
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
+=======
+>>>>>>> bcf508239da50a3be72dfa01a43e6b1c4757a075
 
-gui-profile-check:
+TCID-GUI-PROFILE:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
@@ -319,30 +315,20 @@ gui-profile-check:
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
-DIRECTOR-DMAAS-SC-CLUCTER2:
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
-   variables:
-     CLUSTER: cluster2
-   script:
-     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
-     - ./stages/14-director-gui-check/create-cstor-sc
-
-DIRECTOR-DMAAS-SC-CLUCTER3:
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-DMAAS-PREREQUISITE
-   variables:
-     CLUSTER: cluster3
-   script:
-     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
-     - ./stages/14-director-gui-check/create-cstor-sc
-
-
-TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
+DIRECTOR-DMAAS-SC-CREATION:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
    variables:
      CLUSTER: cluster2
+   script:
+     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
+     - ./stages/14-director-gui-check/create-cstor-sc
+
+TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
+   when: always
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
      - ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
@@ -351,24 +337,22 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
      paths:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
-   script:
-     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
-     - ./stages/14-director-gui-check/gui-dmaas-device-aws
-   artifacts:
-     when: always
-     paths:
-         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+#    when: always
+#    image: harshshekhar15/gitlab-job:v6
+#    stage: DIRECTOR-GUI-DMAAS-CHECK
+#    script:
+#      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
+#      - ./stages/14-director-gui-check/gui-dmaas-device-aws
+#    artifacts:
+#      when: always
+#      paths:
+#          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-aws
      - ./stages/14-director-gui-check/gui-dmaas-jiva-aws
@@ -378,10 +362,9 @@ TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-aws
      - ./stages/14-director-gui-check/gui-dmaas-cstor-aws
@@ -391,10 +374,9 @@ TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
      - ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
@@ -403,24 +385,22 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
      paths:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
-   image: harshshekhar15/gitlab-job:v6
-   stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
-   script:
-     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
-     - ./stages/14-director-gui-check/gui-dmaas-device-minio
-   artifacts:
-     when: always
-     paths:
-         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+#    when: always
+#    image: harshshekhar15/gitlab-job:v6
+#    stage: DIRECTOR-GUI-DMAAS-CHECK
+#    script:
+#      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
+#      - ./stages/14-director-gui-check/gui-dmaas-device-minio
+#    artifacts:
+#      when: always
+#      paths:
+#          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-minio
      - ./stages/14-director-gui-check/gui-dmaas-jiva-minio
@@ -430,10 +410,9 @@ TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
+   when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-DMAAS-CHECK
-   variables:
-     CLUSTER: cluster2
    script:
      - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-minio
      - ./stages/14-director-gui-check/gui-dmaas-cstor-minio
@@ -442,21 +421,20 @@ TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
      paths:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-## Director API
-## Selenium Grid Spin up
-selenium-grid-deploy:
-  image: harshshekhar15/gitlab-job:v6
-  stage: DIRECTOR-API-CHECK
-  dependencies:
-    - TCID-DIR-INSTALL-ON-LOCAL-HP
-  script:
-    - chmod 755 ./stages/16-selenium-grid/create
-    - ./stages/16-selenium-grid/create
-  artifacts:
-    paths:
-      - .kube/
+TCID-DIR-DMAAS-MINIO-DELETE:
+   when: always
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-delete-minio
+     - ./stages/14-director-gui-check/gui-dmaas-delete-minio
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-## Self cluster connect
+## Director API
+# Self cluster connect
 director-self-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-API-CHECK
@@ -518,8 +496,27 @@ topology-check:
 #   script: 
 #     - chmod 755 ./stages/10-openebs-install-check/openebs-self-installation-check
 #     - ./stages/10-openebs-install-check/openebs-self-installation-check
+<<<<<<< HEAD
   
 ## Openebs install check
+=======
+
+## OPENEBS-INSTALL-CHECK
+# Selenium Grid Spin up
+selenium-grid-deploy:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
+  script:
+    - chmod 755 ./stages/16-selenium-grid/create
+    - ./stages/16-selenium-grid/create
+  artifacts:
+    paths:
+      - .kube/
+
+# Openebs install check
+>>>>>>> bcf508239da50a3be72dfa01a43e6b1c4757a075
 TCID-DIR-OP-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -529,7 +526,7 @@ TCID-DIR-OP-INSTALL-OPENEBS:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
 
-## Openebs control plane installation Check
+# Openebs control plane installation Check
 TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -537,7 +534,7 @@ TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
 
-## Openebs data plane installation Check
+# Openebs data plane installation Check
 TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -547,7 +544,7 @@ TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
 
-## Openebs reinstallation Check
+# Openebs reinstallation Check
 TCID-DIR-OP-RE-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -557,7 +554,7 @@ TCID-DIR-OP-RE-INSTALL-OPENEBS:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
     - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
 
-## openebs-resource-limit-installation
+# openebs-resource-limit-installation
 TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -631,8 +628,7 @@ OPENEBS-STORAGE-POLICIES:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-## Functional Tests
-
+## OPENEBS-FUNCTIONAL
 Jiva-App-Target-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
@@ -714,8 +710,9 @@ cStor-xfs-volume-resize:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
-# CHAOS Tests JOB
+# OPENEBS-CHAOS
 Jiva-App-Kill:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -725,6 +722,7 @@ Jiva-App-Kill:
     - ./stages/19-openebs-chaos/jiva-app-kill
 
 Jiva-Revision-Counter:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -734,6 +732,7 @@ Jiva-Revision-Counter:
     - ./stages/19-openebs-chaos/jiva-revision-counter
 
 Jiva-Replica-Network-Delay:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -743,6 +742,7 @@ Jiva-Replica-Network-Delay:
     - ./stages/19-openebs-chaos/jiva-replica-network-delay
 
 Jiva-Controller-Kill:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -752,6 +752,7 @@ Jiva-Controller-Kill:
     - ./stages/19-openebs-chaos/jiva-controller-kill
 
 Jiva-Controller-Network-Delay:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -761,6 +762,7 @@ Jiva-Controller-Network-Delay:
     - ./stages/19-openebs-chaos/ctrl-network-delay
 
 Jiva-Replica-Node-Affinity:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -769,7 +771,7 @@ Jiva-Replica-Node-Affinity:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
 
-## E2E test coverage
+## CLUSTER-CLEANUP
 e2e-metrics:
   when: always
   image: harshshekhar15/gitlab-job:v3
@@ -825,6 +827,7 @@ cluster3-cleanup:
     when: always
     paths:
       - .kube/
+      
 ## Selenium Grid Clean up
 selenium-grid-cleanup:
   when: always
