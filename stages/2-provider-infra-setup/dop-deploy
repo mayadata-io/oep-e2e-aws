@@ -54,9 +54,9 @@ helm version
 echo "deploying DOP" 
 
 echo -e "\n[ Cloning director-charts-internal repo ]--------------------\n"
-git clone https://$username:$password@github.com/mayadata-io/director-charts.git
+git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
 
-cd director-charts
+cd director-charts-internal
 
 echo "\n[ Get DOP dev version ]-------------------------------------\n"
 git checkout dop-e2e
