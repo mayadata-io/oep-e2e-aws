@@ -9,7 +9,7 @@ CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
-sleep 120
+sleep 180
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws

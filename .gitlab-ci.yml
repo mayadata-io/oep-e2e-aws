@@ -13,8 +13,9 @@ stages:
     - OPENEBS-CHAOS
     - DIRECTOR-GUI-DMAAS-CHECK
     - CLUSTER-CLEANUP
-  
-## Setup the kubernetes cluster
+
+## CLUSTER-SETUP
+# Setup the kubernetes cluster1
 cluster1-setup:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-SETUP
@@ -26,7 +27,7 @@ cluster1-setup:
     paths:
       - .kube/
 
-## Create Cluster2 and Cluster3
+# Setup the kubernetes cluster2
 cluster2-setup:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-SETUP
@@ -41,6 +42,7 @@ cluster2-setup:
       - .kube/
       - .awscluster2/
 
+# Setup the kubernetes cluster3
 cluster3-setup:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-SETUP
@@ -55,7 +57,8 @@ cluster3-setup:
       - .kube/
       - .awscluster3/
 
-## Deploy director-onprem
+## INFRA-SETUP
+# Deploy director-onprem
 TCID-DIR-INSTALL-ON-LOCAL-HP:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
@@ -68,21 +71,7 @@ TCID-DIR-INSTALL-ON-LOCAL-HP:
     paths:
       - .kube/
 
-## Selenium Grid Spin up
-selenium-grid-deploy:
-  image: harshshekhar15/gitlab-job:v6
-  stage: SELENIUM-GRID-SETUP
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/16-selenium-grid/create
-    - ./stages/16-selenium-grid/create
-  artifacts:
-    when: always
-    paths:
-      - .kube/
-
-## Setup Litmus on Cluster2 and Cluster3
+# Setup Litmus on cluster2
 setup-litmus-on-cluster2:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
@@ -97,6 +86,7 @@ setup-litmus-on-cluster2:
       - .kube/
       - .awscluster2/
 
+# Setup Litmus on cluster3
 setup-litmus-on-cluster3:
   image: harshshekhar15/gitlab-job:v6
   stage: INFRA-SETUP
@@ -111,7 +101,7 @@ setup-litmus-on-cluster3:
       - .kube/
       - .awscluster3/
 
-## User cluster connect
+## CLUSTER-CONNECT
 create-apikey-check:
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-CONNECT
@@ -191,18 +181,7 @@ ebs-volume-create-cluster3:
     CLUSTER: cluster3
     NUMBEROFVOLUMES: 9
 
-## Self cluster connect
-director-self-cluster-connect-check:
-  image: harshshekhar15/gitlab-job:v6
-  stage: SELF-CLUSTER-CONNECT
-  dependencies:
-    - cluster2-setup-check
-  script:
-    - chmod 755 ./stages/6-self-cluster-connect/self-connect-cluster-check
-    - ./stages/6-self-cluster-connect/self-connect-cluster-check
-
-## GUI automated tests on Openebs installation on DOP cluster
-
+## DIRECTOR-GUI-CHECK
 TCID-GUI-AUTH:
   when: always
   image: harshshekhar15/gitlab-job:v6
@@ -267,7 +246,6 @@ DIRECTOR-DMAAS-SC-CREATION:
    script:
      - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
      - ./stages/14-director-gui-check/create-cstor-sc
-
 
 TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
    when: always
@@ -378,20 +356,7 @@ TCID-DIR-DMAAS-MINIO-DELETE:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 ## Director API
-## Selenium Grid Spin up
-selenium-grid-deploy:
-  image: harshshekhar15/gitlab-job:v6
-  stage: DIRECTOR-API-CHECK
-  dependencies:
-    - TCID-DIR-INSTALL-ON-LOCAL-HP
-  script:
-    - chmod 755 ./stages/16-selenium-grid/create
-    - ./stages/16-selenium-grid/create
-  artifacts:
-    paths:
-      - .kube/
-
-## Self cluster connect
+# Self cluster connect
 director-self-cluster-connect-check:
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-API-CHECK
@@ -453,8 +418,22 @@ topology-check:
 #   script: 
 #     - chmod 755 ./stages/10-openebs-install-check/openebs-self-installation-check
 #     - ./stages/10-openebs-install-check/openebs-self-installation-check
-    
-## Openebs install check
+
+## OPENEBS-INSTALL-CHECK
+# Selenium Grid Spin up
+selenium-grid-deploy:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-INSTALL-CHECK
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
+  script:
+    - chmod 755 ./stages/16-selenium-grid/create
+    - ./stages/16-selenium-grid/create
+  artifacts:
+    paths:
+      - .kube/
+
+# Openebs install check
 TCID-DIR-OP-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -464,7 +443,7 @@ TCID-DIR-OP-INSTALL-OPENEBS:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
 
-## Openebs control plane installation Check
+# Openebs control plane installation Check
 TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -472,7 +451,7 @@ TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
 
-## Openebs data plane installation Check
+# Openebs data plane installation Check
 TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -482,7 +461,7 @@ TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
 
-## Openebs reinstallation Check
+# Openebs reinstallation Check
 TCID-DIR-OP-RE-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -492,7 +471,7 @@ TCID-DIR-OP-RE-INSTALL-OPENEBS:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
     - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
 
-## openebs-resource-limit-installation
+# openebs-resource-limit-installation
 TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-INSTALL-CHECK
@@ -566,8 +545,7 @@ OPENEBS-STORAGE-POLICIES:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-## Functional Tests
-
+## OPENEBS-FUNCTIONAL
 Jiva-App-Target-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
@@ -649,7 +627,7 @@ cStor-xfs-volume-resize:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
-# CHAOS Tests JOB
+# OPENEBS-CHAOS
 Jiva-App-Kill:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
@@ -704,7 +682,7 @@ Jiva-Replica-Node-Affinity:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
 
-## E2E test coverage
+## CLUSTER-CLEANUP
 e2e-metrics:
   when: always
   image: harshshekhar15/gitlab-job:v3
@@ -760,6 +738,7 @@ cluster3-cleanup:
     when: always
     paths:
       - .kube/
+      
 ## Selenium Grid Clean up
 selenium-grid-cleanup:
   when: always
