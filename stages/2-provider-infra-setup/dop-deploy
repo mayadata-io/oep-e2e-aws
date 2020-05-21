@@ -70,6 +70,7 @@ kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --servi
 
 # Add DOP URL
 sed 's|url:|url: '${IP}'|' -i ./values.yaml
+sed 's|maxMemberCountInOneProject: 10|maxMemberCountInOneProject: 100|' -i ./values.yaml
 sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
 cat values.yaml
 
