@@ -629,6 +629,7 @@ cStor-xfs-volume-resize:
 
 # OPENEBS-CHAOS
 Jiva-App-Kill:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -638,6 +639,7 @@ Jiva-App-Kill:
     - ./stages/19-openebs-chaos/jiva-app-kill
 
 Jiva-Revision-Counter:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -647,6 +649,7 @@ Jiva-Revision-Counter:
     - ./stages/19-openebs-chaos/jiva-revision-counter
 
 Jiva-Replica-Network-Delay:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -656,6 +659,7 @@ Jiva-Replica-Network-Delay:
     - ./stages/19-openebs-chaos/jiva-replica-network-delay
 
 Jiva-Controller-Kill:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -665,6 +669,7 @@ Jiva-Controller-Kill:
     - ./stages/19-openebs-chaos/jiva-controller-kill
 
 Jiva-Controller-Network-Delay:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
@@ -674,6 +679,7 @@ Jiva-Controller-Network-Delay:
     - ./stages/19-openebs-chaos/ctrl-network-delay
 
 Jiva-Replica-Node-Affinity:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
