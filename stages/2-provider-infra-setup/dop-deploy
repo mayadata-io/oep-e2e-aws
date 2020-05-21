@@ -55,9 +55,9 @@ helm version
 echo "deploying DOP" 
 
 echo -e "\n[ Cloning director-charts-internal repo ]--------------------\n"
-git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
+git clone https://$username:$password@github.com/mayadata-io/director-charts.git
 
-cd director-charts-internal
+cd director-charts
 
 echo "\n[ Get DOP release version ]-------------------------------------\n"
 cd "$RELEASE"/director
