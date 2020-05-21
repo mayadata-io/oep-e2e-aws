@@ -8,7 +8,7 @@ cp .kube/$CLUSTER ~/.kube/$CLUSTER 2>/dev/null || :
 ls .kube
 
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
-cluster_name="aws-cluster1-"$CI_PIPELINE_ID
+cluster_name="aws-$CLUSTER-"$CI_PIPELINE_ID
 
 bash utils/pooling jobname:e2e-metrics
 bash utils/e2e-cr jobname:$CLUSTER-cleanup jobphase:Running
