@@ -547,6 +547,7 @@ OPENEBS-STORAGE-POLICIES:
 
 ## OPENEBS-FUNCTIONAL
 Jiva-App-Target-Affinity:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -556,6 +557,7 @@ Jiva-App-Target-Affinity:
     - ./stages/18-openebs-functional/jiva-app-target-affinity
 
 Jiva-Snapshot:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -565,6 +567,7 @@ Jiva-Snapshot:
     - ./stages/18-openebs-functional/jiva-snapshot
 
 Jiva-Snapshot-Clone:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -583,6 +586,7 @@ Jiva-Snapshot-Clone:
 #     - ./stages/18-openebs-functional/jiva-snapshot-delete
 
 Jiva-Volume-Scaleup:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -592,6 +596,7 @@ Jiva-Volume-Scaleup:
     - ./stages/18-openebs-functional/jiva-vol-scaleup
 
 cStor-csi-volume-snapshot:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -601,6 +606,7 @@ cStor-csi-volume-snapshot:
     - ./stages/18-openebs-functional/csi-cstor-snapshot
 
 cStor-csi-volume-clone:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -610,6 +616,7 @@ cStor-csi-volume-clone:
     - ./stages/18-openebs-functional/csi-cstor-clone
 
 cStor-ext4-volume-resize:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
@@ -619,6 +626,7 @@ cStor-ext4-volume-resize:
     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
 
 cStor-xfs-volume-resize:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
