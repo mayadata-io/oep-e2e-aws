@@ -58,7 +58,7 @@ echo -e "\n[ Cloning director-charts repo ]--------------------\n"
 git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
 
 echo "\n[ Get DOP release version ]-------------------------------------\n"
-cd director-charts/"$RELEASE"/director
+cd director-charts-internal/"$RELEASE"/director
 
 # Create secret having maya-init repo access
 kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
