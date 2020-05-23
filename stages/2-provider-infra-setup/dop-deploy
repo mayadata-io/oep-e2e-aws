@@ -76,7 +76,7 @@ cat values.yaml
 helm install --name dop .
 
 echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
-cd ../..
+cd ../../..
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
