@@ -16,9 +16,10 @@ mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
 
-git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
-cd gui-automation
-tests_count=`find . -type f -name '*_test.py' -exec grep -e 'def test_' '{}' \; | wc -l`
+# git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
+# cd gui-automation
+# tests_count=`find . -type f -name '*_test.py' -exec grep -e 'def test_' '{}' \; | wc -l`
+tests_count=30
 echo "Number of GUI test scripts: $tests_count"
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e-aws.git
