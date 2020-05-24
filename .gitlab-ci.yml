@@ -7,7 +7,7 @@ stages:
     - INFRA-SETUP
     - CLUSTER-CONNECT
     - DIRECTOR-API-CHECK
-    - OPENEBS-INSTALL-CHECK
+    - OPENEBS-SETUP
     - DIRECTOR-GUI-CHECK
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
@@ -423,7 +423,7 @@ topology-check:
 # Selenium Grid Spin up
 selenium-grid-deploy:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   dependencies:
     - TCID-DIR-INSTALL-ON-LOCAL-HP
   script:
@@ -436,7 +436,7 @@ selenium-grid-deploy:
 # Openebs install check
 TCID-DIR-OP-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   dependencies:
     - cluster2-setup
   script:
@@ -446,7 +446,7 @@ TCID-DIR-OP-INSTALL-OPENEBS:
 # Openebs control plane installation Check
 TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   script: 
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
@@ -454,7 +454,7 @@ TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
 # Openebs data plane installation Check
 TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   dependencies:
     - cluster3-setup
   script: 
@@ -464,7 +464,7 @@ TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
 # Openebs reinstallation Check
 TCID-DIR-OP-RE-INSTALL-OPENEBS:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   dependencies:
     - cluster3-setup
   script: 
@@ -474,7 +474,7 @@ TCID-DIR-OP-RE-INSTALL-OPENEBS:
 # openebs-resource-limit-installation
 TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   dependencies:
     - cluster3-setup
   script: 
@@ -483,42 +483,42 @@ TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   script:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   script:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   script:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   script:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
 
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   script:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
 
 OPENEBS-STORAGE-POLICIES:
   image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-INSTALL-CHECK
+  stage: OPENEBS-SETUP
   dependencies:
     - cluster2-setup
   script:
@@ -549,8 +549,9 @@ OPENEBS-STORAGE-POLICIES:
 Jiva-App-Target-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
     - ./stages/18-openebs-functional/jiva-app-target-affinity
@@ -558,8 +559,9 @@ Jiva-App-Target-Affinity:
 Jiva-Snapshot:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
     - ./stages/18-openebs-functional/jiva-snapshot
@@ -567,8 +569,9 @@ Jiva-Snapshot:
 Jiva-Snapshot-Clone:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
     - ./stages/18-openebs-functional/jiva-snapshot-clone
@@ -585,8 +588,9 @@ Jiva-Snapshot-Clone:
 Jiva-Volume-Scaleup:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
     - ./stages/18-openebs-functional/jiva-vol-scaleup
@@ -594,8 +598,9 @@ Jiva-Volume-Scaleup:
 cStor-csi-volume-snapshot:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
     - ./stages/18-openebs-functional/csi-cstor-snapshot
@@ -603,8 +608,9 @@ cStor-csi-volume-snapshot:
 cStor-csi-volume-clone:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
     - ./stages/18-openebs-functional/csi-cstor-clone
@@ -612,8 +618,9 @@ cStor-csi-volume-clone:
 cStor-ext4-volume-resize:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
@@ -621,19 +628,20 @@ cStor-ext4-volume-resize:
 cStor-xfs-volume-resize:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
 # OPENEBS-CHAOS
 Jiva-App-Kill:
-  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
+  when: always
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
     - ./stages/19-openebs-chaos/jiva-app-kill
@@ -643,7 +651,7 @@ Jiva-Revision-Counter:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
     - ./stages/19-openebs-chaos/jiva-revision-counter
@@ -653,7 +661,7 @@ Jiva-Replica-Network-Delay:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
     - ./stages/19-openebs-chaos/jiva-replica-network-delay
@@ -663,7 +671,7 @@ Jiva-Controller-Kill:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
     - ./stages/19-openebs-chaos/jiva-controller-kill
@@ -673,7 +681,7 @@ Jiva-Controller-Network-Delay:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
     - ./stages/19-openebs-chaos/ctrl-network-delay
@@ -683,7 +691,7 @@ Jiva-Replica-Node-Affinity:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
   dependencies:
-    - cluster2-setup
+    - TCID-DIR-OP-INSTALL-OPENEBS
   script:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
