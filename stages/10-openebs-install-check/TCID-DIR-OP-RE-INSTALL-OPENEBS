@@ -32,6 +32,11 @@ kubectl create -f oep-e2e/litmus/director/TCID-DIR-OP-RE-INSTALL-OPENEBS/run_lit
 kubectl get pods -n litmus
 test_name=openebs-reinstallation
 echo $test_name
+
+## E2E Test case plan link
+e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-RE-INSTALL-OPENEBS
+echo -e "\nTC_E2E_PLAN_LINK: $e2e_tc_plan_link\n"
+
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
 job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
