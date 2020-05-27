@@ -12,7 +12,7 @@ stages:
     # - OPENEBS-CHAOS
     # - DIRECTOR-GUI-CHECK
     # - DIRECTOR-GUI-DMAAS-CHECK
-    # - CLUSTER-CLEANUP
+    - CLUSTER-CLEANUP
 
 ## CLUSTER-SETUP
 # Setup the kubernetes cluster1
@@ -682,71 +682,71 @@ ebs-volume-create-cluster3:
 #     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
 #     - ./stages/19-openebs-chaos/rep-node-affinity
 
-# ## CLUSTER-CLEANUP
-# e2e-metrics:
-#   when: always
-#   image: harshshekhar15/gitlab-job:v3
-#   stage: CLUSTER-CLEANUP
-#   dependencies:
-#     - cluster1-setup
-#   script:
-#     - chmod 755 ./stages/12-e2e-metrics/e2e-metrics
-#     - ./stages/12-e2e-metrics/e2e-metrics
-#   artifacts:
-#     paths:
-#       - .kube/
+## CLUSTER-CLEANUP
+e2e-metrics:
+  when: always
+  image: harshshekhar15/gitlab-job:v3
+  stage: CLUSTER-CLEANUP
+  dependencies:
+    - cluster1-setup
+  script:
+    - chmod 755 ./stages/12-e2e-metrics/e2e-metrics
+    - ./stages/12-e2e-metrics/e2e-metrics
+  artifacts:
+    paths:
+      - .kube/
       
-# # Kubernetes cluster cleanup
-# cluster1-cleanup:
-#   when: always
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: CLUSTER-CLEANUP
-#   variables:
-#     CLUSTER: cluster1
-#   script:
-#     - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
-#     - ./stages/13-cluster-cleanup/delete-cluster
-#   artifacts:
-#     when: always
-#     paths:
-#       - .kube/
+# Kubernetes cluster cleanup
+cluster1-cleanup:
+  when: always
+  image: harshshekhar15/gitlab-job:v6
+  stage: CLUSTER-CLEANUP
+  variables:
+    CLUSTER: cluster1
+  script:
+    - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
+    - ./stages/13-cluster-cleanup/delete-cluster
+  artifacts:
+    when: always
+    paths:
+      - .kube/
 
-# cluster2-cleanup:
-#   when: always
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: CLUSTER-CLEANUP
-#   variables:
-#     CLUSTER: cluster2
-#   script:
-#     - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
-#     - ./stages/13-cluster-cleanup/delete-cluster
-#   artifacts:
-#     when: always
-#     paths:
-#       - .kube/
+cluster2-cleanup:
+  when: always
+  image: harshshekhar15/gitlab-job:v6
+  stage: CLUSTER-CLEANUP
+  variables:
+    CLUSTER: cluster2
+  script:
+    - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
+    - ./stages/13-cluster-cleanup/delete-cluster
+  artifacts:
+    when: always
+    paths:
+      - .kube/
 
-# cluster3-cleanup:
-#   when: always
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: CLUSTER-CLEANUP
-#   variables:
-#     CLUSTER: cluster3
-#   script:
-#     - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
-#     - ./stages/13-cluster-cleanup/delete-cluster
-#   artifacts:
-#     when: always
-#     paths:
-#       - .kube/
+cluster3-cleanup:
+  when: always
+  image: harshshekhar15/gitlab-job:v6
+  stage: CLUSTER-CLEANUP
+  variables:
+    CLUSTER: cluster3
+  script:
+    - chmod 755 ./stages/13-cluster-cleanup/delete-cluster
+    - ./stages/13-cluster-cleanup/delete-cluster
+  artifacts:
+    when: always
+    paths:
+      - .kube/
       
-# ## Selenium Grid Clean up
-# selenium-grid-cleanup:
-#   when: always
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: CLUSTER-CLEANUP
-#   script:
-#     - chmod 755 ./stages/16-selenium-grid/delete
-#     - ./stages/16-selenium-grid/delete
-#   artifacts:
-#     paths:
-#       - .kube/
+## Selenium Grid Clean up
+selenium-grid-cleanup:
+  when: always
+  image: harshshekhar15/gitlab-job:v6
+  stage: CLUSTER-CLEANUP
+  script:
+    - chmod 755 ./stages/16-selenium-grid/delete
+    - ./stages/16-selenium-grid/delete
+  artifacts:
+    paths:
+      - .kube/

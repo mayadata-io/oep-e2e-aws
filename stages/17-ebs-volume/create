@@ -24,11 +24,9 @@ cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 kubectl get disks
-ls
 
-git clone https://github.com/mayadata-io/oep-e2e-aws.git
-git checkout oep-release
-cd oep-e2e-aws/stages/17-ebs-volume
+cd stages/17-ebs-volume
+ls
 
 sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
