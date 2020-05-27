@@ -24,6 +24,7 @@ cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 kubectl get disks
+ls
 
 git clone https://github.com/mayadata-io/oep-e2e-aws.git
 git checkout oep-release
