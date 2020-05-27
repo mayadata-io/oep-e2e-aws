@@ -25,7 +25,7 @@ sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 kubectl get disks
 
-cd stages/17-ebs-volume
+cd stages/17-ebs-volume/resources
 ls
 
 sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
