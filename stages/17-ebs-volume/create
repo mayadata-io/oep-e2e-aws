@@ -25,8 +25,8 @@ sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 kubectl get disks
 
-cd stages/17-ebs-volume/resources
-ls
+git clone https://github.com/mayadata-io/litmus.git
+cd litmus/k8s/aws/ebs-volumes
 
 sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
