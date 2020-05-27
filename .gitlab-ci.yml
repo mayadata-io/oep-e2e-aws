@@ -279,7 +279,7 @@ TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
-TCID-DIR-OPENEBS-COMPONENTS-VERSION:
+TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
    when: always
    image: harshshekhar15/gitlab-job:v6
    stage: DIRECTOR-GUI-CHECK
