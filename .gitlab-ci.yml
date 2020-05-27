@@ -516,6 +516,13 @@ TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
 
+TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-SETUP
+  script:
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
+
 OPENEBS-STORAGE-POLICIES:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-SETUP
