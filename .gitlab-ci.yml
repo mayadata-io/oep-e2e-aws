@@ -279,6 +279,18 @@ TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
+TCID-DIR-OPENEBS-COMPONENTS-VERSION:
+   when: always
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-CHECK
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-openebs-components-version
+     - ./stages/14-director-gui-check/gui-openebs-components-version
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
 DIRECTOR-DMAAS-SC-CREATION:
    when: always
    image: harshshekhar15/gitlab-job:v6
@@ -396,6 +408,7 @@ TCID-DIR-DMAAS-MINIO-DELETE:
      when: always
      paths:
          - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
 
 ## Director API
 # Self cluster connect
