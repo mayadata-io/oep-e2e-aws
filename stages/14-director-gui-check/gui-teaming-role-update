@@ -29,5 +29,6 @@ cd gui-automation
 ##   Running test  ##
 ######################
 python3.7 -m pip install -r requirements.txt
-#Running tests with cluster marker
-python3.7 -m pytest -m cluster --url $URL --environment remote --hub $grid -v --tests-per-worker 5 --workers 2 --reruns 1 --html=./results/report.html
+#Running tests with teamingRoleUpdate marker
+# python3.7 -m pytest -m teamingRoleUpdate --url $URL --environment remote --hub $grid -v --tests-per-worker 5 --workers 2 --reruns 1 --html=./results/report.html
+python3.7 -m pytest -m teamingRoleUpdate --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --reruns 1 --html=./results/report.html
