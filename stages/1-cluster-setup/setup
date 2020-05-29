@@ -22,7 +22,7 @@ sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.16.9 image=ami-003634241a8fcdec0 cluster_name=$cluster_name"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.17.6 image=ami-003634241a8fcdec0 cluster_name=$cluster_name"
 
 mkdir $path/.kube
 mkdir $path/.kube/resources
