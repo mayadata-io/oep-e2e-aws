@@ -433,104 +433,104 @@ selenium-grid-deploy:
     paths:
       - .kube/
 
-# Openebs install check
-TCID-DIR-OP-INSTALL-OPENEBS:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
+# # Openebs install check
+# TCID-DIR-OP-INSTALL-OPENEBS:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS
 
-# Openebs control plane installation Check
-TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
+# # Openebs control plane installation Check
+# TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-CP-ON-SPECIFIC-NODE
 
-# Openebs data plane installation Check
-TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  dependencies:
-    - cluster3-setup
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
+# # Openebs data plane installation Check
+# TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   dependencies:
+#     - cluster3-setup
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-DP-ON-SPECIFIC-NODE
 
-# Openebs reinstallation Check
-TCID-DIR-OP-RE-INSTALL-OPENEBS:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  dependencies:
-    - cluster3-setup
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
+# # Openebs reinstallation Check
+# TCID-DIR-OP-RE-INSTALL-OPENEBS:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   dependencies:
+#     - cluster3-setup
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-RE-INSTALL-OPENEBS
 
-# openebs-resource-limit-installation
-TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  dependencies:
-    - cluster3-setup
-  script: 
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
+# # openebs-resource-limit-installation
+# TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   dependencies:
+#     - cluster3-setup
+#   script: 
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-STRIPE
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
+# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-MIRROR
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
+# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-STRIPE
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
+# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-MIRROR
 
-TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
+# TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM
 
-TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
-    - ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
+# TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
+#     - ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
 
-OPENEBS-STORAGE-POLICIES:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-SETUP
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/10-openebs-install-check/openebs-storage-policies
-    - ./stages/10-openebs-install-check/openebs-storage-policies
+# OPENEBS-STORAGE-POLICIES:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-SETUP
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/10-openebs-install-check/openebs-storage-policies
+#     - ./stages/10-openebs-install-check/openebs-storage-policies
 
 ## List capacity recommendations
 # tcid-cpre01-list-recommendations:
@@ -552,142 +552,142 @@ OPENEBS-STORAGE-POLICIES:
 #     - chmod 755 ./stages/15-recommendation-check/device-recommendation
 #     - ./stages/15-recommendation-check/device-recommendation
 
-## OPENEBS-FUNCTIONAL
-Jiva-App-Target-Affinity:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
-    - ./stages/18-openebs-functional/jiva-app-target-affinity
-
-Jiva-Snapshot:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
-    - ./stages/18-openebs-functional/jiva-snapshot
-
-Jiva-Snapshot-Clone:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
-    - ./stages/18-openebs-functional/jiva-snapshot-clone
-
-# Jiva-Snapshot-Delete:
+# ## OPENEBS-FUNCTIONAL
+# Jiva-App-Target-Affinity:
 #   image: harshshekhar15/gitlab-job:v6
 #   stage: OPENEBS-FUNCTIONAL
 #   dependencies:
 #     - cluster2-setup
 #   script:
-#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-delete
-#     - ./stages/18-openebs-functional/jiva-snapshot-delete
+#     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
+#     - ./stages/18-openebs-functional/jiva-app-target-affinity
 
-Jiva-Volume-Scaleup:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
-    - ./stages/18-openebs-functional/jiva-vol-scaleup
+# Jiva-Snapshot:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
+#     - ./stages/18-openebs-functional/jiva-snapshot
 
-cStor-csi-volume-snapshot:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
-    - ./stages/18-openebs-functional/csi-cstor-snapshot
+# Jiva-Snapshot-Clone:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
+#     - ./stages/18-openebs-functional/jiva-snapshot-clone
 
-cStor-csi-volume-clone:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
-    - ./stages/18-openebs-functional/csi-cstor-clone
+# # Jiva-Snapshot-Delete:
+# #   image: harshshekhar15/gitlab-job:v6
+# #   stage: OPENEBS-FUNCTIONAL
+# #   dependencies:
+# #     - cluster2-setup
+# #   script:
+# #     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-delete
+# #     - ./stages/18-openebs-functional/jiva-snapshot-delete
 
-cStor-ext4-volume-resize:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
-    - ./stages/18-openebs-functional/cstor-ext4-volume-resize
+# Jiva-Volume-Scaleup:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
+#     - ./stages/18-openebs-functional/jiva-vol-scaleup
 
-cStor-xfs-volume-resize:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
-    - ./stages/18-openebs-functional/cstor-xfs-volume-resize
+# cStor-csi-volume-snapshot:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
+#     - ./stages/18-openebs-functional/csi-cstor-snapshot
 
-# OPENEBS-CHAOS
-Jiva-App-Kill:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
-    - ./stages/19-openebs-chaos/jiva-app-kill
+# cStor-csi-volume-clone:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
+#     - ./stages/18-openebs-functional/csi-cstor-clone
 
-Jiva-Revision-Counter:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
-    - ./stages/19-openebs-chaos/jiva-revision-counter
+# cStor-ext4-volume-resize:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
+#     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
 
-Jiva-Replica-Network-Delay:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
-    - ./stages/19-openebs-chaos/jiva-replica-network-delay
+# cStor-xfs-volume-resize:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-FUNCTIONAL
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
+#     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
-Jiva-Controller-Kill:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
-    - ./stages/19-openebs-chaos/jiva-controller-kill
+# # OPENEBS-CHAOS
+# Jiva-App-Kill:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
+#     - ./stages/19-openebs-chaos/jiva-app-kill
 
-Jiva-Controller-Network-Delay:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
-    - ./stages/19-openebs-chaos/ctrl-network-delay
+# Jiva-Revision-Counter:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
+#     - ./stages/19-openebs-chaos/jiva-revision-counter
 
-Jiva-Replica-Node-Affinity:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
-    - ./stages/19-openebs-chaos/rep-node-affinity
+# Jiva-Replica-Network-Delay:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
+#     - ./stages/19-openebs-chaos/jiva-replica-network-delay
+
+# Jiva-Controller-Kill:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
+#     - ./stages/19-openebs-chaos/jiva-controller-kill
+
+# Jiva-Controller-Network-Delay:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
+#     - ./stages/19-openebs-chaos/ctrl-network-delay
+
+# Jiva-Replica-Node-Affinity:
+#   image: harshshekhar15/gitlab-job:v6
+#   stage: OPENEBS-CHAOS
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
+#     - ./stages/19-openebs-chaos/rep-node-affinity
 
 ## CLUSTER-CLEANUP
 e2e-metrics:
