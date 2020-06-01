@@ -608,29 +608,27 @@ OPENEBS-STORAGE-POLICIES:
 #     - ./stages/15-recommendation-check/device-recommendation
 
 ## OPENEBS-FUNCTIONAL
-Jiva-App-Target-Affinity:
+
+.functional_test_template:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-FUNCTIONAL
   dependencies:
     - cluster2-setup
+
+Jiva-App-Target-Affinity:
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
     - ./stages/18-openebs-functional/jiva-app-target-affinity
 
 Jiva-Snapshot:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
     - ./stages/18-openebs-functional/jiva-snapshot
 
 Jiva-Snapshot-Clone:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
     - ./stages/18-openebs-functional/jiva-snapshot-clone
@@ -645,46 +643,31 @@ Jiva-Snapshot-Clone:
 #     - ./stages/18-openebs-functional/jiva-snapshot-delete
 
 Jiva-Volume-Scaleup:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
     - ./stages/18-openebs-functional/jiva-vol-scaleup
 
 cStor-csi-volume-snapshot:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
     - ./stages/18-openebs-functional/csi-cstor-snapshot
 
 cStor-csi-volume-clone:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
     - ./stages/18-openebs-functional/csi-cstor-clone
 
 cStor-ext4-volume-resize:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
 
 cStor-xfs-volume-resize:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-FUNCTIONAL
-  dependencies:
-    - cluster2-setup
+  extends: .functional_test_template
   script:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
