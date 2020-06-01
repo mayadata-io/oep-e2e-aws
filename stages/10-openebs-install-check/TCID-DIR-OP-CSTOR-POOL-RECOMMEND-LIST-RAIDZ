@@ -23,7 +23,7 @@ bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-raidz jobphase:R
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e
-kubectl create -f litmus/director/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME/run_litmus_test.yml
+kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-RAIDZ/run_litmus_test.yml
 kubectl get pods -n litmus
 
 test_name=list-recommendations-raidz
