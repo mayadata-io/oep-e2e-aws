@@ -690,56 +690,46 @@ cStor-xfs-volume-resize:
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
 # OPENEBS-CHAOS
-Jiva-App-Kill:
+
+.chaos_test_template:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-CHAOS
+  when: always
   dependencies:
     - cluster2-setup
+
+Jiva-App-Kill:
+  extends: .chaos_test_template
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
     - ./stages/19-openebs-chaos/jiva-app-kill
 
 Jiva-Revision-Counter:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
+  extends: .chaos_test_template
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
     - ./stages/19-openebs-chaos/jiva-revision-counter
 
 Jiva-Replica-Network-Delay:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
+  extends: .chaos_test_template
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
     - ./stages/19-openebs-chaos/jiva-replica-network-delay
 
 Jiva-Controller-Kill:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
+  extends: .chaos_test_template
   script:
     - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
     - ./stages/19-openebs-chaos/jiva-controller-kill
 
 Jiva-Controller-Network-Delay:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
+  extends: .chaos_test_template
   script:
     - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
     - ./stages/19-openebs-chaos/ctrl-network-delay
 
 Jiva-Replica-Node-Affinity:
-  image: harshshekhar15/gitlab-job:v6
-  stage: OPENEBS-CHAOS
-  dependencies:
-    - cluster2-setup
+  extends: .chaos_test_template
   script:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
