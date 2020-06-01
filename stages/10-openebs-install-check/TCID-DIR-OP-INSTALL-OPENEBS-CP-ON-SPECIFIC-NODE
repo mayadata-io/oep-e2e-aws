@@ -47,6 +47,12 @@ do
     sleep 6
 done
 
+echo "********** Check Filesystem state **********"
+{
+    kubectl get bd -n openebs -ojsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.labels.kubernetes\.io/hostname}{"\t"}{.status}{"\t"}{.spec.filesystem}{"\t"}{"\n"}{end}'
+} || {
+    echo "******* BD is not present *******"
+}
 # wget https://openebs.github.io/charts/openebs-ubuntu-setup.yaml
 # kubectl apply -f openebs-ubuntu-setup.yaml
 

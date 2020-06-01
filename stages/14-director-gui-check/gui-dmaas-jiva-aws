@@ -96,7 +96,7 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 ######################
 python3.7 -m pip install -r requirements.txt
 #Running tests with dmaasJivaAws marker
-python3.7 -m pytest -m dmaasJivaAws --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
+python3.7 -m pytest -m dmaasJivaAws --url $URL --environment remote --hub $grid -v -n 5 --html=./results/report.html
 
 
 cp  $path/.awscluster2/config ~/.kube/config

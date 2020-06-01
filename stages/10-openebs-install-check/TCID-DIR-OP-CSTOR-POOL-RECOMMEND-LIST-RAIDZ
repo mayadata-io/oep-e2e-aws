@@ -17,34 +17,33 @@ kubectl get po -n openebs
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/pooling jobname:tcid-dir-op-install-openebs-dp-on-specific-node
-bash utils/e2e-cr jobname:tcid-dir-op-re-install-openebs:Running
-
+bash utils/pooling jobname:tcid-dir-op-delete-cspc-with-no-volume
+bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-raidz jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-
-######################
-##   Running test   ##
-######################
-
-kubectl create -f oep-e2e/litmus/director/TCID-DIR-OP-RE-INSTALL-OPENEBS/run_litmus_test.yml
+cd oep-e2e
+kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-RAIDZ/run_litmus_test.yml
 kubectl get pods -n litmus
-test_name=openebs-reinstallation
+
+test_name=list-recommendations-raidz
 echo $test_name
 
 ## E2E Test case plan link
-e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-RE-INSTALL-OPENEBS
+e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-RAIDZ
 echo -e "\nTC_E2E_PLAN_LINK: $e2e_tc_plan_link\n"
 
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
 echo $litmus_pod
+
 job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
+
 while [[ "$job_status" != "Completed" ]]
 do 
     job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
     sleep 6
 done
+cd ..
 
 echo "********** Check Filesystem state **********"
 {
@@ -56,8 +55,11 @@ echo "********** Check Filesystem state **********"
 kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
-if [ "$testResult" != Pass ]; then 
-exit 1; 
+
+if [ "$testResult" != Pass ]
+then
+  bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-raidz jobphase:Completed
+  exit 1;
 else
-    bash utils/e2e-cr jobname:tcid-dir-op-re-install-openebs jobphase:Completed
-fi 
+  bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-list-raidz jobphase:Completed
+fi
