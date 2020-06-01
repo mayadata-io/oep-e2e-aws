@@ -11,14 +11,9 @@ GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
 sleep 180
 
-echo '#### AWS CONFIG ####'
-mkdir -p ~/.aws
-cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
-
 echo -e "\n************************ Configure Selenium Grid **********************************\n"
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation/resources/grid
 cat selenium-grid-config.yml
 
-bash configure-grid.sh ${GUID}
+bash configure-grid.sh ${GUID} eu-north-1
