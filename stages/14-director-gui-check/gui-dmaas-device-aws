@@ -104,7 +104,7 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 ######################
 python3.7 -m pip install -r requirements.txt
 #Running tests with dmaasDeviceAws marker
-python3.7 -m pytest -m dmaasDeviceAws --url $URL --environment remote --hub $grid -v --tests-per-worker 5 --workers 2 --html=./results/report.html
+python3.7 -m pytest -m dmaasDeviceAws --url $URL --environment remote --hub $grid -v -n 5 --html=./results/report.html
 
 # cp  $path/.awscluster2/config ~/.kube/config
 # bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-aws-bucket jobphase:Completed
