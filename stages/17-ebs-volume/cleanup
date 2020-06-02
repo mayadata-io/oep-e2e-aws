@@ -1,0 +1,36 @@
+#!/bin/bash
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+
+path=$(pwd)
+# Copy kubeconfig
+mkdir -p ~/.kube
+cp  $path/.aws$CLUSTER/config ~/.kube/config
+cp .kube/$CLUSTER ~/.kube/$CLUSTER
+
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
+
+bash utils/pooling jobname:e2e-metrics
+bash utils/e2e-cr jobname:ebs-volume-cleanup-$CLUSTER jobphase:Running 
+
+git clone https://github.com/mayadata-io/litmus.git
+cd litmus/k8s/aws/ebs-volumes
+
+sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
+sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
+sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
+clustername=$(cat ~/.kube/$CLUSTER)
+chars=( {f..p} )
+
+while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
+    chr="${chars[$COUNTER]}"
+    ansible-playbook delete-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
+    
+    let COUNTER=COUNTER+1
+done

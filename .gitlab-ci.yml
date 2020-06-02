@@ -10,7 +10,7 @@ stages:
     # - OPENEBS-SETUP
     # - OPENEBS-FUNCTIONAL
     # - OPENEBS-CHAOS
-    # - DIRECTOR-GUI-CHECK
+     - DIRECTOR-GUI-CHECK
     # - DIRECTOR-GUI-DMAAS-CHECK
     - CLUSTER-CLEANUP
 
@@ -182,18 +182,18 @@ ebs-volume-create-cluster3:
     NUMBEROFVOLUMES: 9
 
 ## DIRECTOR-GUI-CHECK
-# TCID-GUI-AUTH:
-#   when: always
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: DIRECTOR-GUI-CHECK
-#   dependencies:
-#     - TCID-DIR-INSTALL-ON-LOCAL-HP
-#   script:
-#     - chmod 755 ./stages/14-director-gui-check/gui-auth-check
-#     - ./stages/14-director-gui-check/gui-auth-check
-#   artifacts:
-#     paths:
-#       - /builds/oep/oep-e2e-aws/gui-automation/results
+TCID-GUI-AUTH:
+  when: always
+  image: harshshekhar15/gitlab-job:v6
+  stage: DIRECTOR-GUI-CHECK
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-auth-check
+    - ./stages/14-director-gui-check/gui-auth-check
+  artifacts:
+    paths:
+      - /builds/oep/oep-e2e-aws/gui-automation/results
  
 # TCID-GUI-CLUSTER:
 #   when: always
@@ -476,17 +476,17 @@ topology-check:
 
 ## OPENEBS-INSTALL-CHECK
 # Selenium Grid Spin up
-# selenium-grid-deploy:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-SETUP
-#   dependencies:
-#     - TCID-DIR-INSTALL-ON-LOCAL-HP
-#   script:
-#     - chmod 755 ./stages/16-selenium-grid/create
-#     - ./stages/16-selenium-grid/create
-#   artifacts:
-#     paths:
-#       - .kube/
+selenium-grid-deploy:
+  image: harshshekhar15/gitlab-job:v6
+  stage: CLUSTER-CONNECT
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
+  script:
+    - chmod 755 ./stages/16-selenium-grid/create
+    - ./stages/16-selenium-grid/create
+  artifacts:
+    paths:
+      - .kube/
 
 # # Openebs install check
 # TCID-DIR-OP-INSTALL-OPENEBS:
