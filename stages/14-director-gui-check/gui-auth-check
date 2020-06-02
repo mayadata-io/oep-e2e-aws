@@ -16,6 +16,6 @@ GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
 echo -e "\n************************ Run GUI Auth tests **********************************\n"
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
-cd gui-automation/dop-gui-stages/grid
+cd gui-automation/scripts/dop-gui-stages
 
 bash gui-auth-check.sh ${GUID} ${URL} eu-north-1

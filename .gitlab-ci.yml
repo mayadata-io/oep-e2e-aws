@@ -790,6 +790,7 @@ selenium-grid-cleanup:
       - .kube/
 
 ebs-volume-cleanup-cluster2:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-CLEANUP
   script:
@@ -800,6 +801,7 @@ ebs-volume-cleanup-cluster2:
     NUMBEROFVOLUMES: 3
 
 ebs-volume-cleanup-cluster3:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: CLUSTER-CLEANUP
   script:

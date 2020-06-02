@@ -13,7 +13,7 @@ sleep 180
 
 echo -e "\n************************ Configure Selenium Grid **********************************\n"
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
-cd gui-automation/resources/grid
+cd gui-automation/scripts/grid
 cat selenium-grid-config.yml
 
 bash configure-grid.sh ${GUID} eu-north-1
