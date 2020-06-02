@@ -8,8 +8,7 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
-cp  $path/.aws$CLUSTER/config ~/.kube/config
-cp .kube/$CLUSTER ~/.kube/$CLUSTER
+cp .kube/config ~/.kube/config
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -17,6 +16,10 @@ cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 bash utils/pooling jobname:e2e-metrics
+
+cp  $path/.aws$CLUSTER/config ~/.kube/config
+cp .kube/$CLUSTER ~/.kube/$CLUSTER
+
 bash utils/e2e-cr jobname:ebs-volume-cleanup-$CLUSTER jobphase:Running 
 
 git clone https://github.com/mayadata-io/litmus.git
