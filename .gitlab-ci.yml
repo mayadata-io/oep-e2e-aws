@@ -571,6 +571,13 @@ TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-RAIDZ:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-RAIDZ
     - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-RAIDZ
 
+TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-RAIDZ:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-SETUP
+  script:
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-RAIDZ
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-CREATE-RAIDZ
+
 TCID-DIR-OP-CSTOR-POOL-RECOMMEND-LIST-NO-NDM:
   image: harshshekhar15/gitlab-job:v6
   stage: OPENEBS-SETUP
