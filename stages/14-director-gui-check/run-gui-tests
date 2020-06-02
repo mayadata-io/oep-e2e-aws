@@ -1,0 +1,21 @@
+#!/bin/bash
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+mkdir ~/.kube
+cp .kube/config ~/.kube/config
+cp .kube/url ~/.kube/url
+URL=$(cat ~/.kube/url)
+echo $URL
+
+CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
+
+echo -e "\n************************ Run GUI Cluster tests **********************************\n"
+git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
+cd gui-automation/scripts/dop-gui-stages
+
+bash run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
