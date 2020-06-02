@@ -8,6 +8,7 @@ set -ex
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
+mkdir -p /tmp/aws
 cp  $path/.aws$CLUSTER/config ~/.kube/config
 cp .kube/$CLUSTER ~/.kube/$CLUSTER
 
@@ -24,6 +25,9 @@ sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
 clustername=$(cat ~/.kube/$CLUSTER)
 chars=( {f..p} )
+
+aws s3 cp s3://k8s-bucket-$CLUSTER/volume-id /tmp/aws/volume-id
+sleep 30
 
 COUNTER=0
 
