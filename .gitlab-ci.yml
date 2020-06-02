@@ -182,21 +182,23 @@ ebs-volume-create-cluster3:
     NUMBEROFVOLUMES: 9
 
 ## DIRECTOR-GUI-CHECK
-TCID-GUI-AUTH:
-  when: always
+.gui_test_template:
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
     - TCID-DIR-INSTALL-ON-LOCAL-HP
+  artifacts:
+    paths:
+      - /builds/oep/oep-e2e-aws/gui-automation/results
+
+TCID-GUI-AUTH:
+  extends: .gui_test_template
   script:
     - chmod 755 ./stages/14-director-gui-check/run-gui-tests
     - ./stages/14-director-gui-check/run-gui-tests
   variables:
     GROUP: auth
     THREADS: 5
-  artifacts:
-    paths:
-      - /builds/oep/oep-e2e-aws/gui-automation/results
  
 # TCID-GUI-CLUSTER:
 #   when: always
