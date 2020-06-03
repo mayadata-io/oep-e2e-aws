@@ -183,6 +183,7 @@ ebs-volume-create-cluster3:
 
 ## DIRECTOR-GUI-CHECK
 .gui_test_template:
+  when: always
   image: harshshekhar15/gitlab-job:v6
   stage: DIRECTOR-GUI-CHECK
   dependencies:
