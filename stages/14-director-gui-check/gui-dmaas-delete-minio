@@ -26,15 +26,6 @@ CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
-echo '#### AWS CONFIG ####'
-mkdir -p ~/.aws
-cp $AWS_CREDS ~/.aws/credentials
-sed 's|region = us-west-2|region = eu-north-1|' -i ~/.aws/config
-
-output=`aws cloudformation describe-stacks --stack-name $GUID --query Stacks[].Outputs[].OutputValue | sed -r 's/"+//g'`
-grid=`echo $output | awk {'print $2'}`
-
-
 #make empty directory
 mkdir -p selenium-auto
 cd selenium-auto
@@ -43,13 +34,7 @@ cd selenium-auto
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
 
-
-######################
-##   Running test  ##
-######################
-python3.7 -m pip install -r requirements.txt
-#Running tests with dmaasDelete marker
-python3.7 -m pytest -m dmaasDelete --url $URL --environment remote --hub $grid -v -n 5 --html=./results/report.html
+bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
 
 #cp  $path/.awscluster2/config ~/.kube/config
 cd ../..

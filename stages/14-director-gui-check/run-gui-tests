@@ -14,8 +14,8 @@ CI_PROJECT_NAME=$(echo $CI_PROJECT_NAME)
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 GUID=grid-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}
 
-echo -e "\n************************ Run GUI Cluster tests **********************************\n"
+echo -e "\n************************ Run GUI tests **********************************\n"
 git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
-cd gui-automation/scripts/dop-gui-stages
+cd gui-automation
 
-bash run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
+bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
