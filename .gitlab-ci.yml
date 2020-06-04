@@ -551,124 +551,104 @@ OPENEBS-STORAGE-POLICIES:
     - chmod 755 ./stages/10-openebs-install-check/openebs-storage-policies
     - ./stages/10-openebs-install-check/openebs-storage-policies
 
-## List capacity recommendations
-# tcid-cpre01-list-recommendations:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: CSTORPOOL-RECOMMENDATION-CHECK
-#   dependencies:
-#     - cluster2-setup
-#   script:
-#     - chmod 755 ./stages/15-recommendation-check/capacity-recommendation
-#     - ./stages/15-recommendation-check/capacity-recommendation
+# OPENEBS-FUNCTIONAL
+.functional_test_template:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-FUNCTIONAL
+  dependencies:
+    - cluster2-setup
 
-# ## List device recommendations
-# tcid-cpre02-device-recommendation:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: CSTORPOOL-RECOMMENDATION-CHECK
-#   dependencies:
-#     - cluster2-setup
-#   script:
-#     - chmod 755 ./stages/15-recommendation-check/device-recommendation
-#     - ./stages/15-recommendation-check/device-recommendation
+Jiva-App-Target-Affinity:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
+    - ./stages/18-openebs-functional/jiva-app-target-affinity
 
-## OPENEBS-FUNCTIONAL
-# .functional_test_template:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-FUNCTIONAL
-#   dependencies:
-#     - cluster2-setup
+Jiva-Snapshot:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
+    - ./stages/18-openebs-functional/jiva-snapshot
 
-# Jiva-App-Target-Affinity:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/jiva-app-target-affinity
-#     - ./stages/18-openebs-functional/jiva-app-target-affinity
+Jiva-Snapshot-Clone:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
+    - ./stages/18-openebs-functional/jiva-snapshot-clone
 
-# Jiva-Snapshot:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot
-#     - ./stages/18-openebs-functional/jiva-snapshot
+Jiva-Volume-Scaleup:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
+    - ./stages/18-openebs-functional/jiva-vol-scaleup
 
-# Jiva-Snapshot-Clone:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/jiva-snapshot-clone
-#     - ./stages/18-openebs-functional/jiva-snapshot-clone
+cStor-csi-volume-snapshot:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
+    - ./stages/18-openebs-functional/csi-cstor-snapshot
 
-# Jiva-Volume-Scaleup:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/jiva-vol-scaleup
-#     - ./stages/18-openebs-functional/jiva-vol-scaleup
+cStor-csi-volume-clone:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
+    - ./stages/18-openebs-functional/csi-cstor-clone
 
-# cStor-csi-volume-snapshot:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/csi-cstor-snapshot
-#     - ./stages/18-openebs-functional/csi-cstor-snapshot
+cStor-ext4-volume-resize:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
+    - ./stages/18-openebs-functional/cstor-ext4-volume-resize
 
-# cStor-csi-volume-clone:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/csi-cstor-clone
-#     - ./stages/18-openebs-functional/csi-cstor-clone
+cStor-xfs-volume-resize:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
+    - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
-# cStor-ext4-volume-resize:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/cstor-ext4-volume-resize
-#     - ./stages/18-openebs-functional/cstor-ext4-volume-resize
+# OPENEBS-CHAOS
+.chaos_test_template:
+  image: harshshekhar15/gitlab-job:v6
+  stage: OPENEBS-CHAOS
+  when: always
+  dependencies:
+    - cluster2-setup
 
-# cStor-xfs-volume-resize:
-#   extends: .functional_test_template
-#   script:
-#     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
-#     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
+Jiva-App-Kill:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
+    - ./stages/19-openebs-chaos/jiva-app-kill
 
-# # OPENEBS-CHAOS
-# .chaos_test_template:
-#   image: harshshekhar15/gitlab-job:v6
-#   stage: OPENEBS-CHAOS
-#   when: always
-#   dependencies:
-#     - cluster2-setup
+Jiva-Revision-Counter:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
+    - ./stages/19-openebs-chaos/jiva-revision-counter
 
-# Jiva-App-Kill:
-#   extends: .chaos_test_template
-#   script:
-#     - chmod 755 ./stages/19-openebs-chaos/jiva-app-kill
-#     - ./stages/19-openebs-chaos/jiva-app-kill
+Jiva-Replica-Network-Delay:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
+    - ./stages/19-openebs-chaos/jiva-replica-network-delay
 
-# Jiva-Revision-Counter:
-#   extends: .chaos_test_template
-#   script:
-#     - chmod 755 ./stages/19-openebs-chaos/jiva-revision-counter
-#     - ./stages/19-openebs-chaos/jiva-revision-counter
+Jiva-Controller-Kill:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
+    - ./stages/19-openebs-chaos/jiva-controller-kill
 
-# Jiva-Replica-Network-Delay:
-#   extends: .chaos_test_template
-#   script:
-#     - chmod 755 ./stages/19-openebs-chaos/jiva-replica-network-delay
-#     - ./stages/19-openebs-chaos/jiva-replica-network-delay
+Jiva-Controller-Network-Delay:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
+    - ./stages/19-openebs-chaos/ctrl-network-delay
 
-# Jiva-Controller-Kill:
-#   extends: .chaos_test_template
-#   script:
-#     - chmod 755 ./stages/19-openebs-chaos/jiva-controller-kill
-#     - ./stages/19-openebs-chaos/jiva-controller-kill
-
-# Jiva-Controller-Network-Delay:
-#   extends: .chaos_test_template
-#   script:
-#     - chmod 755 ./stages/19-openebs-chaos/ctrl-network-delay
-#     - ./stages/19-openebs-chaos/ctrl-network-delay
-
-# Jiva-Replica-Node-Affinity:
-#   extends: .chaos_test_template
-#   script:
-#     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
-#     - ./stages/19-openebs-chaos/rep-node-affinity
+Jiva-Replica-Node-Affinity:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
+    - ./stages/19-openebs-chaos/rep-node-affinity
 
 ## CLUSTER-CLEANUP
 e2e-metrics:
