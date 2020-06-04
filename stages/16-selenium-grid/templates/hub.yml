@@ -4,11 +4,11 @@ Parameters:
   
   ClusterName:
     Type: String
-    Default: 'grid-aws-ci-release'
+    Default: 'selenium-grid-cluster'
     Description: Cluster name.
   LogName:
     Type: String
-    Default: 'grid-aws-ci-release'
+    Default: 'selenium-grid-log'
     Description: Cluster name.
   ContainerCpu:
     Type: Number
@@ -48,10 +48,10 @@ Parameters:
     Default: 'arn:aws:iam::385569096892:role/ecs-iam'
     Description: ARN of ecsTaskExecutionRole
     
-  VPC:
-    Type: String
-    Default: 'vpc-04f4f13983ea7442f'
-    Description: Vpc ID
+#  VPC:
+#    Type: String
+#    Default: 'vpc-04f4f13983ea7442f'
+#    Description: Vpc ID
 
   # PublicLoadBalancer:
   #   Type: String
@@ -68,14 +68,117 @@ Parameters:
   #   Default: 'arn:aws:elasticloadbalancing:eu-north-1:385569096892:targetgroup/selenium-grid-aws-tg/8fc1c4a89abbe510'
   #   Description: ARN of Target Group
   
-  SecurityGroup:
-    Type: String
-    Default: 'sg-023c868cc88428118'
+#  SecurityGroup
     
 Conditions:
   HasCustomRole: !Not [ !Equals [!Ref 'Role', ''] ]
 
+Mappings:
+  SubnetConfig:
+    VPC:
+      CIDR: '10.0.0.0/16'
+    PublicOne:
+      CIDR: '10.0.0.0/24'
+    PublicTwo:
+      CIDR: '10.0.1.0/24'
+    PrivateOne:
+      CIDR: '10.0.2.0/24'
+    PrivateTwo:
+      CIDR: '10.0.3.0/24'
+
 Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      CidrBlock: !FindInMap ['SubnetConfig', 'VPC', 'CIDR']
+  PublicSubnetOne:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'VPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'PublicOne', 'CIDR']
+      MapPublicIpOnLaunch: true
+  PublicSubnetTwo:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'VPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'PublicTwo', 'CIDR']
+      MapPublicIpOnLaunch: true
+  PrivateSubnetOne:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'VPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'PrivateOne', 'CIDR']
+  PrivateSubnetTwo:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'VPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'PrivateTwo', 'CIDR']
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  GatewayAttachement:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref 'VPC'
+      InternetGatewayId: !Ref 'InternetGateway'
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref 'VPC'
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: GatewayAttachement
+    Properties:
+      RouteTableId: !Ref 'PublicRouteTable'
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref 'InternetGateway'
+  PublicSubnetOneRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetOne
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetTwoRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetTwo
+      RouteTableId: !Ref PublicRouteTable
+  FargateContainerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Access to the Fargate containers
+      VpcId: !Ref 'VPC'
+  EcsSecurityGroupIngressFromPublicALB:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Ingress from the public ALB
+      GroupId: !Ref 'FargateContainerSecurityGroup'
+      IpProtocol: -1
+      SourceSecurityGroupId: !Ref 'PublicLoadBalancerSG'
+  EcsSecurityGroupIngressFromSelf:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Ingress from other containers in the same security group
+      GroupId: !Ref 'FargateContainerSecurityGroup'
+      IpProtocol: -1
+      SourceSecurityGroupId: !Ref 'FargateContainerSecurityGroup'
+
   PublicLoadBalancerSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -93,9 +196,8 @@ Resources:
       - Key: idle_timeout.timeout_seconds
         Value: '30'
       Subnets:
-        - 'subnet-0027cf4119cc5d2d4'
-        - 'subnet-0e93574029eaf08a3'
-        - 'subnet-0fee3e522fd27c27a'
+        - !Ref PublicSubnetOne
+        - !Ref PublicSubnetTwo
       SecurityGroups: [!Ref 'PublicLoadBalancerSG']
 
   ECSCluster:
@@ -217,11 +319,10 @@ Resources:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           SecurityGroups:
-            - !Ref 'SecurityGroup'
+            - !Ref 'FargateContainerSecurityGroup'
           Subnets:
-            - 'subnet-0027cf4119cc5d2d4'
-            - 'subnet-0e93574029eaf08a3'
-            - 'subnet-0fee3e522fd27c27a'
+            - !Ref PublicSubnetOne
+            - !Ref PublicSubnetTwo
       TaskDefinition: !Ref 'TaskDefinitionHub'
       Role:
         Fn::If:
@@ -247,11 +348,10 @@ Resources:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           SecurityGroups:
-            - !Ref 'SecurityGroup'
+            - !Ref 'FargateContainerSecurityGroup'
           Subnets:
-            - 'subnet-0027cf4119cc5d2d4'
-            - 'subnet-0e93574029eaf08a3'
-            - 'subnet-0fee3e522fd27c27a'
+            - !Ref PublicSubnetOne
+            - !Ref PublicSubnetTwo
       TaskDefinition: !Ref 'TaskDefinitionNodeChrome'
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup

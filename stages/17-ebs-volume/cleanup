@@ -1,13 +1,6 @@
 #!/bin/bash
 set -ex
 
-job_id=$(echo $CI_JOB_ID)
-job_name=$(echo $CI_JOB_NAME)
-gittoken=$(echo "$github_token")
-current_time=$(date)
-branch_name=$CI_COMMIT_REF_NAME
-COUNTER=0
-
 ######################
 ##   Prerequisites  ##
 ######################
@@ -15,6 +8,7 @@ COUNTER=0
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
+mkdir -p /tmp/aws
 cp  $path/.aws$CLUSTER/config ~/.kube/config
 cp .kube/$CLUSTER ~/.kube/$CLUSTER
 
@@ -22,8 +16,6 @@ echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
 cp $AWS_CREDS ~/.aws/credentials
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
-
-kubectl get disks
 
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/ebs-volumes
@@ -34,17 +26,14 @@ sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
 clustername=$(cat ~/.kube/$CLUSTER)
 chars=( {f..p} )
 
+aws s3 cp s3://k8s-bucket-$clustername/volume-id /tmp/aws/volume-id
+sleep 30
+
+COUNTER=0
+
 while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
     chr="${chars[$COUNTER]}"
-
-    ansible-playbook create-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
+    ansible-playbook delete-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
+    
     let COUNTER=COUNTER+1
 done
-
-kubectl get disks
-
-sleep 30
-aws s3 cp /tmp/aws/volume-id s3://k8s-bucket-$clustername
-sleep 30
-
-kubectl get bd -n openebs -ojsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.labels.kubernetes\.io/hostname}{"\t"}{.status}{"\t"}{.spec.filesystem}{"\t"}{"\n"}{end}'
