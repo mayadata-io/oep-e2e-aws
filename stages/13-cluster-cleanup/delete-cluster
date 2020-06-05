@@ -7,7 +7,6 @@ CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
 cluster_name="aws-$CLUSTER-"$CI_PIPELINE_ID
 
 bash utils/pooling_with_timeout jobname:e2e-metrics
-bash utils/e2e-cr jobname:$CLUSTER-cleanup jobphase:Running
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws

@@ -10,10 +10,10 @@ while true; do
     echo "***Preceeding job completed**"
     break;
   else
-    if [ $TIMEOUT < 90 ]; then
+    if [ $TIMEOUT -lt 30 ]; then
       echo "****Waiting for previous job to complete***";
       sleep 10;
-      TIMEOUT=TIMEOUT+1
+      let TIMEOUT=TIMEOUT+1
     else
       e2e_cr_status= "Completed"
       break;  

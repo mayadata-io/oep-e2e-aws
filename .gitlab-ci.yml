@@ -26,6 +26,7 @@ cluster1-setup:
     when: always
     paths:
       - .kube/
+      - .ssh/
 
 # Setup the kubernetes cluster2
 cluster2-setup:

@@ -5,7 +5,9 @@ path=$(pwd)
 echo $path
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
+mkdir -p ~/.ssh
 cp $AWS_CREDS ~/.aws/credentials
+cp $SSH_PUB_KEY ~/.ssh/ec2.pub
 sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 
 CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
@@ -22,7 +24,7 @@ sed '$a\subnet_id: '"$RELEASE_SUBNET" -i ./vars.yml
 
 # Create k8s cluster
 echo "CREATING CLUSTER"
-ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.17.6 image=ami-003634241a8fcdec0 cluster_name=$cluster_name"
+ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.17.6 image=ami-003634241a8fcdec0 cluster_name=$cluster_name --ssh-public-key ~/.ssh/ec2.pub"
 
 mkdir $path/.kube
 mkdir $path/.kube/resources
