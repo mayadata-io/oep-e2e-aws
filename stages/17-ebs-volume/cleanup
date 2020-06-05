@@ -9,8 +9,6 @@ path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
 mkdir -p /tmp/aws
-cp  $path/.aws$CLUSTER/config ~/.kube/config
-cp .kube/$CLUSTER ~/.kube/$CLUSTER
 
 echo '#### AWS CONFIG ####'
 mkdir -p ~/.aws
@@ -20,10 +18,12 @@ sed 's|region = eu-central-1|region = us-west-2|' -i ~/.aws/config
 git clone https://github.com/mayadata-io/litmus.git
 cd litmus/k8s/aws/ebs-volumes
 
+CI_PIPELINE_ID=$(echo $CI_PIPELINE_ID)
+cluster_name="aws-$CLUSTER-$CI_PIPELINE_ID"
+
 sed 's|region: eu-west-2|region: us-west-2|' -i ./vars.yml
 sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
-clustername=$(cat ~/.kube/$CLUSTER)
 chars=( {f..p} )
 
 aws s3 cp s3://k8s-bucket-$clustername/volume-id /tmp/aws/volume-id
