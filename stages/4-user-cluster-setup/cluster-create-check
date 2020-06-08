@@ -26,6 +26,8 @@ ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.17.6 ima
 
 CNAME=`cat /tmp/aws/cluster_name.csv | cut -d ',' -f1 | sed -r 's|cluster_name:||'`
 mkdir -p $path/.kube
+mkdir $path/.ssh
+cp -r ~/.ssh/* $path/.ssh
 touch $path/.kube/$CLUSTER
 echo $CNAME > $path/.kube/$CLUSTER
 
