@@ -15,7 +15,7 @@ while true; do
       sleep 10;
       let TIMEOUT=TIMEOUT+1
     else
-      e2e_cr_status= "Completed"
+      e2e_cr_status="Completed"
       break;  
     fi 
   fi
