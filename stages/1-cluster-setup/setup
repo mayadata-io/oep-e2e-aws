@@ -26,9 +26,11 @@ ansible-playbook create-aws-cluster.yml -vv --extra-vars "k8s_version=1.17.6 ima
 
 mkdir $path/.kube
 mkdir $path/.kube/resources
+mkdir $path/.ssh
 cat ~/.kube/config > $path/.kube/config
 cat ~/.kube/config > $path/.kube/admin.conf
 cp -r /tmp/aws/* $path/.kube/resources
+cp -r ~/.ssh/* $path/.ssh
 ls $path/.kube
 
 # Export Cluster name
