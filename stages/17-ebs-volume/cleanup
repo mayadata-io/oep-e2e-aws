@@ -26,14 +26,14 @@ sed 's|zone: eu-west-2a|zone: us-west-2a|' -i ./vars.yml
 sed 's|volume_size: 50|volume_size: 20|' -i ./vars.yml
 chars=( {f..p} )
 
-aws s3 cp s3://k8s-bucket-$clustername/volume-id /tmp/aws/volume-id
+aws s3 cp s3://k8s-bucket-$cluster_name/volume-id /tmp/aws/volume-id
 sleep 30
 
 COUNTER=0
 
 while [  $COUNTER -lt "$NUMBEROFVOLUMES" ]; do
     chr="${chars[$COUNTER]}"
-    ansible-playbook delete-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$clustername.k8s.local device_name=/dev/sd$chr"
+    ansible-playbook delete-ebs-volume.yml -vv --extra-vars "cluster_name=nodes.k8s-$cluster_name.k8s.local device_name=/dev/sd$chr"
     
     let COUNTER=COUNTER+1
 done
