@@ -33,7 +33,7 @@ cd oep-e2e
 kubectl create -f litmus/director/TCID-DIR-OP-DELETE-SPC-WITH-NO-VOLUME/run_litmus_test.yml
 kubectl get pods -n litmus
 
-test_name=delete-cstor-pool
+test_name=delete-spc
 echo $test_name
 
 ## E2E Test case plan link
