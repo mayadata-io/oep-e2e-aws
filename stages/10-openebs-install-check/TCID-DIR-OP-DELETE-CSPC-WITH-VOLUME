@@ -20,6 +20,7 @@ kubectl get po -n openebs
 bash utils/pooling jobname:tcid-dir-op-cstor-pool-recommend-create-raidz
 bash utils/e2e-cr jobname:tcid-dir-op-delete-cspc-with-volume jobphase:Running
 
+
 kubectl create ns delete-cspc
 kubectl apply -f $path/stages/10-openebs-install-check/template/cstor-sc.yml
 kubectl get sc
