@@ -545,6 +545,13 @@ TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
     - ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-CSPC-WITH-NO-VOLUME
 
+TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE:
+  image: mayadataio/tools:gitlab-job-v6
+  stage: OPENEBS-SETUP
+  script:
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE
+
 TCID-DIR-OP-DELETE-SPC-WITH-NO-VOLUME:
   image: mayadataio/tools:gitlab-job-v6
   stage: OPENEBS-SETUP

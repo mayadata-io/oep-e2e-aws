@@ -17,29 +17,22 @@ kubectl get po -n openebs
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/pooling jobname:tcid-dir-op-cstor-pool-recommend-create-raidz
-bash utils/e2e-cr jobname:tcid-dir-op-delete-cspc-with-volume jobphase:Running
+bash utils/pooling jobname:tcid-dir-op-delete-cspc-with-volume 
+bash utils/e2e-cr jobname:tcid-dir-op-delete-cspc-with-volume  jobphase:Running
 
-kubectl create ns delete-cspc
-kubectl apply -f $path/stages/10-openebs-install-check/template/cstor-sc.yml
-kubectl get sc
-sleep 15
-kubectl get ns
-kubectl apply -f $path/stages/10-openebs-install-check/template/minio-manifest/
-sleep 60
-kubectl get pod -n delete-cspc
-sleep 60
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e
-kubectl create -f litmus/director/TCID-DIR-OP-DELETE-CSPC-WITH-VOLUME/run_litmus_test.yml
+platform=AWS
+sed -i "s/platform_name/$platform/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
 kubectl get pods -n litmus
 
 test_name=delete-cspc-with-volume
 echo $test_name
 
 ## E2E Test case plan link
-e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-DELETE-CSPC-WITH-VOLUME
+e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE
 echo -e "\nTC_E2E_PLAN_LINK: $e2e_tc_plan_link\n"
 
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
@@ -54,12 +47,6 @@ do
 done
 cd ..
 
-## Cleanup
-kubectl delete -f $path/stages/10-openebs-install-check/template/minio-manifest/
-kubectl delete ns delete-cspc
-kubectl delete -f $path/stages/10-openebs-install-check/template/cstor-sc.yml
-kubectl delete cstorclusterconfig rec-create-raidz -n openebs
-
 echo "********** Check Filesystem state **********"
 {
     kubectl get bd -n openebs -ojsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.labels.kubernetes\.io/hostname}{"\t"}{.status}{"\t"}{.spec.filesystem}{"\t"}{"\n"}{end}'
@@ -73,8 +60,8 @@ echo $testResult
 
 if [ "$testResult" != Pass ]
 then
-  bash utils/e2e-cr jobname:tcid-dir-op-delete-cspc-with-volume jobphase:Completed
+  bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-raidz-reboot-node jobphase:Completed
   exit 1;
 else
-  bash utils/e2e-cr jobname:tcid-dir-op-delete-cspc-with-volume jobphase:Completed
+  bash utils/e2e-cr jobname:tcid-dir-op-cstor-pool-recommend-raidz-reboot-node jobphase:Completed
 fi
