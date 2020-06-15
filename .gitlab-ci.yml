@@ -195,6 +195,7 @@ ebs-volume-create-cluster3:
     - chmod 755 ./stages/14-director-gui-check/run-gui-tests
     - ./stages/14-director-gui-check/run-gui-tests
   artifacts:
+    when: always
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
@@ -272,7 +273,7 @@ TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
   artifacts:
     when: always
     paths:
-      - /builds/oep/oep-e2e-aws/gui-automation/results
+      - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
 DIRECTOR-DMAAS-SC-CREATION:
   extends: .gui_dmaas_test_template 
