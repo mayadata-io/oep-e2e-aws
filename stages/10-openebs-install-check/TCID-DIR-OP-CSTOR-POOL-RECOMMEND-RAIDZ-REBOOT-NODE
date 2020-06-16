@@ -24,7 +24,7 @@ bash utils/e2e-cr jobname:tcid-dir-op-delete-cspc-with-volume  jobphase:Running
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e
 platform=AWS
-sed -i "s/platform_name/$platform/g" /litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+sed -i "s/platform_name/$platform/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
 kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
 kubectl get pods -n litmus
 
