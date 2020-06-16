@@ -28,7 +28,7 @@ sed -i "s/platform_name/$platform/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECO
 kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
 kubectl get pods -n litmus
 
-test_name=delete-cspc-with-volume
+test_name=cstor-pool-raidz-recommend-reboot-node
 echo $test_name
 
 ## E2E Test case plan link
