@@ -567,6 +567,13 @@ TCID-DIR-OP-DELETE-EXTERNAL-CSPC-WITH-NO-VOLUME:
     - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-EXTERNAL-CSPC-WITH-NO-VOLUME
     - ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-EXTERNAL-CSPC-WITH-NO-VOLUME
 
+TCID-DIR-OP-DELETE-SPC-WITH-VOLUME:
+  image: mayadataio/tools:gitlab-job-v6
+  stage: OPENEBS-SETUP
+  script:
+    - chmod 755 ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-SPC-WITH-VOLUME
+    - ./stages/10-openebs-install-check/TCID-DIR-OP-DELETE-SPC-WITH-VOLUME
+
 OPENEBS-STORAGE-POLICIES:
   image: mayadataio/tools:gitlab-job-v6
   stage: OPENEBS-SETUP
