@@ -28,9 +28,9 @@ kubectl get sc
 
 # Create SPC on cluster
 BLOCK_DEVICE=`kubectl get bd -n openebs --no-headers | grep Unclaimed | awk '{print $1}' | tail -n 1`
-sed -i "s/dummyvalue/'${BLOCK_DEVICE}'/g" $path/stages/14-director-gui-check/create-spc-pool.yaml
-kubectl create -f $path/stages/14-director-gui-check/create-spc-pool.yaml
-kubectl create -f $path/stages/14-director-gui-check/create-spc-sc.yaml
+sed -i "s/dummyvalue/'${BLOCK_DEVICE}'/g" $path/stages/14-director-gui-check/template/create-spc-pool.yaml
+kubectl create -f $path/stages/14-director-gui-check/template/create-spc-pool.yaml
+kubectl create -f $path/stages/14-director-gui-check/template/create-spc-sc.yaml
 
 kubectl get sc
 
