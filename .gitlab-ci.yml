@@ -364,6 +364,15 @@ TCID-DIR-DMAAS-MINIO-DELETE:
     GROUP: dmaasDelete
     THREADS: 5
 
+TCID-DIR-DMAAS-CSTOR-NON-RESTIC:
+  extends: .gui_dmaas_test_template 
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
+    - ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
+  variables:
+    GROUP: dmaasCstorNonRestic
+    THREADS: 5
+
 ## Director API
 # Self cluster connect
 director-self-cluster-connect-check:

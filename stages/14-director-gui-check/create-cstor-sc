@@ -6,7 +6,6 @@ set -ex
 ##   Prerequisites  ##
 ######################
 
-# Install minio on cluster 2
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube
@@ -22,9 +21,17 @@ bash utils/e2e-cr jobname:director-dmaas-sc-creation jobphase:Running
 kubectl apply -f $path/stages/14-director-gui-check/template/create-cstor-sc.yaml
 kubectl get sc
 
-# Install minio on cluster 3
+# Create sc on cluster3
 cp  $path/.awscluster3/config ~/.kube/config
 kubectl apply -f $path/stages/14-director-gui-check/template/create-cstor-sc.yaml
+kubectl get sc
+
+# Create SPC on cluster
+BLOCK_DEVICE=`kubectl get bd -n openebs --no-headers | grep Unclaimed | awk '{print $1}' | tail -n 1`
+sed -i "s/dummyvalue/'${BLOCK_DEVICE}'/g" $path/stages/14-director-gui-check/create-spc-pool.yaml
+kubectl create -f $path/stages/14-director-gui-check/create-spc-pool.yaml
+kubectl create -f $path/stages/14-director-gui-check/create-spc-sc.yaml
+
 kubectl get sc
 
 cp  $path/.awscluster2/config ~/.kube/config
