@@ -1,0 +1,75 @@
+#!/bin/bash
+
+set -ex
+
+######################
+##   Prerequisites  ##
+######################
+
+path=$(pwd)
+# Copy kubeconfig
+mkdir -p ~/.kube
+cp  $path/.awscluster3/config ~/.kube/config
+
+kubectl get po -n openebs
+
+####################################
+##  Sequencing and Running test   ##
+####################################
+
+bash utils/pooling jobname:tcid-dir-op-delete-external-cspc-with-no-volume
+
+cp $path/.awscluster2/config ~/.kube/config
+
+bash utils/e2e-cr jobname:tcid-dir-op-delete-spc-with-volume jobphase:Running
+
+echo "********** Check Filesystem state **********"
+{
+    kubectl get bd -n openebs -ojsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.labels.kubernetes\.io/hostname}{"\t"}{.status}{"\t"}{.spec.filesystem}{"\t"}{"\n"}{end}'
+} || {
+    echo "******* BD is not present *******"
+}
+
+# Cloning oep-e2e repository which contains all the test scripts
+git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+cd oep-e2e
+kubectl create -f litmus/director/TCID-DIR-OP-DELETE-SPC-WITH-VOLUME/run_litmus_test.yml
+kubectl get pods -n litmus
+
+test_name=delete-spc-with-volume
+echo $test_name
+
+## E2E Test case plan link
+e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-DELETE-SPC-WITH-VOLUME
+echo -e "\nTC_E2E_PLAN_LINK: $e2e_tc_plan_link\n"
+
+litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
+echo $litmus_pod
+
+job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
+
+while [[ "$job_status" != "Completed" ]]
+do 
+    job_status=$(kubectl get po  $litmus_pod -n litmus | awk {'print $3'} | tail -n 1)
+    sleep 6
+done
+cd ..
+
+echo "********** Check Filesystem state **********"
+{
+    kubectl get bd -n openebs -ojsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.labels.kubernetes\.io/hostname}{"\t"}{.status}{"\t"}{.spec.filesystem}{"\t"}{"\n"}{end}'
+} || {
+    echo "******* BD is not present *******"
+}
+
+kubectl logs -f $litmus_pod -n litmus
+testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
+echo $testResult
+
+if [ "$testResult" != Pass ]
+then
+  bash utils/e2e-cr jobname:tcid-dir-op-delete-spc-with-volume jobphase:Completed
+  exit 1;
+else
+  bash utils/e2e-cr jobname:tcid-dir-op-delete-spc-with-volume jobphase:Completed
+fi
