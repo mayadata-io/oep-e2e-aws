@@ -356,6 +356,18 @@ TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
     GROUP: dmaasJivaMinio
     THREADS: 5
 
+TCID-DIR-DMAAS-SCHD-JIVA-MYSQL-BUCKET:
+   when: always
+   image: harshshekhar15/gitlab-job:v6
+   stage: DIRECTOR-GUI-DMAAS-CHECK
+   script:
+     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
+     - ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
+   artifacts:
+     when: always
+     paths:
+         - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+
 TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
   extends: .gui_dmaas_test_template 
   script:
