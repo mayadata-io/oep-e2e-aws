@@ -11,6 +11,11 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster3/config ~/.kube/config
 
+echo '#### AWS CONFIG ####'
+mkdir -p ~/.aws
+cp $AWS_CREDS ~/.aws/credentials
+sed 's|region = us-west-2|region = eu-central-1|' -i ~/.aws/config
+
 kubectl get po -n openebs
 
 ####################################
