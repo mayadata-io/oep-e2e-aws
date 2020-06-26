@@ -86,5 +86,9 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
 
 cp  $path/.awscluster2/config ~/.kube/config
+
 cd ../..
 bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-cstor-aws-bucket jobphase:Completed
+
+# Delete minio application
+kubectl delete -f $path/cstor-aws/minio-manifest/

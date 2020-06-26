@@ -24,6 +24,7 @@ cluster1-setup:
     - ./stages/1-cluster-setup/setup
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .ssh/
@@ -39,6 +40,7 @@ cluster2-setup:
     CLUSTER: cluster2
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .awscluster2/
@@ -55,6 +57,7 @@ cluster3-setup:
     CLUSTER: cluster3
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .awscluster3/
@@ -71,6 +74,7 @@ TCID-DIR-INSTALL-ON-LOCAL-HP:
     - chmod 755 ./stages/2-provider-infra-setup/dop-deploy
     - ./stages/2-provider-infra-setup/dop-deploy
   artifacts:
+    expire_in: 1 week
     paths:
       - .kube/
 
@@ -85,6 +89,7 @@ setup-litmus-on-cluster2:
     CLUSTER: cluster2
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .awscluster2/
@@ -100,6 +105,7 @@ setup-litmus-on-cluster3:
     CLUSTER: cluster3
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .awscluster3/
@@ -124,6 +130,7 @@ trrc01-cluster2-connect-check:
     CLUSTER: cluster2
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .awscluster2/
@@ -138,6 +145,7 @@ trrc01-cluster3-connect-check:
     CLUSTER: cluster3
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       - .awscluster3/
@@ -196,6 +204,7 @@ ebs-volume-create-cluster3:
     - ./stages/14-director-gui-check/run-gui-tests
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
@@ -272,6 +281,7 @@ TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
   stage: DIRECTOR-GUI-DMAAS-CHECK
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
@@ -364,6 +374,15 @@ TCID-DIR-DMAAS-MINIO-DELETE:
     GROUP: dmaasDelete
     THREADS: 5
 
+TCID-DIR-DMAAS-CSTOR-NON-RESTIC:
+  extends: .gui_dmaas_test_template 
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
+    - ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
+  variables:
+    GROUP: dmaasCstorNonRestic
+    THREADS: 5
+
 ## Director API
 # Self cluster connect
 director-self-cluster-connect-check:
@@ -439,6 +458,7 @@ selenium-grid-deploy:
     - chmod 755 ./stages/16-selenium-grid/create
     - ./stages/16-selenium-grid/create
   artifacts:
+    expire_in: 1 week
     paths:
       - .kube/
 
@@ -685,7 +705,7 @@ TCID-JIVA-REPLICA-NODE-AFFINITY:
 ## CLUSTER-CLEANUP
 e2e-metrics:
   when: always
-  image: harshshekhar15/gitlab-job:v3
+  image: mayadataio/tools:gitlab-job-v6
   stage: CLUSTER-CLEANUP
   dependencies:
     - cluster1-setup
@@ -693,6 +713,7 @@ e2e-metrics:
     - chmod 755 ./stages/12-e2e-metrics/e2e-metrics
     - ./stages/12-e2e-metrics/e2e-metrics
   artifacts:
+    expire_in: 1 week
     paths:
       - .kube/
       
@@ -708,6 +729,7 @@ cluster1-cleanup:
     - ./stages/13-cluster-cleanup/delete-cluster
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
 
@@ -722,6 +744,7 @@ cluster2-cleanup:
     - ./stages/13-cluster-cleanup/delete-cluster
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
 
@@ -736,6 +759,7 @@ cluster3-cleanup:
     - ./stages/13-cluster-cleanup/delete-cluster
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
       - .kube/
       
@@ -748,6 +772,7 @@ selenium-grid-cleanup:
     - chmod 755 ./stages/16-selenium-grid/delete
     - ./stages/16-selenium-grid/delete
   artifacts:
+    expire_in: 1 week
     paths:
       - .kube/
 
