@@ -705,7 +705,7 @@ TCID-JIVA-REPLICA-NODE-AFFINITY:
 ## CLUSTER-CLEANUP
 e2e-metrics:
   when: always
-  image: harshshekhar15/gitlab-job:v3
+  image: mayadataio/tools:gitlab-job-v6
   stage: CLUSTER-CLEANUP
   dependencies:
     - cluster1-setup

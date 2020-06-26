@@ -27,8 +27,12 @@ kubectl apply -f $path/stages/14-director-gui-check/template/create-cstor-sc.yam
 kubectl get sc
 
 # Create SPC on cluster
-BLOCK_DEVICE=`kubectl get bd -n openebs --no-headers | grep Unclaimed | awk '{print $1}' | tail -n 1`
-sed -i "s/dummyvalue/'${BLOCK_DEVICE}'/g" $path/stages/14-director-gui-check/template/create-spc-pool.yaml
+NODE=`kubectl get node --selector='!node-role.kubernetes.io/master' --no-headers | awk '{print $1}' | tail -n 1`
+BLOCK_DEVICE=`kubectl get bd -n openebs -l kubernetes.io/hostname=${NODE} | grep Unclaimed | awk '{print $1}' | tail -n 1`
+echo $BLOCK_DEVICE
+sed -i "s/dummyvalue/${BLOCK_DEVICE}/g" $path/stages/14-director-gui-check/template/create-spc-pool.yaml
+cat $path/stages/14-director-gui-check/template/create-spc-pool.yaml
+
 kubectl create -f $path/stages/14-director-gui-check/template/create-spc-pool.yaml
 kubectl create -f $path/stages/14-director-gui-check/template/create-spc-sc.yaml
 
