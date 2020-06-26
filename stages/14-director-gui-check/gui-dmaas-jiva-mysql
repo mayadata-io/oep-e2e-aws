@@ -43,7 +43,7 @@ sed 's|claimName: mysql-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/jiva-m
 
 cat $path/jiva-mysql/mysql-manifest/mysql-official.yaml
 
-# Add node port and namespace in mysql-official.yaml
+# Add node port and namespace in mysql-svc.yaml
 sed 's|namespace: mysql-dmaas-jiva|namespace: '${NAMESPACE}'|' -i $path/jiva-mysql/mysql-manifest/mysql-svc.yaml
 sed 's|nodePort: 32753|nodePort: '${NODE_PORT}'|' -i $path/jiva-mysql/mysql-manifest/mysql-svc.yaml
 
