@@ -30,6 +30,12 @@ git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e
 platform=AWS
 sed -i "s/platform_name/$platform/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+cat litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+
+sed -i "s/aws_region/$AWS_REGION/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+sed -i "s/aws_access_key/$AWS_ACCESS_KEY/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+sed -i "s/aws_region/$AWS_SECRET_KEY/g" litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
+
 kubectl create -f litmus/director/TCID-DIR-OP-CSTOR-POOL-RECOMMEND-RAIDZ-REBOOT-NODE/run_litmus_test.yml
 kubectl get pods -n litmus
 
