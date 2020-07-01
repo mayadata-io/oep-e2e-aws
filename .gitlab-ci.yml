@@ -607,6 +607,7 @@ OPENEBS-STORAGE-POLICIES:
 .functional_test_template:
   image: mayadataio/tools:gitlab-job-v6
   stage: OPENEBS-FUNCTIONAL
+  when: always
   dependencies:
     - cluster2-setup
 
