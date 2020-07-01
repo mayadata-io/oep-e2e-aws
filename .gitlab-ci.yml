@@ -659,6 +659,18 @@ TCID-CSTOR-VOLUME-XFS-RESIZE:
     - chmod 755 ./stages/18-openebs-functional/cstor-xfs-volume-resize
     - ./stages/18-openebs-functional/cstor-xfs-volume-resize
 
+TCID-CSTOR-CSI-VOLUME-REPLICA-SCALEUP:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/cstor-csi-volume-scaleup
+    - ./stages/18-openebs-functional/cstor-csi-volume-scaleup
+
+TCID-CSTOR-CSI-VOLUME-REPLICA-SCALEDOWN:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/cstor-csi-volume-scaledown
+    - ./stages/18-openebs-functional/cstor-csi-volume-scaledown
+
 # OPENEBS-CHAOS
 .chaos_test_template:
   image: mayadataio/tools:gitlab-job-v6
