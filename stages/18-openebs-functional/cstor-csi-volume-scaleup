@@ -189,6 +189,6 @@ fi
 
 bash utils/e2e-cr-new jobname:cstor-csi-volume-scaleup jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag" test_result:Pass
 
-if [ "$rc_val" != "0" ]; then
+if [ "$?" != "0" ]; then
 exit 1;
 fi
