@@ -87,7 +87,7 @@ echo "------------------- Load start"
 python3.7 -m pip install -r requirements.txt
 export MYSQLUSER="root"
 export MYSQLPASS="mayadatae2e"
-export MYSQLHOST="wordpress-mysql.jiva-mysql.svc.cluster.local"
+export MYSQLHOST="wordpress-mysql.jiva-mysql"
 python3.7 -m pip install mysql-connector-python
 echo "done"
 python3.7 $path/stages/14-director-gui-check/template/mysql-load/main.py
