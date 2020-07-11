@@ -51,8 +51,17 @@ cat $path/jiva-mysql/mysql-manifest/mysql-svc.yaml
 
 
 kubectl get ns
-kubectl apply -f $path/jiva-mysql/mysql-manifest/
 kubectl get pod -n ${NAMESPACE}
+echo "------------------- Load start"
+export MYSQLUSER="root"
+export MYSQLPASS="mayadatae2e"
+export MYSQLHOST="wordpress-mysql.jiva-mysql"
+sleep 2m
+kubectl get po -n ${NAMESPACE}
+python3.7 -m pip install mysql-connector-python
+echo "done"
+python3.7 $path/stages/14-director-gui-check/template/mysql-load/main.py
+
 
 ####################################
 ##   Prerequisites GUI Automation ##
@@ -83,17 +92,7 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 ######################
 ##   Running test  ##
 ######################
-echo "------------------- Load start"
 python3.7 -m pip install -r requirements.txt
-export MYSQLUSER="root"
-export MYSQLPASS="mayadatae2e"
-export MYSQLHOST="wordpress-mysql.jiva-mysql"
-sleep 2m
-kubectl get po -n ${NAMESPACE}
-python3.7 -m pip install mysql-connector-python
-echo "done"
-python3.7 $path/stages/14-director-gui-check/template/mysql-load/main.py
-
 #Running tests with dmaasJivaMysql marker
 python3.7 -m pytest -m dmaasJivaMysql --url $URL --environment remote --hub $grid -v --tests-per-worker 10 --html=./results/report.html
 
