@@ -51,6 +51,7 @@ cat $path/jiva-mysql/mysql-manifest/mysql-svc.yaml
 
 
 kubectl get ns
+kubectl apply -f $path/jiva-mysql/mysql-manifest/
 kubectl get pod -n ${NAMESPACE}
 echo "------------------- Load start"
 export MYSQLUSER="root"
