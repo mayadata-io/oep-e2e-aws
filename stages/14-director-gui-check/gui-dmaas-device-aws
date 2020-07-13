@@ -15,8 +15,8 @@ cp  $path/.awscluster2/config ~/.kube/config
 # ####################################
 # ##  Sequencing and Running test   ##
 # ####################################
-# bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-aws-bucket
-# bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-aws-bucket jobphase:Running
+bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-aws-bucket
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-aws-bucket jobphase:Running
 
 
 kubectl get ns
@@ -46,7 +46,7 @@ cat $path/device-aws/minio-manifest/minio-pvc.yaml
 # Add pv claim name and namespace in minio-official.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
 sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
-# sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-aws/minio-manifest/minio-official.yaml
+
 cat $path/device-aws/minio-manifest/minio-official.yaml
 
 # Add node port and namespacein minio-svc.yaml
@@ -56,8 +56,7 @@ sed 's|nodePort: 32701|nodePort: '${NODE_PORT}'|' -i $path/device-aws/minio-mani
 
 cat $path/device-aws/minio-manifest/minio-svc.yaml
 
-pwd
-ls
+
 kubectl get ns
 kubectl apply -f $path/device-aws/minio-manifest/
 kubectl get pod -n ${NAMESPACE}
@@ -93,5 +92,7 @@ cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 
 bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
 
-# cp  $path/.awscluster2/config ~/.kube/config
-# bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-aws-bucket jobphase:Completed
+cp  $path/.awscluster2/config ~/.kube/config
+
+cd ../..
+bash $path/utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-aws-bucket jobphase:Completed

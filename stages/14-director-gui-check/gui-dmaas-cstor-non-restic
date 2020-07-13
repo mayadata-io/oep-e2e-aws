@@ -15,7 +15,7 @@ cp  $path/.awscluster2/config ~/.kube/config
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
-bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-aws-bucket
+bash utils/pooling jobname:tcid-dir-dmaas-schd-local-dev-aws-bucket
 bash utils/e2e-cr jobname:tcid-dir-dmaas-cstor-non-restic jobphase:Running
 
 

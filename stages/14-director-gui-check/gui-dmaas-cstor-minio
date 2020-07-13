@@ -5,13 +5,7 @@ set -ex
 ######################
 ##   Prerequisites  ##
 ######################
-mkdir ~/.kube
-cp  .kube/config ~/.kube/config
-cp .kube/url ~/.kube/url
-URL=$(cat ~/.kube/url)
-echo $URL
 
-# Install minio on cluster 2
 path=$(pwd)
 # Copy kubeconfig
 mkdir -p ~/.kube

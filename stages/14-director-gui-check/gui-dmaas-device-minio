@@ -15,8 +15,8 @@ cp  $path/.awscluster2/config ~/.kube/config
 # ####################################
 # ##  Sequencing and Running test   ##
 # ####################################
-# bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-minio-bucket
-# bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-minio-bucket jobphase:Running
+bash utils/pooling jobname:tcid-dir-dmaas-schd-cstor-minio-bucket
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-minio-bucket jobphase:Running
 
 kubectl get ns
 
@@ -31,9 +31,6 @@ kubectl create ns ${NAMESPACE}
 mkdir -p $path/device-minio
 cp -R $path/stages/14-director-gui-check/template/minio-manifest $path/device-minio
 
-# kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}'
-# NODE_SELECTOR=`kubectl get bd -n openebs | awk '{ if($4 == "Unclaimed"){print $2};}' | awk 'NR==1'`
-# echo $NODE_SELECTOR
 
 # Add pv claim name, namespace and storage class name in minio-pvc.yaml
 sed 's|name: minio-pv-claim|name: '${PV_CLAIM_NAME}'|' -i $path/device-minio/minio-manifest/minio-pvc.yaml
@@ -45,7 +42,7 @@ cat $path/device-minio/minio-manifest/minio-pvc.yaml
 # Add pv claim name, namespace and node selector in minio-official.yaml
 sed 's|namespace: test|namespace: '${NAMESPACE}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
 sed 's|claimName: minio-pv-claim|claimName: '${PV_CLAIM_NAME}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
-# sed 's|kubernetes.io/os: linux|kubernetes.io/hostname: '${NODE_SELECTOR}'|' -i $path/device-minio/minio-manifest/minio-official.yaml
+
 cat $path/device-minio/minio-manifest/minio-official.yaml
 
 # Add node port and namespace in minio-svc.yaml
@@ -88,6 +85,7 @@ cd gui-automation
 cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
 
-# cp  $path/.awscluster2/config ~/.kube/config
-# cd ../..
-# bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-minio-buckeT jobphase:Completed
+cp  $path/.awscluster2/config ~/.kube/config
+cd ../..
+bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-local-dev-minio-bucket jobphase:Completed
+kubectl delete -f $path/device-minio/minio-manifest/
