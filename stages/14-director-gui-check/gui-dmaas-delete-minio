@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+# set -ex
 
 
 ######################
@@ -35,7 +35,13 @@ git clone https://$username:$password@github.com/mayadata-io/gui-automation.git
 cd gui-automation
 
 bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
+STATUS=$(echo $?)
 
 #cp  $path/.awscluster2/config ~/.kube/config
 cd ../..
 bash utils/e2e-cr jobname:tcid-dir-dmaas-minio-delete jobphase:Completed
+
+# Exit if selenium jobs fails
+if [ "$STATUS" != "0" ]; then
+exit 1;
+fi
