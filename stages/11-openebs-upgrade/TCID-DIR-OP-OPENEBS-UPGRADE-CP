@@ -11,7 +11,16 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster3/config ~/.kube/config
 
-kubectl get po -n openebs
+kubectl get ns --no-headers=true | awk '/minio|aws|delete-cspc-external|delete-spc|jiva-mysql/{print $1}' | xargs  kubectl delete ns
+sleep 10
+kubectl delete cspc --all -n openebs
+kubectl delete cspi --all -n openebs
+kubectl delete cstorclusterconfig --all -n openebs
+kubectl delete spc --all
+sleep 15
+kubectl delete bdc --all -n openebs
+sleep 10
+kubectl delete bd --all -n openebs
 
 ####################################
 ##  Sequencing and Running test   ##
@@ -45,3 +54,5 @@ cd ..
 kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
+if [ "$testResult" != Pass ]; then 
+exit 1; 
