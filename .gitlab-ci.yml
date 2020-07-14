@@ -302,14 +302,14 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
     GROUP: dmaasHostpathAws
     THREADS: 5
 
-# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
-#   extends: .gui_dmaas_test_template
-#   script:
-#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
-#     - ./stages/14-director-gui-check/gui-dmaas-device-aws
-#   variables:
-#     GROUP: dmaasDeviceAws
-#     THREADS: 5
+TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+  extends: .gui_dmaas_test_template
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
+    - ./stages/14-director-gui-check/gui-dmaas-device-aws
+  variables:
+    GROUP: dmaasDeviceAws
+    THREADS: 5
 
 TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
   extends: .gui_dmaas_test_template 
@@ -338,14 +338,14 @@ TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
     GROUP: dmaasHostpathMinio
     THREADS: 5
 
-# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
-#   extends: .gui_dmaas_test_template
-#   script:
-#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
-#     - ./stages/14-director-gui-check/gui-dmaas-device-minio
-#   variables:
-#     GROUP: dmaasDeviceMinio
-#     THREADS: 5
+TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+  extends: .gui_dmaas_test_template
+  script:
+    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
+    - ./stages/14-director-gui-check/gui-dmaas-device-minio
+  variables:
+    GROUP: dmaasDeviceMinio
+    THREADS: 5
 
 TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
   extends: .gui_dmaas_test_template 
