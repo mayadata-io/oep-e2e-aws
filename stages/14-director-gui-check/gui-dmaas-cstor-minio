@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+# set -ex
 
 ######################
 ##   Prerequisites  ##
@@ -84,10 +84,16 @@ cd gui-automation
 cat ~/.dmaas/aws_cred ~/.dmaas/minio_cred >> cred.ini
 
 bash scripts/dop-gui-stages/run-gui-tests.sh ${GROUP} ${GUID} ${URL} ${THREADS} eu-north-1
+STATUS=$(echo $?)
 
 cp  $path/.awscluster2/config ~/.kube/config
 cd ../..
 bash utils/e2e-cr jobname:tcid-dir-dmaas-schd-cstor-minio-bucket jobphase:Completed
+
+# Exit if selenium jobs fails
+if [ "$STATUS" != "0" ]; then
+exit 1;
+fi
 
 # Delete minio application
 kubectl delete -f $path/cstor-minio/minio-manifest/

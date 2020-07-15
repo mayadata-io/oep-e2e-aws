@@ -356,7 +356,7 @@ TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
     GROUP: dmaasJivaMinio
     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-JIVA-MYSQL-BUCKET:
+TCID-DIR-DMAAS-MYSQL:
   extends: .gui_dmaas_test_template
   script:
     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
