@@ -56,3 +56,4 @@ testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-column
 echo $testResult
 if [ "$testResult" != Pass ]; then 
 exit 1; 
+fi
