@@ -58,8 +58,9 @@ testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-column
 echo $testResult
 
 if [ "$testResult" != Pass ]
-then 
-    exit 1;
+then
+  bash utils/e2e-cr jobname:tcid-dir-op-install-openebs-limit-resource jobphase:Completed
+  exit 1;
 else
-    bash utils/e2e-cr jobname:tcid-dir-op-install-openebs-limit-resource jobphase:Completed
+  bash utils/e2e-cr jobname:tcid-dir-op-install-openebs-limit-resource jobphase:Completed
 fi 
