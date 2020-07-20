@@ -64,8 +64,11 @@ echo "********** Check Filesystem state **********"
 kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
-if [ "$testResult" != Pass ]; then 
-exit 1; 
+
+if [ "$testResult" != Pass ]
+then
+  bash utils/e2e-cr jobname:tcid-dir-op-delete-external-cspc-with-volume jobphase:Completed
+  exit 1;
 else
-    bash utils/e2e-cr jobname:tcid-dir-op-delete-external-cspc-with-volume jobphase:Completed
+  bash utils/e2e-cr jobname:tcid-dir-op-delete-external-cspc-with-volume jobphase:Completed
 fi
