@@ -193,204 +193,204 @@ ebs-volume-create-cluster3:
     NUMBEROFVOLUMES: 9
 
 ## DIRECTOR-GUI-CHECK
-.gui_test_template:
-  when: always
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - TCID-DIR-INSTALL-ON-LOCAL-HP
-  script:
-    - chmod 755 ./stages/14-director-gui-check/run-gui-tests
-    - ./stages/14-director-gui-check/run-gui-tests
-  artifacts:
-    when: always
-    expire_in: 1 week
-    paths:
-      - /builds/oep/oep-e2e-aws/gui-automation/results
+# .gui_test_template:
+#   when: always
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-GUI-CHECK
+#   dependencies:
+#     - TCID-DIR-INSTALL-ON-LOCAL-HP
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/run-gui-tests
+#     - ./stages/14-director-gui-check/run-gui-tests
+#   artifacts:
+#     when: always
+#     expire_in: 1 week
+#     paths:
+#       - /builds/oep/oep-e2e-aws/gui-automation/results
 
-TCID-GUI-AUTH:
-  extends: .gui_test_template
-  variables:
-    GROUP: auth
-    THREADS: 5
+# TCID-GUI-AUTH:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: auth
+#     THREADS: 5
 
-TCID-DIR-AUTH-LOCAL-ADMIN:
-  extends: .gui_test_template
-  variables:
-    GROUP: localAdminAuth
-    THREADS: 5
+# TCID-DIR-AUTH-LOCAL-ADMIN:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: localAdminAuth
+#     THREADS: 5
 
-TCID-DIR-AUTH-LOCAL-USER:
-  extends: .gui_test_template
-  variables:
-    GROUP: localUserAuth
-    THREADS: 5
+# TCID-DIR-AUTH-LOCAL-USER:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: localUserAuth
+#     THREADS: 5
 
-TCID-DIR-AUTH-LOCAL-PERF:
-  extends: .gui_test_template
-  variables:
-    GROUP: localPerfAuth
-    THREADS: 5
+# TCID-DIR-AUTH-LOCAL-PERF:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: localPerfAuth
+#     THREADS: 5
  
-TCID-GUI-CLUSTER:
-  extends: .gui_test_template
-  variables:
-    GROUP: cluster
-    THREADS: 5
+# TCID-GUI-CLUSTER:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: cluster
+#     THREADS: 5
  
-TCID-GUI-DASHBOARD:
-  extends: .gui_test_template
-  variables:
-    GROUP: dashboard
-    THREADS: 5
+# TCID-GUI-DASHBOARD:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: dashboard
+#     THREADS: 5
 
-TCID-GUI-PROFILE:
-  extends: .gui_test_template
-  variables:
-    GROUP: profile
-    THREADS: 5
+# TCID-GUI-PROFILE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: profile
+#     THREADS: 5
 
-TCID-DIR-TEAMING-USER-INVITE:
-  extends: .gui_test_template
-  variables:
-    GROUP: teamingUserInvite
-    THREADS: 5
+# TCID-DIR-TEAMING-USER-INVITE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: teamingUserInvite
+#     THREADS: 5
 
-TCID-DIR-TEAMING-USER-ROLE-UPDATE:
-  extends: .gui_test_template
-  variables:
-    GROUP: teamingRoleUpdate
-    THREADS: 5
+# TCID-DIR-TEAMING-USER-ROLE-UPDATE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: teamingRoleUpdate
+#     THREADS: 5
 
-TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
-  extends: .gui_test_template
-  variables:
-    GROUP: teamingRoleUpdateNegative
-    THREADS: 5
+# TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: teamingRoleUpdateNegative
+#     THREADS: 5
 
-TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
-  extends: .gui_test_template
-  variables:
-    GROUP: openebs
-    THREADS: 5
+# TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: openebs
+#     THREADS: 5
 
-## GUI DMAAS TESTS
-.gui_dmaas_test_template:
-  when: always
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-GUI-DMAAS-CHECK
-  artifacts:
-    when: always
-    expire_in: 1 week
-    paths:
-      - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
+# ## GUI DMAAS TESTS
+# .gui_dmaas_test_template:
+#   when: always
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-GUI-DMAAS-CHECK
+#   artifacts:
+#     when: always
+#     expire_in: 1 week
+#     paths:
+#       - /builds/oep/oep-e2e-aws/selenium-auto/gui-automation/results
 
-DIRECTOR-DMAAS-SC-CREATION:
-  extends: .gui_dmaas_test_template 
-  variables:
-    CLUSTER: cluster2
-  script:
-    - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
-    - ./stages/14-director-gui-check/create-cstor-sc
+# DIRECTOR-DMAAS-SC-CREATION:
+#   extends: .gui_dmaas_test_template 
+#   variables:
+#     CLUSTER: cluster2
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/create-cstor-sc
+#     - ./stages/14-director-gui-check/create-cstor-sc
 
-TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
-  extends: .gui_dmaas_test_template
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
-    - ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
-  variables:
-    GROUP: dmaasHostpathAws
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-LOCAL-HP-AWS-BUCKET:
+#   extends: .gui_dmaas_test_template
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
+#     - ./stages/14-director-gui-check/gui-dmaas-hostpath-aws
+#   variables:
+#     GROUP: dmaasHostpathAws
+#     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
-  extends: .gui_dmaas_test_template
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
-    - ./stages/14-director-gui-check/gui-dmaas-device-aws
-  variables:
-    GROUP: dmaasDeviceAws
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-AWS-BUCKET:
+#   extends: .gui_dmaas_test_template
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-aws
+#     - ./stages/14-director-gui-check/gui-dmaas-device-aws
+#   variables:
+#     GROUP: dmaasDeviceAws
+#     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
-  extends: .gui_dmaas_test_template 
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-aws
-    - ./stages/14-director-gui-check/gui-dmaas-jiva-aws
-  variables:
-    GROUP: dmaasJivaAws
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-JIVA-AWS-BUCKET:
+#   extends: .gui_dmaas_test_template 
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-aws
+#     - ./stages/14-director-gui-check/gui-dmaas-jiva-aws
+#   variables:
+#     GROUP: dmaasJivaAws
+#     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
-  extends: .gui_dmaas_test_template
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-aws
-    - ./stages/14-director-gui-check/gui-dmaas-cstor-aws
-  variables:
-    GROUP: dmaasCstorAws
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-CSTOR-AWS-BUCKET:
+#   extends: .gui_dmaas_test_template
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-aws
+#     - ./stages/14-director-gui-check/gui-dmaas-cstor-aws
+#   variables:
+#     GROUP: dmaasCstorAws
+#     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
-  extends: .gui_dmaas_test_template
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
-    - ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
-  variables:
-    GROUP: dmaasHostpathMinio
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-LOCAL-HP-MINIO-BUCKET:
+#   extends: .gui_dmaas_test_template
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
+#     - ./stages/14-director-gui-check/gui-dmaas-hostpath-minio
+#   variables:
+#     GROUP: dmaasHostpathMinio
+#     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
-  extends: .gui_dmaas_test_template
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
-    - ./stages/14-director-gui-check/gui-dmaas-device-minio
-  variables:
-    GROUP: dmaasDeviceMinio
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-LOCAL-DEV-MINIO-BUCKET:
+#   extends: .gui_dmaas_test_template
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-device-minio
+#     - ./stages/14-director-gui-check/gui-dmaas-device-minio
+#   variables:
+#     GROUP: dmaasDeviceMinio
+#     THREADS: 5
 
-TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
-  extends: .gui_dmaas_test_template 
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-minio
-    - ./stages/14-director-gui-check/gui-dmaas-jiva-minio
-  variables:
-    GROUP: dmaasJivaMinio
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-JIVA-MINIO-BUCKET:
+#   extends: .gui_dmaas_test_template 
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-minio
+#     - ./stages/14-director-gui-check/gui-dmaas-jiva-minio
+#   variables:
+#     GROUP: dmaasJivaMinio
+#     THREADS: 5
 
-TCID-DIR-DMAAS-MYSQL:
-  extends: .gui_dmaas_test_template
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
-    - ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
-  variables:
-    GROUP: dmaasJivaMysql
-    THREADS: 5
+# TCID-DIR-DMAAS-MYSQL:
+#   extends: .gui_dmaas_test_template
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
+#     - ./stages/14-director-gui-check/gui-dmaas-jiva-mysql
+#   variables:
+#     GROUP: dmaasJivaMysql
+#     THREADS: 5
    
-TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
-  extends: .gui_dmaas_test_template 
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-minio
-    - ./stages/14-director-gui-check/gui-dmaas-cstor-minio
-  variables:
-    GROUP: dmaasCstorMinio
-    THREADS: 5
+# TCID-DIR-DMAAS-SCHD-CSTOR-MINIO-BUCKET:
+#   extends: .gui_dmaas_test_template 
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-minio
+#     - ./stages/14-director-gui-check/gui-dmaas-cstor-minio
+#   variables:
+#     GROUP: dmaasCstorMinio
+#     THREADS: 5
 
-TCID-DIR-DMAAS-MINIO-DELETE:
-  extends: .gui_dmaas_test_template 
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-delete-minio
-    - ./stages/14-director-gui-check/gui-dmaas-delete-minio
-  variables:
-    GROUP: dmaasDelete
-    THREADS: 5
+# TCID-DIR-DMAAS-MINIO-DELETE:
+#   extends: .gui_dmaas_test_template 
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-delete-minio
+#     - ./stages/14-director-gui-check/gui-dmaas-delete-minio
+#   variables:
+#     GROUP: dmaasDelete
+#     THREADS: 5
 
-TCID-DIR-DMAAS-CSTOR-NON-RESTIC:
-  extends: .gui_dmaas_test_template 
-  script:
-    - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
-    - ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
-  variables:
-    GROUP: dmaasCstorNonRestic
-    THREADS: 5
+# TCID-DIR-DMAAS-CSTOR-NON-RESTIC:
+#   extends: .gui_dmaas_test_template 
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
+#     - ./stages/14-director-gui-check/gui-dmaas-cstor-non-restic
+#   variables:
+#     GROUP: dmaasCstorNonRestic
+#     THREADS: 5
 
 ## Director API
 # Self cluster connect
