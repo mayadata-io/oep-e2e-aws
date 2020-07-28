@@ -193,88 +193,88 @@ ebs-volume-create-cluster3:
     NUMBEROFVOLUMES: 9
 
 ## DIRECTOR-GUI-CHECK
-# .gui_test_template:
-#   when: always
-#   image: mayadataio/tools:gitlab-job-v6
-#   stage: DIRECTOR-GUI-CHECK
-#   dependencies:
-#     - TCID-DIR-INSTALL-ON-LOCAL-HP
-#   script:
-#     - chmod 755 ./stages/14-director-gui-check/run-gui-tests
-#     - ./stages/14-director-gui-check/run-gui-tests
-#   artifacts:
-#     when: always
-#     expire_in: 1 week
-#     paths:
-#       - /builds/oep/oep-e2e-aws/gui-automation/results
+.gui_test_template:
+  when: always
+  image: mayadataio/tools:gitlab-job-v6
+  stage: DIRECTOR-GUI-CHECK
+  dependencies:
+    - TCID-DIR-INSTALL-ON-LOCAL-HP
+  script:
+    - chmod 755 ./stages/14-director-gui-check/run-gui-tests
+    - ./stages/14-director-gui-check/run-gui-tests
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - /builds/oep/oep-e2e-aws/gui-automation/results
 
-# TCID-GUI-AUTH:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: auth
-#     THREADS: 5
+TCID-GUI-AUTH:
+  extends: .gui_test_template
+  variables:
+    GROUP: auth
+    THREADS: 5
 
-# TCID-DIR-AUTH-LOCAL-ADMIN:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: localAdminAuth
-#     THREADS: 5
+TCID-DIR-AUTH-LOCAL-ADMIN:
+  extends: .gui_test_template
+  variables:
+    GROUP: localAdminAuth
+    THREADS: 5
 
-# TCID-DIR-AUTH-LOCAL-USER:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: localUserAuth
-#     THREADS: 5
+TCID-DIR-AUTH-LOCAL-USER:
+  extends: .gui_test_template
+  variables:
+    GROUP: localUserAuth
+    THREADS: 5
 
-# TCID-DIR-AUTH-LOCAL-PERF:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: localPerfAuth
-#     THREADS: 5
+TCID-DIR-AUTH-LOCAL-PERF:
+  extends: .gui_test_template
+  variables:
+    GROUP: localPerfAuth
+    THREADS: 5
  
-# TCID-GUI-CLUSTER:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: cluster
-#     THREADS: 5
+TCID-GUI-CLUSTER:
+  extends: .gui_test_template
+  variables:
+    GROUP: cluster
+    THREADS: 5
  
-# TCID-GUI-DASHBOARD:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: dashboard
-#     THREADS: 5
+TCID-GUI-DASHBOARD:
+  extends: .gui_test_template
+  variables:
+    GROUP: dashboard
+    THREADS: 5
 
-# TCID-GUI-PROFILE:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: profile
-#     THREADS: 5
+TCID-GUI-PROFILE:
+  extends: .gui_test_template
+  variables:
+    GROUP: profile
+    THREADS: 5
 
-# TCID-DIR-TEAMING-USER-INVITE:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: teamingUserInvite
-#     THREADS: 5
+TCID-DIR-TEAMING-USER-INVITE:
+  extends: .gui_test_template
+  variables:
+    GROUP: teamingUserInvite
+    THREADS: 5
 
-# TCID-DIR-TEAMING-USER-ROLE-UPDATE:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: teamingRoleUpdate
-#     THREADS: 5
+TCID-DIR-TEAMING-USER-ROLE-UPDATE:
+  extends: .gui_test_template
+  variables:
+    GROUP: teamingRoleUpdate
+    THREADS: 5
 
-# TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: teamingRoleUpdateNegative
-#     THREADS: 5
+TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
+  extends: .gui_test_template
+  variables:
+    GROUP: teamingRoleUpdateNegative
+    THREADS: 5
 
-# TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
-#   extends: .gui_test_template
-#   variables:
-#     GROUP: openebs
-#     THREADS: 5
+TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
+  extends: .gui_test_template
+  variables:
+    GROUP: openebs
+    THREADS: 5
 
-# ## GUI DMAAS TESTS
+## GUI DMAAS TESTS
 # .gui_dmaas_test_template:
 #   when: always
 #   image: mayadataio/tools:gitlab-job-v6
