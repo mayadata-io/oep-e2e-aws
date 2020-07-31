@@ -208,61 +208,61 @@ ebs-volume-create-cluster3:
     paths:
       - /builds/oep/oep-e2e-aws/gui-automation/results
 
-TCID-GUI-AUTH:
+TCID-DIR-GUI-AUTH:
   extends: .gui_test_template
   variables:
     GROUP: auth
     THREADS: 5
 
-TCID-DIR-AUTH-LOCAL-ADMIN:
+TCID-DIR-GUI-AUTH-LOCAL-ADMIN:
   extends: .gui_test_template
   variables:
     GROUP: localAdminAuth
     THREADS: 5
 
-TCID-DIR-AUTH-LOCAL-USER:
+TCID-DIR-GUI-AUTH-LOCAL-USER:
   extends: .gui_test_template
   variables:
     GROUP: localUserAuth
     THREADS: 5
 
-TCID-DIR-AUTH-LOCAL-PERF:
+TCID-DIR-GUI-AUTH-LOCAL-PERF:
   extends: .gui_test_template
   variables:
     GROUP: localPerfAuth
     THREADS: 5
  
-TCID-GUI-CLUSTER:
+TCID-DIR-GUI-CLUSTER:
   extends: .gui_test_template
   variables:
     GROUP: cluster
     THREADS: 5
  
-TCID-GUI-DASHBOARD:
+TCID-DIR-GUI-DASHBOARD:
   extends: .gui_test_template
   variables:
     GROUP: dashboard
     THREADS: 5
 
-TCID-GUI-PROFILE:
+TCID-DIR-GUI-PROFILE:
   extends: .gui_test_template
   variables:
     GROUP: profile
     THREADS: 5
 
-TCID-DIR-TEAMING-USER-INVITE:
+TCID-DIR-GUI-TEAMING-USER-INVITE:
   extends: .gui_test_template
   variables:
     GROUP: teamingUserInvite
     THREADS: 5
 
-TCID-DIR-TEAMING-USER-ROLE-UPDATE:
+TCID-DIR-GUI-TEAMING-USER-ROLE-UPDATE:
   extends: .gui_test_template
   variables:
     GROUP: teamingRoleUpdate
     THREADS: 5
 
-TCID-DIR-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
+TCID-DIR-GUI-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
   extends: .gui_test_template
   variables:
     GROUP: teamingRoleUpdateNegative
