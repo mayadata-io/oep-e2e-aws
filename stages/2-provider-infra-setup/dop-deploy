@@ -52,11 +52,8 @@ helm version
 ##    Deploy KDOP   ##
 ######################
 
-# Create 'kubera' namespace
-kubectl create ns kubera
-
 # Create secret having maya-init repo access
-kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD -n kubera
+kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
 
 # Create clusterrolebinding
 kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
@@ -74,7 +71,7 @@ helm repo update
 
 
 # Apply helm chart
-helm install --name kubera kubera/kubera-charts --set server.url=$IP --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100 -n kubera
+helm install --name kubera kubera/kubera-charts --set server.url=$IP --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100
 
 # Get the changed values from chart
 helm get values kubera > values.yaml
@@ -87,7 +84,7 @@ echo -e "\n[ Dumping Director On-Prem components ]\n"
 kubectl get pod
 
 echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
-cd ../../..
+
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 # Setup litmus on the cluster
 kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
@@ -103,7 +100,7 @@ sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' c
 
 kubectl apply -f components.yaml
 sleep 300
-kubectl get po -n kubera
+kubectl get po
 kubectl get po -n kube-system
 kubectl get po -n maya-system
 
