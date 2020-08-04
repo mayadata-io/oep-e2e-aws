@@ -49,36 +49,24 @@ sleep 45
 helm version
 
 ######################
-##    Deploy DOP    ##
+##    Deploy KDOP   ##
 ######################
 
-# echo "deploying DOP" 
-
-# echo -e "\n[ Cloning director-charts repo ]--------------------\n"
-# git clone https://$username:$password@github.com/mayadata-io/director-charts-internal.git
-
-# echo "\n[ Get DOP release version ]-------------------------------------\n"
-# cd director-charts-internal/"$RELEASE"/director
+# Create 'kubera' namespace
+kubectl create ns kubera
 
 # Create secret having maya-init repo access
-kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
+kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD -n kubera
 
 # Create clusterrolebinding
 kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
 
-# # Add DOP URL
-# sed 's|url:|url: '${IP}'|' -i ./values.yaml
-# sed 's|maxMemberCountInOneProject: 10|maxMemberCountInOneProject: 100|' -i ./values.yaml
-# sed 's|storageClass: standard|storageClass: gp2|' -i ./values.yaml
-# cat values.yaml
-
-# # Apply helm chart
-# helm install --name dop .
 
 echo -e "\n************************ Installing KDOP *****************************\n"
 
 echo -e "\n[ Print DOP release version ]-------------------------------------\n"
 echo -e "Release Version: $RELEASE\n"
+
 
 # Add helm repo
 helm repo add kubera https://charts.mayadata.io/
@@ -86,7 +74,7 @@ helm repo update
 
 
 # Apply helm chart
-helm install --name kubera kubera/kubera-charts --set server.url=$IP --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100
+helm install --name kubera kubera/kubera-charts --set server.url=$IP --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100 -n kubera
 
 # Get the changed values from chart
 helm get values kubera > values.yaml
@@ -115,7 +103,7 @@ sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' c
 
 kubectl apply -f components.yaml
 sleep 300
-kubectl get po
+kubectl get po -n kubera
 kubectl get po -n kube-system
 kubectl get po -n maya-system
 
