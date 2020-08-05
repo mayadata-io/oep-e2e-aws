@@ -12,6 +12,7 @@ stages:
     - OPENEBS-CHAOS
     - DIRECTOR-GUI-CHECK
     # - DIRECTOR-GUI-DMAAS-CHECK
+    - OPENEBS-UPGRADE
     - CLUSTER-CLEANUP
 
 ## CLUSTER-SETUP
@@ -730,6 +731,17 @@ TCID-JIVA-REPLICA-NODE-AFFINITY:
   script:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
+
+## OPENEBS-UPGRADE
+TCID-DIR-OP-OPENEBS-UPGRADE-CP:
+  when: always
+  image: mayadataio/tools:gitlab-job-v6
+  stage: OPENEBS-UPGRADE
+  dependencies:
+    - cluster3-setup
+  script:
+    - chmod 755 ./stages/11-openebs-upgrade/TCID-DIR-OP-OPENEBS-UPGRADE-CP
+    - ./stages/11-openebs-upgrade/TCID-DIR-OP-OPENEBS-UPGRADE-CP
 
 ## CLUSTER-CLEANUP
 e2e-metrics:
