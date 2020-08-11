@@ -20,7 +20,7 @@ kubectl delete spc --all
 sleep 15
 kubectl delete bdc --all -n openebs
 sleep 10
-kubectl delete bd --all -n openebs
+# kubectl delete bd --all -n openebs
 
 ####################################
 ##  Sequencing and Running test   ##
