@@ -743,6 +743,16 @@ TCID-DIR-OP-OPENEBS-UPGRADE-CP:
     - chmod 755 ./stages/11-openebs-upgrade/TCID-DIR-OP-OPENEBS-UPGRADE-CP
     - ./stages/11-openebs-upgrade/TCID-DIR-OP-OPENEBS-UPGRADE-CP
 
+TCID-DIR-OP-UPGRADE-CSTOR-POOL:
+  when: always
+  image: mayadataio/tools:gitlab-job-v6
+  stage: OPENEBS-UPGRADE
+  dependencies:
+    - cluster3-setup
+  script:
+    - chmod 755 ./stages/11-openebs-upgrade/TCID-DIR-OP-UPGRADE-CSTOR-POOL
+    - ./stages/11-openebs-upgrade/TCID-DIR-OP-UPGRADE-CSTOR-POOL
+
 ## CLUSTER-CLEANUP
 e2e-metrics:
   when: always
