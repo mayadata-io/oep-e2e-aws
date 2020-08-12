@@ -11,35 +11,24 @@ path=$(pwd)
 mkdir -p ~/.kube
 cp  $path/.awscluster3/config ~/.kube/config
 
-kubectl get ns --no-headers=true | awk '/minio|aws|delete-cspc-external|delete-spc|jiva-mysql/{print $1}' | xargs  kubectl delete ns
-sleep 10
-kubectl delete cspc --all -n openebs
-kubectl delete cspi --all -n openebs
-kubectl delete cstorclusterconfig --all -n openebs
-kubectl delete spc --all
-sleep 15
-kubectl delete bdc --all -n openebs
-sleep 10
-kubectl delete bd --all -n openebs
-
 ####################################
 ##  Sequencing and Running test   ##
 ####################################
 
-bash utils/e2e-cr jobname:tcid-dir-op-openebs-upgrade-cp jobphase:Waiting
-bash utils/e2e-cr jobname:tcid-dir-op-openebs-upgrade-cp jobphase:Running
+bash utils/pooling jobname:tcid-dir-op-openebs-upgrade-cp 
+bash utils/e2e-cr jobname:tcid-dir-op-upgrade-cstor-pool jobphase:Running
 
 # Cloning oep-e2e repository which contains all the test scripts
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 cd oep-e2e
-kubectl create -f litmus/director/TCID-DIR-OP-OPENEBS-UPGRADE-CP/run_litmus_test.yml
+kubectl create -f litmus/director/TCID-DIR-OP-UPGRADE-CSTOR-POOL/run_litmus_test.yml
 kubectl get pods -n litmus
 
-test_name=control-plane-upgrade
+test_name=pool-upgrade
 echo $test_name
 
 ## E2E Test case plan link
-e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-OPENEBS-UPGRADE-CP
+e2e_tc_plan_link=https://e2e.mayadata.io/docs/director/openebs-provisioning/TCID-DIR-OP-UPGRADE-CSTOR-POOL
 echo -e "\nTC_E2E_PLAN_LINK: $e2e_tc_plan_link\n"
 
 litmus_pod=$(kubectl get po -n litmus | grep $test_name  | awk {'print $1'} | tail -n 1)
@@ -57,11 +46,14 @@ cd ..
 kubectl logs -f $litmus_pod -n litmus
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 echo $testResult
+if [ "$testResult" != Pass ]; then 
+exit 1; 
+fi
 
 if [ "$testResult" != Pass ]
 then
-  bash utils/e2e-cr jobname:tcid-dir-op-openebs-upgrade-cp jobphase:Completed
+  bash utils/e2e-cr jobname:tcid-dir-op-upgrade-cstor-pool jobphase:Completed
   exit 1;
 else
-  bash utils/e2e-cr jobname:tcid-dir-op-openebs-upgrade-cp jobphase:Completed
+  bash utils/e2e-cr jobname:tcid-dir-op-upgrade-cstor-pool jobphase:Completed
 fi 
