@@ -688,6 +688,30 @@ TCID-CSTOR-CSI-VOLUME-REPLICA-SCALEDOWN:
     - chmod 755 ./stages/18-openebs-functional/cstor-csi-volume-scaledown
     - ./stages/18-openebs-functional/cstor-csi-volume-scaledown
 
+TCID-LOCALPV-RANDOM-DEVICE-CREATE:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/local-pv-device
+    - ./stages/18-openebs-functional/local-pv-device
+
+TCID-LOCALPV-SELECTED-DEVICE-CREATE:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/localpv-provisioning-selected-device
+    - ./stages/18-openebs-functional/localpv-provisioning-selected-device
+
+TCID-LOCALPV-SELECTED-DEVICE-RECONCILE:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/localpv-provisioning-selected-device-reconcile
+    - ./stages/18-openebs-functional/localpv-provisioning-selected-device-reconcile
+    
+TCID-LOCALPV-HOSTPATH-CREATE:
+  extends: .functional_test_template
+  script:
+    - chmod 755 ./stages/18-openebs-functional/local-pv-hostpath
+    - ./stages/18-openebs-functional/local-pv-hostpath
+
 # OPENEBS-CHAOS
 .chaos_test_template:
   image: mayadataio/tools:gitlab-job-v6
