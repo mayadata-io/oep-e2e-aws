@@ -756,6 +756,18 @@ TCID-JIVA-REPLICA-NODE-AFFINITY:
     - chmod 755 ./stages/19-openebs-chaos/rep-node-affinity
     - ./stages/19-openebs-chaos/rep-node-affinity
 
+TCID-CSTOR-BUSYBOX-APP-KILL:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/app-kill
+    - ./stages/19-openebs-chaos/app-kill
+
+TCID-CSTOR-TARGET-KILL:
+  extends: .chaos_test_template
+  script:
+    - chmod 755 ./stages/19-openebs-chaos/target-kill
+    - ./stages/19-openebs-chaos/target-kill
+
 ## OPENEBS-UPGRADE
 TCID-DIR-OP-OPENEBS-UPGRADE-CP:
   when: always
