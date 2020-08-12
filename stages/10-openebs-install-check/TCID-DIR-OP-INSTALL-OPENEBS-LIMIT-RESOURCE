@@ -29,6 +29,10 @@ echo "********** Check Filesystem state **********"
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
 
 
+platform=AWS
+sed -i "s/platform_name/$platform/g" oep-e2e/litmus/director/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE/run_litmus_test.yml
+cat oep-e2e/litmus/director/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE/run_litmus_test.yml
+
 kubectl create -f oep-e2e/litmus/director/TCID-DIR-OP-INSTALL-OPENEBS-LIMIT-RESOURCE/run_litmus_test.yml
 kubectl get pods -n litmus
 
