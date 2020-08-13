@@ -15,6 +15,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 bash utils/pooling jobname:localpv-provisioning-selected-device
+bash utils/e2e-cr-new jobname:localpv-provisioning-selected-device-reconcile jobphase:Waiting
 bash utils/e2e-cr-new jobname:localpv-provisioning-selected-device-reconcile jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag"
 
 ##########################
@@ -50,13 +51,16 @@ cd ..
 bash utils/dump_cluster_state;
 bash utils/event_updater jobname:localpv-provisioning-selected-device-reconcile $test_name jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id"
 
-if [ "$?" != "0" ]; then
+rc_val=$(echo $?)
+current_time=$(eval $time)
+
+if [ "$rc_val" != "0" ]; then
 bash utils/e2e-cr-new jobname:localpv-provisioning-selected-device-reconcile jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag" test_result:Fail
 exit 1;
 fi
 
 bash utils/e2e-cr-new jobname:localpv-provisioning-selected-device-reconcile jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" testcaseid:"$case_id" openebs_version:"$releaseTag" test_result:Pass
 
-if [ "$?" != "0" ]; then
+if [ "$rc_val" != "0" ]; then
 exit 1;
 fi
