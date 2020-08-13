@@ -181,7 +181,7 @@ ebs-volume-create-cluster2:
     - ./stages/17-ebs-volume/create
   variables:
     CLUSTER: cluster2
-    NUMBEROFVOLUMES: 3
+    NUMBEROFVOLUMES: 6
 
 ebs-volume-create-cluster3:
   image: mayadataio/tools:gitlab-job-v6
