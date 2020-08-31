@@ -106,20 +106,6 @@ else
 fi
 
 
-# # Add helm repo
-# helm repo add kubera https://charts.mayadata.io/
-# helm repo update
-
-
-# # Apply helm chart
-# helm install --name kubera kubera/kubera-charts --set server.url=$URL --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100
-
-# # Get the changed values from chart
-# helm get values kubera > values.yaml
-
-# echo -e "Changed values in values.yaml\n"
-# cat values.yaml
-
 # Dump Director On-Prem pods
 echo -e "\n[ Dumping Director On-Prem components ]\n"
 kubectl get pod
