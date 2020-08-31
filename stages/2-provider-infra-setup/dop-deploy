@@ -64,20 +64,47 @@ echo -e "\n************************ Installing KDOP ****************************
 echo -e "\n[ Print DOP release version ]-------------------------------------\n"
 echo -e "Release Version: $RELEASE\n"
 
+# Deploy Kubera using either kubera-charts repo or Kubera official charts
 
-# Add helm repo
-helm repo add kubera https://charts.mayadata.io/
-helm repo update
+if [ "$USE_KUBERA_REPO" == "true" ]
+then
 
+  # Deploy Kubera from kubera-charts repo
+  echo -e "\nDeploying Kubera using kubera-charts repo\n"
+  echo -e "\nCloning $KUBERA_BRANCH branch of kubera-charts repo\n"
+  git clone -b $KUBERA_BRANCH https://$GITHUB_USERNAME:$GITHUB_PASSWORD@github.com/mayadata-io/kubera-charts.git
+  cd kubera-charts
 
-# Apply helm chart
-helm install --name kubera kubera/kubera-charts --set server.url=$URL --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100
+  echo -e "\nUpdating values in kubera-charts/values.yaml\n"
+  # Update release version
+  sed 's|release: .*|release: '$RELEASE'|' -i ./values.yaml
+  # Update URL for accessing Kubera
+  sed 's|url: .*|url: '$URL'|' -i ./values.yaml
+  # Update max member count in a project to 100
+  sed 's|maxMemberCountInOneProject: .*|maxMemberCountInOneProject: 100|' -i ./values.yaml
+  # Enable openebs RC builds deployment
+  sed 's|openebsRCEnable: .*|openebsRCEnable: true|' -i ./values.yaml
 
-# Get the changed values from chart
-helm get values kubera > values.yaml
+  echo -e "\nInstalling Kubera using kubera-charts/values.yaml"
+  helm install --name kubera .
+  cd ..
 
-echo -e "Changed values in values.yaml\n"
-cat values.yaml
+else
+
+  # Deploy Kubera using official Kubera charts
+  echo -e "\nDeploying Kubera using official Kubera charts\n"
+  helm repo update
+  # Add kubera in local repository
+  helm repo add kubera https://charts.mayadata.io/
+  # Apply helm chart
+  helm install --name kubera kubera/kubera-charts --set server.url=$URL --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100 --set server.openebsRCEnable=true
+  # Pass these values as well if need to run ingress as deployment:  --set nginx-ingress.cosed 's|url:.*|url: '$DOP_URL'|' -i ./kubera-charts/values.yamlntroller.kind=Deployment --set nginx-ingress.controller.service.enabled=true
+  # Get the changed values from chart
+  helm get values kubera > values.yaml
+  echo -e "Changed values in values.yaml\n"
+  cat values.yaml
+fi
+
 
 # Dump Director On-Prem pods
 echo -e "\n[ Dumping Director On-Prem components ]\n"
