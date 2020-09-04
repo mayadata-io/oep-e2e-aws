@@ -61,8 +61,8 @@ kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --servi
 
 echo -e "\n************************ Installing KDOP *****************************\n"
 
-echo -e "\n[ Print DOP release version ]-------------------------------------\n"
-echo -e "Release Version: $RELEASE\n"
+echo -e "\n[ Print Kubera release version ]-------------------------------------\n"
+echo -e "release: $RELEASE\n"
 
 # Deploy Kubera using either kubera-charts repo or Kubera official charts
 
