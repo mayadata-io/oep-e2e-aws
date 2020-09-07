@@ -411,35 +411,35 @@ metrics-check:
      - chmod 755 ./stages/7-metrics-check/metrics-check
      - ./stages/7-metrics-check/metrics-check
 
-triv01-teaming-invite-check:
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-API-CHECK
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/8-teaming-check/teaming-invite-check
-    - ./stages/8-teaming-check/teaming-invite-check
+# triv01-teaming-invite-check:
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-API-CHECK
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/8-teaming-check/teaming-invite-check
+#     - ./stages/8-teaming-check/teaming-invite-check
 
-trrc02-teaming-change-role-check:
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-API-CHECK
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/8-teaming-check/teaming-change-role-check
-    - ./stages/8-teaming-check/teaming-change-role-check
+# trrc02-teaming-change-role-check:
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-API-CHECK
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/8-teaming-check/teaming-change-role-check
+#     - ./stages/8-teaming-check/teaming-change-role-check
 
-trrc03-teaming-change-role-negative-check:
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-API-CHECK
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/8-teaming-check/teaming-change-role-negative-check
-    - ./stages/8-teaming-check/teaming-change-role-negative-check
+# trrc03-teaming-change-role-negative-check:
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-API-CHECK
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/8-teaming-check/teaming-change-role-negative-check
+#     - ./stages/8-teaming-check/teaming-change-role-negative-check
 
 topology-check:
-  image: atulabhi/kops:v8
+  image: mayadataio/tools:gitlab-job-v6
   stage: DIRECTOR-API-CHECK
   dependencies:
     - cluster2-setup
