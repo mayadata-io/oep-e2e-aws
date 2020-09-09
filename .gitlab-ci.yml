@@ -10,7 +10,7 @@ stages:
     - OPENEBS-SETUP
     - OPENEBS-FUNCTIONAL
     - OPENEBS-CHAOS
-    - DIRECTOR-GUI-CHECK
+    # - DIRECTOR-GUI-CHECK
     # - DIRECTOR-GUI-DMAAS-CHECK
     - OPENEBS-UPGRADE
     - CLUSTER-CLEANUP
@@ -194,86 +194,86 @@ ebs-volume-create-cluster3:
     NUMBEROFVOLUMES: 9
 
 ## DIRECTOR-GUI-CHECK
-.gui_test_template:
-  when: always
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-GUI-CHECK
-  dependencies:
-    - TCID-DIR-INSTALL-ON-LOCAL-HP
-  script:
-    - chmod 755 ./stages/14-director-gui-check/run-gui-tests
-    - ./stages/14-director-gui-check/run-gui-tests
-  artifacts:
-    when: always
-    expire_in: 1 week
-    paths:
-      - /builds/oep/oep-e2e-aws/gui-automation/results
+# .gui_test_template:
+#   when: always
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-GUI-CHECK
+#   dependencies:
+#     - TCID-DIR-INSTALL-ON-LOCAL-HP
+#   script:
+#     - chmod 755 ./stages/14-director-gui-check/run-gui-tests
+#     - ./stages/14-director-gui-check/run-gui-tests
+#   artifacts:
+#     when: always
+#     expire_in: 1 week
+#     paths:
+#       - /builds/oep/oep-e2e-aws/gui-automation/results
 
-TCID-DIR-GUI-AUTH:
-  extends: .gui_test_template
-  variables:
-    GROUP: auth
-    THREADS: 5
+# TCID-DIR-GUI-AUTH:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: auth
+#     THREADS: 5
 
-TCID-DIR-GUI-AUTH-LOCAL-ADMIN:
-  extends: .gui_test_template
-  variables:
-    GROUP: localAdminAuth
-    THREADS: 5
+# TCID-DIR-GUI-AUTH-LOCAL-ADMIN:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: localAdminAuth
+#     THREADS: 5
 
-TCID-DIR-GUI-AUTH-LOCAL-USER:
-  extends: .gui_test_template
-  variables:
-    GROUP: localUserAuth
-    THREADS: 5
+# TCID-DIR-GUI-AUTH-LOCAL-USER:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: localUserAuth
+#     THREADS: 5
 
-TCID-DIR-GUI-AUTH-LOCAL-PERF:
-  extends: .gui_test_template
-  variables:
-    GROUP: localPerfAuth
-    THREADS: 5
+# TCID-DIR-GUI-AUTH-LOCAL-PERF:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: localPerfAuth
+#     THREADS: 5
  
-TCID-DIR-GUI-CLUSTER:
-  extends: .gui_test_template
-  variables:
-    GROUP: cluster
-    THREADS: 5
+# TCID-DIR-GUI-CLUSTER:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: cluster
+#     THREADS: 5
  
-TCID-DIR-GUI-DASHBOARD:
-  extends: .gui_test_template
-  variables:
-    GROUP: dashboard
-    THREADS: 5
+# TCID-DIR-GUI-DASHBOARD:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: dashboard
+#     THREADS: 5
 
-TCID-DIR-GUI-PROFILE:
-  extends: .gui_test_template
-  variables:
-    GROUP: profile
-    THREADS: 5
+# TCID-DIR-GUI-PROFILE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: profile
+#     THREADS: 5
 
-TCID-DIR-GUI-TEAMING-USER-INVITE:
-  extends: .gui_test_template
-  variables:
-    GROUP: teamingUserInvite
-    THREADS: 5
+# TCID-DIR-GUI-TEAMING-USER-INVITE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: teamingUserInvite
+#     THREADS: 5
 
-TCID-DIR-GUI-TEAMING-USER-ROLE-UPDATE:
-  extends: .gui_test_template
-  variables:
-    GROUP: teamingRoleUpdate
-    THREADS: 5
+# TCID-DIR-GUI-TEAMING-USER-ROLE-UPDATE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: teamingRoleUpdate
+#     THREADS: 5
 
-TCID-DIR-GUI-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
-  extends: .gui_test_template
-  variables:
-    GROUP: teamingRoleUpdateNegative
-    THREADS: 5
+# TCID-DIR-GUI-TEAMING-USER-ROLE-UPDATE-NEGATIVE:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: teamingRoleUpdateNegative
+#     THREADS: 5
 
-TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
-  extends: .gui_test_template
-  variables:
-    GROUP: openebs
-    THREADS: 5
+# TCID-DIR-GUI-OPENEBS-COMPONENTS-VERSION:
+#   extends: .gui_test_template
+#   variables:
+#     GROUP: openebs
+#     THREADS: 5
 
 ## GUI DMAAS TESTS
 # .gui_dmaas_test_template:
@@ -459,18 +459,18 @@ topology-check:
 
 ## OPENEBS-INSTALL-CHECK
 # Selenium Grid Spin up
-selenium-grid-deploy:
-  image: mayadataio/tools:gitlab-job-v6
-  stage: OPENEBS-SETUP
-  dependencies:
-    - TCID-DIR-INSTALL-ON-LOCAL-HP
-  script:
-    - chmod 755 ./stages/16-selenium-grid/create
-    - ./stages/16-selenium-grid/create
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - .kube/
+# selenium-grid-deploy:
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: OPENEBS-SETUP
+#   dependencies:
+#     - TCID-DIR-INSTALL-ON-LOCAL-HP
+#   script:
+#     - chmod 755 ./stages/16-selenium-grid/create
+#     - ./stages/16-selenium-grid/create
+#   artifacts:
+#     expire_in: 1 week
+#     paths:
+#       - .kube/
 
 # Openebs install check
 TCID-DIR-OP-INSTALL-OPENEBS:
