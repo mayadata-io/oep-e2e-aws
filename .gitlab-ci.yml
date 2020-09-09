@@ -841,17 +841,17 @@ cluster3-cleanup:
       - .kube/
       
 ## Selenium Grid Clean up
-selenium-grid-cleanup:
-  when: always
-  image: mayadataio/tools:gitlab-job-v6
-  stage: CLUSTER-CLEANUP
-  script:
-    - chmod 755 ./stages/16-selenium-grid/delete
-    - ./stages/16-selenium-grid/delete
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - .kube/
+# selenium-grid-cleanup:
+#   when: always
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: CLUSTER-CLEANUP
+#   script:
+#     - chmod 755 ./stages/16-selenium-grid/delete
+#     - ./stages/16-selenium-grid/delete
+#   artifacts:
+#     expire_in: 1 week
+#     paths:
+#       - .kube/
 
 ebs-volume-cleanup-cluster2:
   when: always
