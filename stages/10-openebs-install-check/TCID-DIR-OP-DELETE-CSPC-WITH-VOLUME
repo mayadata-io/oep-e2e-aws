@@ -57,9 +57,9 @@ cd ..
 
 ## Cleanup
 kubectl delete -f $path/stages/10-openebs-install-check/template/minio-manifest/
+kubectl delete cstorclusterconfig rec-create-raidz -n openebs
 kubectl delete ns delete-cspc
 kubectl delete -f $path/stages/10-openebs-install-check/template/cstor-sc.yml
-kubectl delete cstorclusterconfig rec-create-raidz -n openebs
 
 echo "********** Check Filesystem state **********"
 {
