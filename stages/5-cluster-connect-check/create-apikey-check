@@ -24,6 +24,11 @@ bash utils/e2e-cr jobname:client-cluster2-components-check jobphase:Waiting
 bash utils/e2e-cr jobname:client-cluster3-components-check jobphase:Waiting
 
 git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+
+#Generate post random 4 char alphanumeric string String
+ NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+ echo -e "random string '$NEW_UUID'"
+
 echo "Create new api key for new user account in director onprem -------------------------------------------------"
 sed 's|value: oep.user@mayadata.io|value: oep.user'${NEW_UUID}'@mayadata.io|' -i oep-e2e/litmus/director/create-apikey/run_litmus_test.yml
 cat oep-e2e/litmus/director/create-apikey/run_litmus_test.yml
