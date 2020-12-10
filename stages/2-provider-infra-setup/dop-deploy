@@ -28,6 +28,8 @@ test_desc="Install DOP using helm with SSD underneath"
 
 
 IP=$(kubectl get nodes -o wide --no-headers | grep node | awk {'print $7'} | head -n 1)
+echo "URL to access DOP: $IP"
+
 URL=https://director.mayadatastaging.io
 echo "URL to access DOP: $URL"
 
@@ -35,108 +37,108 @@ echo "URL to access DOP: $URL"
 kubectl create configmap config --from-literal=url=$URL -n litmus
 touch .kube/url
 echo $URL > .kube/url
-cluster1=$(cat ~/.kube/cluster1)
-aws s3 cp .kube/url s3://k8s-bucket-${cluster1}
+# cluster1=$(cat ~/.kube/cluster1)
+# aws s3 cp .kube/url s3://k8s-bucket-${cluster1}
 
-#Configuring Helm
-wget https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
-tar -zxvf helm-v2.16.7-linux-amd64.tar.gz
-mv linux-amd64/helm /usr/local/bin/helm
-echo $HELM_RBAC > HELM_RBAC.yaml
+# #Configuring Helm
+# wget https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
+# tar -zxvf helm-v2.16.7-linux-amd64.tar.gz
+# mv linux-amd64/helm /usr/local/bin/helm
+# echo $HELM_RBAC > HELM_RBAC.yaml
 
-helm init
-sleep 45
-helm version
+# helm init
+# sleep 45
+# helm version
 
-######################
-##    Deploy KDOP   ##
-######################
+# ######################
+# ##    Deploy KDOP   ##
+# ######################
 
-# Create secret having maya-init repo access
-kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
+# # Create secret having maya-init repo access
+# kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$RELEASE_USERNAME --docker-password=$RELEASE_PASSWORD
 
-# Create clusterrolebinding
-kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
-
-
-echo -e "\n************************ Installing KDOP *****************************\n"
-
-echo -e "\n[ Print Kubera release version ]-------------------------------------\n"
-echo -e "release: $RELEASE"
-
-# Deploy Kubera using either kubera-charts repo or Kubera official charts
-
-if [ "$USE_KUBERA_REPO" == "true" ]
-then
-
-  # Deploy Kubera from kubera-charts repo
-  echo -e "\nDeploying Kubera using kubera-charts repo\n"
-  echo -e "\nCloning $KUBERA_BRANCH branch of kubera-charts repo\n"
-  git clone -b $KUBERA_BRANCH https://$GITHUB_USERNAME:$GITHUB_PASSWORD@github.com/mayadata-io/kubera-charts.git
-  cd kubera-charts
-
-  echo -e "\nUpdating values in kubera-charts/values.yaml\n"
-  # Update release version
-  sed 's|release: .*|release: '$RELEASE'|' -i ./values.yaml
-  # Update URL for accessing Kubera
-  sed 's|url: .*|url: '$URL'|' -i ./values.yaml
-  # Update max member count in a project to 100
-  sed 's|maxMemberCountInOneProject: .*|maxMemberCountInOneProject: 100|' -i ./values.yaml
-  # Enable openebs RC builds deployment
-  sed 's|openebsRCEnable: .*|openebsRCEnable: true|' -i ./values.yaml
-
-  echo -e "\nInstalling Kubera using kubera-charts/values.yaml"
-  helm install --name kubera .
-  cd ..
-
-else
-
-  # Deploy Kubera using official Kubera charts
-  echo -e "\nDeploying Kubera using official Kubera charts\n"
-  helm repo update
-  # Add kubera in local repository
-  helm repo add kubera https://charts.mayadata.io/
-  # Apply helm chart
-  helm install --name kubera kubera/kubera-charts --set server.url=$URL --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100 --set server.openebsRCEnable=true
-  # Pass these values as well if need to run ingress as deployment:  --set nginx-ingress.cosed 's|url:.*|url: '$DOP_URL'|' -i ./kubera-charts/values.yamlntroller.kind=Deployment --set nginx-ingress.controller.service.enabled=true
-  # Get the changed values from chart
-  helm get values kubera > values.yaml
-  echo -e "Changed values in values.yaml\n"
-  cat values.yaml
-fi
+# # Create clusterrolebinding
+# kubectl create clusterrolebinding kube-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
 
 
-# Dump Director On-Prem pods
-echo -e "\n[ Dumping Director On-Prem components ]\n"
-kubectl get pod
+# echo -e "\n************************ Installing KDOP *****************************\n"
 
-echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
+# echo -e "\n[ Print Kubera release version ]-------------------------------------\n"
+# echo -e "release: $RELEASE"
 
-git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
-# Setup litmus on the cluster
-kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml
-# creating docker secret 
-kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
-## Installing heapster components on the cluster for node monitoring
-wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
-sed -i -e '/args:/ a\          - --kubelet-insecure-tls' components.yaml
-sed -i -e '/args:/ a\          - --metric-resolution=30s' components.yaml
-sed -i -e '/args:/ a\          - --requestheader-allowed-names=aggregator' components.yaml
-sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' components.yaml
+# # Deploy Kubera using either kubera-charts repo or Kubera official charts
 
-kubectl apply -f components.yaml
-sleep 300
-kubectl get po
-kubectl get po -n kube-system
-kubectl get po -n maya-system
+# if [ "$USE_KUBERA_REPO" == "true" ]
+# then
 
-bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Completed
+#   # Deploy Kubera from kubera-charts repo
+#   echo -e "\nDeploying Kubera using kubera-charts repo\n"
+#   echo -e "\nCloning $KUBERA_BRANCH branch of kubera-charts repo\n"
+#   git clone -b $KUBERA_BRANCH https://$GITHUB_USERNAME:$GITHUB_PASSWORD@github.com/mayadata-io/kubera-charts.git
+#   cd kubera-charts
 
-echo -e "\n************************ Running basic-sanity checks **********************************\n"
+#   echo -e "\nUpdating values in kubera-charts/values.yaml\n"
+#   # Update release version
+#   sed 's|release: .*|release: '$RELEASE'|' -i ./values.yaml
+#   # Update URL for accessing Kubera
+#   sed 's|url: .*|url: '$URL'|' -i ./values.yaml
+#   # Update max member count in a project to 100
+#   sed 's|maxMemberCountInOneProject: .*|maxMemberCountInOneProject: 100|' -i ./values.yaml
+#   # Enable openebs RC builds deployment
+#   sed 's|openebsRCEnable: .*|openebsRCEnable: true|' -i ./values.yaml
 
-sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
-bash oep-e2e/scripts/director-health-check.sh
+#   echo -e "\nInstalling Kubera using kubera-charts/values.yaml"
+#   helm install --name kubera .
+#   cd ..
+
+# else
+
+#   # Deploy Kubera using official Kubera charts
+#   echo -e "\nDeploying Kubera using official Kubera charts\n"
+#   helm repo update
+#   # Add kubera in local repository
+#   helm repo add kubera https://charts.mayadata.io/
+#   # Apply helm chart
+#   helm install --name kubera kubera/kubera-charts --set server.url=$URL --set server.release=$RELEASE --set server.maxMemberCountInOneProject=100 --set server.openebsRCEnable=true
+#   # Pass these values as well if need to run ingress as deployment:  --set nginx-ingress.cosed 's|url:.*|url: '$DOP_URL'|' -i ./kubera-charts/values.yamlntroller.kind=Deployment --set nginx-ingress.controller.service.enabled=true
+#   # Get the changed values from chart
+#   helm get values kubera > values.yaml
+#   echo -e "Changed values in values.yaml\n"
+#   cat values.yaml
+# fi
+
+
+# # Dump Director On-Prem pods
+# echo -e "\n[ Dumping Director On-Prem components ]\n"
+# kubectl get pod
+
+# echo -e "\n************************ Installing litmus pre-requisites *****************************\n"
+
+# git clone https://$username:$password@github.com/mayadata-io/oep-e2e.git
+# # Setup litmus on the cluster
+# kubectl apply -f oep-e2e/litmus/prerequisite/rbac.yaml
+# kubectl apply -f oep-e2e/litmus/prerequisite/crds.yaml
+# # creating docker secret 
+# kubectl apply -f oep-e2e/litmus/prerequisite/docker-secret.yml -n litmus
+# ## Installing heapster components on the cluster for node monitoring
+# wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
+# sed -i -e '/args:/ a\          - --kubelet-insecure-tls' components.yaml
+# sed -i -e '/args:/ a\          - --metric-resolution=30s' components.yaml
+# sed -i -e '/args:/ a\          - --requestheader-allowed-names=aggregator' components.yaml
+# sed -i -e '/args:/ a\          - --kubelet-preferred-address-types=InternalIP' components.yaml
+
+# kubectl apply -f components.yaml
+# sleep 300
+# kubectl get po
+# kubectl get po -n kube-system
+# kubectl get po -n maya-system
+
+# bash utils/e2e-cr jobname:tcid-dir-install-on-local-hp jobphase:Completed
+
+# echo -e "\n************************ Running basic-sanity checks **********************************\n"
+
+# sed 's|value: ingress-nginx|value: default|' -i oep-e2e/litmus/director/ingress-nginx/run_litmus_test.yml
+# bash oep-e2e/scripts/director-health-check.sh
 
 # If any of the above check fails, then fail this job
 if [ $(cat result.txt | grep -ic fail) != 0 ];then

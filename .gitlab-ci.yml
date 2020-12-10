@@ -17,18 +17,18 @@ stages:
 
 ## CLUSTER-SETUP
 # Setup the kubernetes cluster1
-cluster1-setup:
-  image: mayadataio/tools:gitlab-job-v6
-  stage: CLUSTER-SETUP
-  script:
-    - chmod 755 ./stages/1-cluster-setup/setup
-    - ./stages/1-cluster-setup/setup
-  artifacts:
-    when: always
-    expire_in: 1 week
-    paths:
-      - .kube/
-      - .ssh/
+# cluster1-setup:
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: CLUSTER-SETUP
+#   script:
+#     - chmod 755 ./stages/1-cluster-setup/setup
+#     - ./stages/1-cluster-setup/setup
+#   artifacts:
+#     when: always
+#     expire_in: 1 week
+#     paths:
+#       - .kube/
+#       - .ssh/
 
 # Setup the kubernetes cluster2
 cluster2-setup:
@@ -69,8 +69,8 @@ cluster3-setup:
 TCID-DIR-INSTALL-ON-LOCAL-HP:
   image: mayadataio/tools:gitlab-job-v6
   stage: INFRA-SETUP
-  dependencies:
-    - cluster1-setup
+  # dependencies:
+  #   - cluster1-setup
   script:
     - chmod 755 ./stages/2-provider-infra-setup/dop-deploy
     - ./stages/2-provider-infra-setup/dop-deploy
