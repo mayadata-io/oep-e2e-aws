@@ -784,8 +784,8 @@ e2e-metrics:
   when: always
   image: mayadataio/tools:gitlab-job-v6
   stage: CLUSTER-CLEANUP
-  dependencies:
-    - cluster1-setup
+  # dependencies:
+  #   - cluster1-setup
   script:
     - chmod 755 ./stages/12-e2e-metrics/e2e-metrics
     - ./stages/12-e2e-metrics/e2e-metrics
