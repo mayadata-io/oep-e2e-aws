@@ -438,14 +438,14 @@ metrics-check:
 #     - chmod 755 ./stages/8-teaming-check/teaming-change-role-negative-check
 #     - ./stages/8-teaming-check/teaming-change-role-negative-check
 
-topology-check:
-  image: mayadataio/tools:gitlab-job-v6
-  stage: DIRECTOR-API-CHECK
-  dependencies:
-    - cluster2-setup
-  script:
-    - chmod 755 ./stages/9-topology-check/topology-check
-    - ./stages/9-topology-check/topology-check
+# topology-check:
+#   image: mayadataio/tools:gitlab-job-v6
+#   stage: DIRECTOR-API-CHECK
+#   dependencies:
+#     - cluster2-setup
+#   script:
+#     - chmod 755 ./stages/9-topology-check/topology-check
+#     - ./stages/9-topology-check/topology-check
     
 # # Openebs installation on DOP cluster
 # tcid-iuoi01-openebs-self-install:
